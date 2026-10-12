@@ -9,7 +9,7 @@ Static site for FuriosaAI AI Research (AIR) project pages (no build step).
 
 ## Adding a project
 Add the page as `<project>/index.html` with its own `static/` assets. Project pages link
-their header logo to `../`, which lands on furiosa.ai/research via the root redirect.
+their header logo directly to https://furiosa.ai/research.
 
 ## Restoring the hub page
 The root used to be a hub listing project pages. To bring it back:
