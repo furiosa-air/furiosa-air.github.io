@@ -1,22 +1,20 @@
 # furiosa-air.github.io
 
-Static hub for FuriosaAI AI Research (AIR) project pages (no build step).
-The full publication list lives at https://furiosa.ai/research; this site only hosts
-per-project pages, code, and data links.
+Static site for FuriosaAI AI Research (AIR) project pages (no build step).
 
 ## Layout
-- `index.html` — hub page (research areas, project cards, link to furiosa.ai/research)
-- `static/` — shared brand CSS, wordmark, and fonts
-- `<project>/` — one self-contained folder per project page (e.g. `my-project/`)
+- `index.html` — redirects to https://furiosa.ai/research (the official publication list)
+- `<project>/` — one self-contained project page per folder (e.g. `my-project/` →
+  https://furiosa-air.github.io/my-project/)
 
 ## Adding a project
-1. Add the page as `<project>/index.html`.
-2. In `index.html`, copy an `<article class="project">` block and update the fields.
+Add the page as `<project>/index.html` with its own `static/` assets. Project pages link
+their header logo to `../`, which lands on furiosa.ai/research via the root redirect.
+
+## Restoring the hub page
+The root used to be a hub listing project pages. To bring it back:
+
+    git checkout 4bb1c8e -- index.html static
 
 ## Deploy
-Push to `main` of the `furiosa-air/furiosa-air.github.io` repo and enable
-Settings → Pages → "Deploy from a branch" (`main` / root).
-
-## Notes
-- `static/fonts/` holds ABC Favorit (commercial). Confirm the web license allows public
-  hosting; otherwise delete it and pages fall back to Helvetica Neue / Arial.
+Push to `main`; GitHub Pages serves the repo root (Settings → Pages → `main` / root).
