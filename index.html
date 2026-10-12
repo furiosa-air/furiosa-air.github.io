@@ -52,7 +52,6 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 700; line-height: 1.1; le
 .section { padding: 72px 0; border-top: 1px solid #D4D4D4; }
 .section__head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 32px; margin-bottom: 40px; }
 .section__head > div { display: flex; flex-direction: column; gap: 14px; }
-.section__note { margin: 0; max-width: 52ch; font-size: 16px; line-height: 1.55; }
 
 /* Research areas */
 .areas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #D4D4D4; border: 1px solid #D4D4D4; }
@@ -78,9 +77,6 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 700; line-height: 1.1; le
 .project p { margin: 0; font-size: 15px; line-height: 1.55; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; font-family: var(--font-mono); font-size: 12px; color: #7F7F7F; }
 .project__links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 6px; }
-.project--soon { border-style: dashed; background: #F4F4F4; justify-content: center; align-items: flex-start; padding: 32px 24px; gap: 10px; }
-.project--soon:hover { border-color: #D4D4D4; }
-.project--soon p { color: #7F7F7F; }
 
 /* Publications callout */
 .callout { background: #151515; color: rgba(255,255,255,0.8); padding: 48px 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 40px; }
@@ -125,7 +121,7 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 700; line-height: 1.1; le
   <section class="wrap hero">
     <p class="eyebrow">FuriosaAI AI Research · AIR</p>
     <h1>We work at the intersection of AI and hardware.</h1>
-    <p class="lede">Our goal is to make AI computing sustainable. This site hosts project pages, code, and datasets for our research on efficient training and inference of large language models.</p>
+    <p class="lede">We develop algorithms that make large language models cheaper to train, faster to serve, and better at reasoning, from RL post-training and diffusion language models to inference-time methods.</p>
     <div class="actions">
       <a class="btn btn--primary" href="#projects">Browse projects</a>
       <a class="btn btn--ghost" href="https://github.com/furiosa-ai">GitHub</a>
@@ -167,7 +163,6 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 700; line-height: 1.1; le
           <p class="eyebrow eyebrow--ink">Projects</p>
           <h2>Project pages</h2>
         </div>
-        <p class="section__note">Each project has its own page with the paper, code, data, and results.</p>
       </div>
 
       <div class="projects">
@@ -177,10 +172,6 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 700; line-height: 1.1; le
           2. Copy one <article class="project"> block below and update the fields.
           3. Optional: add a thumbnail as <img src="my-project/static/images/thumb.png" alt=""> inside .project__thumb.
         -->
-        <article class="project project--soon" aria-label="More projects coming soon">
-          <p class="eyebrow eyebrow--ink">More soon</p>
-          <p>Additional project pages will appear here as papers are released. See the full publication list on furiosa.ai.</p>
-        </article>
       </div>
     </div>
   </section>
