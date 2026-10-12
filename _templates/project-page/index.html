@@ -1,0 +1,249 @@
+<!doctype html>
+<!--
+  FuriosaAI AI Research (AIR) project page template.
+
+  How to use: see _templates/README.md. In short:
+    1. ./_templates/new-project.sh <slug>          (copies this folder to /<slug>/)
+    2. Replace every {{PLACEHOLDER}}:              grep -n "{{" <slug>/index.html
+    3. Delete the OPTIONAL sections you do not need (and their links in the header nav).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{SHORT_NAME}}: {{PAPER_SUBTITLE}}</title>
+<meta name="description" content="{{ONE_SENTENCE_SUMMARY}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{SHORT_NAME}}: {{PAPER_SUBTITLE}}">
+<meta property="og:description" content="{{ONE_SENTENCE_SUMMARY}}">
+<meta property="og:url" content="https://furiosa-air.github.io/{{SLUG}}/">
+<!-- Add a 1200x630 image at static/images/social_preview.png, then uncomment:
+<meta property="og:image" content="https://furiosa-air.github.io/{{SLUG}}/static/images/social_preview.png"> -->
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="static/css/colors_and_type.css">
+<link rel="stylesheet" href="static/css/project.css">
+</head>
+<body>
+
+<!-- ============ Header ============ -->
+<header class="topbar">
+  <div class="container topbar__inner">
+    <a class="brand" href="https://furiosa.ai/research" aria-label="FuriosaAI AI Research (AIR)">
+      <img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI">
+      <span>AI Research</span>
+    </a>
+    <!-- Keep this list in sync with the sections you keep below. -->
+    <nav class="topnav" aria-label="Sections">
+      <a href="#abstract">Abstract</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#dataset">Dataset</a>
+      <a href="#citation">BibTeX</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ Hero ============ -->
+<section class="container hero">
+  <!-- e.g. "Preprint · 2026", "ICLR 2026", "NeurIPS 2026 · Spotlight" -->
+  <p class="eyebrow">{{VENUE}} · {{YEAR}}</p>
+  <h1>{{SHORT_NAME}}: {{PAPER_SUBTITLE}}</h1>
+  <div class="hero__people">
+    <!-- Superscripts point to affiliations; * marks equal contribution. Link names if you like. -->
+    <p class="hero__authors">{{AUTHOR_1}}<sup>1*</sup>, {{AUTHOR_2}}<sup>1*</sup>, {{AUTHOR_3}}<sup>2</sup>, {{AUTHOR_4}}<sup>1</sup></p>
+    <p class="hero__affiliations"><span><sup>1</sup>FuriosaAI</span><span><sup>2</sup>{{AFFILIATION_2}}</span><span><sup>*</sup>Equal contribution</span></p>
+  </div>
+  <!-- Delete buttons that do not apply. Primary = red, secondary = black, ghost = outline. -->
+  <div class="hero__links">
+    <a href="{{PAPER_PDF_URL}}" class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M14 3H6v18h12V7z"></path><path d="M14 3v4h4"></path><path d="M9 13h6M9 17h6"></path></svg>Paper</a>
+    <a href="https://arxiv.org/abs/{{ARXIV_ID}}" class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M4 4h16v16H4z"></path><path d="M8 9l3 3-3 3M13 15h3"></path></svg>arXiv</a>
+    <a href="{{CODE_URL}}" class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M8 7l-5 5 5 5"></path><path d="M16 7l5 5-5 5"></path></svg>Code</a>
+    <a href="{{DATASET_URL}}" class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg>Dataset</a>
+  </div>
+</section>
+
+<!-- ============ Teaser figure ============ -->
+<section class="container teaser">
+  <!-- Replace the placeholder with your figure (suggested 1600 x 700 px):
+  <img src="static/images/teaser.png" alt="{{TEASER_ALT_TEXT}}"> -->
+  <div class="placeholder" role="img" aria-label="Placeholder for the teaser figure">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#444444" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M3 5h18v14H3z"></path><path d="M3 16l5-5 4 4 3-3 6 6"></path><circle cx="16" cy="9" r="1.5"></circle></svg>
+    <strong>{{TEASER_FIGURE}}</strong>
+    <p>One image that explains the method at a glance. Suggested 1600 × 700 px.</p>
+  </div>
+  <p class="teaser__caption"><strong>{{SHORT_NAME}}</strong> {{TEASER_CAPTION}}</p>
+</section>
+
+<!-- ============ Key numbers (OPTIONAL) ============ -->
+<!-- 2 to 4 headline results. The grid wraps automatically on narrow screens. -->
+<section class="container stats-wrap">
+  <div class="stats">
+    <div class="stat"><div class="stat__value">{{N1}}</div><p class="stat__label">{{N1_LABEL}}</p></div>
+    <div class="stat"><div class="stat__value">{{N2}}</div><p class="stat__label">{{N2_LABEL}}</p></div>
+    <div class="stat"><div class="stat__value">{{N3}}</div><p class="stat__label">{{N3_LABEL}}</p></div>
+    <div class="stat"><div class="stat__value">{{N4}}</div><p class="stat__label">{{N4_LABEL}}</p></div>
+  </div>
+</section>
+
+<!-- ============ Abstract ============ -->
+<section id="abstract" class="section">
+  <div class="container container--narrow section__inner section__inner--top-flush">
+    <div class="section__head"><h2>Abstract</h2></div>
+    <div class="prose">
+      <p>{{ABSTRACT_PARAGRAPH_1}}</p>
+      <p>{{ABSTRACT_PARAGRAPH_2}}</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Method ============ -->
+<section id="method" class="section section--muted">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>Method</h2>
+      <p class="section__lede">{{METHOD_SUMMARY}}</p>
+    </div>
+
+    <!-- Steps: add or remove cards freely. -->
+    <div class="grid grid--steps">
+      <div class="card"><span class="card__step">Step 1</span><h3>{{STEP_1_TITLE}}</h3><p>{{STEP_1_DESCRIPTION}}</p></div>
+      <div class="card"><span class="card__step">Step 2</span><h3>{{STEP_2_TITLE}}</h3><p>{{STEP_2_DESCRIPTION}}</p></div>
+      <div class="card"><span class="card__step">Step 3</span><h3>{{STEP_3_TITLE}}</h3><p>{{STEP_3_DESCRIPTION}}</p></div>
+    </div>
+
+    <!-- OPTIONAL: key equation or objective. Delete if unused. -->
+    <div class="callout">
+      <p class="callout__label">{{EQUATION_LABEL}}</p>
+      <p class="callout__equation"><i>{{EQUATION}}</i></p>
+      <p>{{EQUATION_EXPLANATION}}</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Code excerpts (OPTIONAL) ============ -->
+<!-- Useful when the method produces an artifact worth showing (a filter, a prompt, a config).
+     Delete this whole section if unused, and add a nav link if you keep it. -->
+<section id="artifact" class="section">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>{{ARTIFACT_SECTION_TITLE}}</h2>
+      <p class="section__lede">{{ARTIFACT_SECTION_SUMMARY}}</p>
+    </div>
+    <div class="grid grid--code">
+      <div class="code-card">
+        <div class="code-card__head"><span class="code-card__name">{{FILE_NAME}}</span><span class="code-card__meta">{{FILE_META}}</span></div>
+        <div class="code-card__body"><pre>{{CODE_EXCERPT}}</pre></div>
+        <p class="code-card__note">{{WHAT_THIS_EXCERPT_SHOWS}}</p>
+      </div>
+      <div class="code-card">
+        <div class="code-card__head"><span class="code-card__name">{{FILE_NAME}}</span><span class="code-card__meta">{{FILE_META}}</span></div>
+        <div class="code-card__body"><pre>{{CODE_EXCERPT}}</pre></div>
+        <p class="code-card__note">{{WHAT_THIS_EXCERPT_SHOWS}}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Results ============ -->
+<section id="results" class="section section--ruled">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>Results</h2>
+      <p class="section__lede">{{RESULTS_SETUP}}</p>
+    </div>
+
+    <!-- Mark your method's row with class="is-ours"; numeric cells get class="num". -->
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr><th scope="col">Method</th><th scope="col" class="num">{{METRIC_1}}</th><th scope="col" class="num">{{METRIC_2}}</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>{{BASELINE_1}}</td><td class="num">{{VALUE}}</td><td class="num">{{VALUE}}</td></tr>
+          <tr><td>{{BASELINE_2}}</td><td class="num">{{VALUE}}</td><td class="num">{{VALUE}}</td></tr>
+          <tr class="is-ours"><td>{{SHORT_NAME}} (ours)</td><td class="num">{{VALUE}}</td><td class="num">{{VALUE}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OPTIONAL: a results figure.
+    <figure style="margin: 0;"><img src="static/images/results.png" alt="{{RESULTS_FIGURE_ALT}}" style="display: block; width: 100%;"><figcaption class="table-note" style="margin-top: 12px;">{{RESULTS_FIGURE_CAPTION}}</figcaption></figure> -->
+
+    <!-- Findings: one short claim per card. -->
+    <div class="grid grid--cards">
+      <div class="card"><h3>{{FINDING_1_TITLE}}</h3><p>{{FINDING_1_DETAIL}}</p></div>
+      <div class="card"><h3>{{FINDING_2_TITLE}}</h3><p>{{FINDING_2_DETAIL}}</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Dataset / release (OPTIONAL) ============ -->
+<!-- Delete this section and its nav link if nothing is released. -->
+<section id="dataset" class="section section--muted">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>Dataset</h2>
+      <p class="section__lede">{{DATASET_SUMMARY}}</p>
+    </div>
+    <div class="resource">
+      <div class="resource__summary">
+        <p class="eyebrow">Dataset card</p>
+        <h3>{{HF_ORG}}/{{DATASET_NAME}}</h3>
+        <p>{{DATASET_DESCRIPTION}}</p>
+        <div class="resource__actions">
+          <a href="https://huggingface.co/datasets/{{HF_ORG}}/{{DATASET_NAME}}" class="btn btn--secondary">Hugging Face</a>
+        </div>
+      </div>
+      <div class="resource__facts">
+        <dl>
+          <dt>Size</dt><dd>{{DATASET_SIZE}}</dd>
+          <dt>Source</dt><dd>{{DATASET_SOURCE}}</dd>
+          <dt>Fields</dt><dd class="mono">{{DATASET_FIELDS}}</dd>
+          <dt>License</dt><dd>{{DATASET_LICENSE}}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Citation ============ -->
+<section id="citation" class="section">
+  <div class="container section__inner">
+    <h2>BibTeX</h2>
+    <div class="bibtex">
+      <button type="button" class="bibtex__copy" onclick="copyBibtex(this)">Copy</button>
+      <pre id="bibtex-text">@article{{{CITATION_KEY}},
+  title   = {{{SHORT_NAME}}: {{PAPER_SUBTITLE}}},
+  author  = {{{LAST_1}}, {{FIRST_1}} and {{LAST_2}}, {{FIRST_2}}},
+  journal = {arXiv preprint arXiv:{{ARXIV_ID}}},
+  year    = {{{YEAR}}}
+}</pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <!-- Drop the collaboration line if the work is FuriosaAI only. -->
+    <span class="footer__brand"><img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI"><span>in collaboration with {{PARTNER_INSTITUTION}}</span></span>
+    <span>Contact: <a href="mailto:{{CONTACT_EMAIL}}">{{CONTACT_EMAIL}}</a></span>
+  </div>
+</footer>
+
+<script>
+  function copyBibtex(button) {
+    const text = document.getElementById('bibtex-text').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      button.textContent = 'Copied';
+      setTimeout(() => { button.textContent = 'Copy'; }, 1500);
+    });
+  }
+</script>
+
+</body>
+</html>
