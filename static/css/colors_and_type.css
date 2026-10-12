@@ -1,0 +1,349 @@
+/* =====================================================================
+   FuriosaAI Design System — colors_and_type.css
+   ---------------------------------------------------------------------
+   Brand tokens for FuriosaAI. Import this once at the top of any
+   design file in the project.
+
+   Colors sampled directly from the live furiosa.ai site (Webflow build,
+   Nov 2025). Type uses ABC Favorit (licensed; .otf files in /fonts).
+   Regular weight is currently substituted by Medium — see README.
+   ===================================================================== */
+
+
+/* --------------------------------------------------------------------
+   FONTS
+   -------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "ABC Favorit";
+  font-weight: 400;
+  font-style: normal;
+  /* TODO: real Regular not yet uploaded; using Medium as a stand-in. */
+  src: url("../fonts/ABCFavorit-Medium.otf") format("opentype");
+}
+@font-face {
+  font-family: "ABC Favorit";
+  font-weight: 400;
+  font-style: italic;
+  src: url("../fonts/ABCFavorit-RegularItalic.otf") format("opentype");
+}
+@font-face {
+  font-family: "ABC Favorit";
+  font-weight: 500;
+  font-style: normal;
+  src: url("../fonts/ABCFavorit-Medium.otf") format("opentype");
+}
+@font-face {
+  font-family: "ABC Favorit";
+  font-weight: 500;
+  font-style: italic;
+  /* TODO: real Medium Italic not yet uploaded; falling back to Regular Italic. */
+  src: url("../fonts/ABCFavorit-RegularItalic.otf") format("opentype");
+}
+@font-face {
+  font-family: "ABC Favorit";
+  font-weight: 700;
+  font-style: normal;
+  src: url("../fonts/ABCFavorit-Bold.otf") format("opentype");
+}
+@font-face {
+  font-family: "ABC Favorit";
+  font-weight: 700;
+  font-style: italic;
+  src: url("../fonts/ABCFavorit-BoldItalic.otf") format("opentype");
+}
+
+
+/* --------------------------------------------------------------------
+   TOKENS
+   -------------------------------------------------------------------- */
+
+:root {
+  /* =====================================================================
+     CORE BRAND COLORS — exact values from the Furiosa Brand Guide.
+     "Furiosa Core" is a single brand red plus a 5-step neutral greyscale
+     plus paper. This is the entire on-brand surface vocabulary.
+     ===================================================================== */
+  --furiosa-red:      #E21500;   /* the brand red */
+  --furiosa-black:    #000000;
+  --furiosa-black-soft: #151515; /* near-black for hero panels */
+  --core-gray-700:    #444444;   /* dark grey — primary text on light */
+  --core-gray-500:    #7F7F7F;   /* mid grey — secondary text, borders */
+  --core-gray-200:    #D4D4D4;   /* light grey — divider, disabled surface */
+  --furiosa-white:    #FFFFFF;
+
+  /* Working aliases used elsewhere in the system. */
+  --furiosa-ink:      var(--core-gray-700);   /* primary body type */
+  --furiosa-red-dark: #B01500;                /* press / hover-darken */
+  --furiosa-red-tint: #FBE7E4;                /* soft tint for callouts */
+
+  /* =====================================================================
+     PRIMARY DARK — saturated darks used as illustration surfaces, full-bleed
+     background panels, and as a coloured-dark alternative to pure black.
+     Naming follows the brand pattern library: Burgundy / Navy / Green / Yellow.
+     ===================================================================== */
+  --dark-burgundy: #440A07;
+  --dark-green:    #02250D;
+  --dark-navy:     #1B0333;
+  --dark-yellow:   #44391C;   /* warm olive */
+
+  /* Legacy aliases. */
+  --dark-wine:     var(--dark-burgundy);
+  --dark-forest:   var(--dark-green);
+  --dark-indigo:   var(--dark-navy);
+  --dark-olive:    var(--dark-yellow);
+  --primary-dark:  var(--dark-navy);
+  --furiosa-indigo: var(--dark-navy);
+
+  /* =====================================================================
+     PRIMARY VIBRANT — saturated pastel mid-tones. Used as accent fills,
+     full-tile pattern surfaces, and as decisive non-neutral colour
+     accents. Each Vibrant has a Light partner (for ambient/fade use)
+     and a Dark partner (full-bleed surface).
+     ===================================================================== */
+  --vibrant-peach:  #FEC2A0;
+  --vibrant-cyan:   #76D6FF;
+  --vibrant-green:  #70E697;
+  --vibrant-yellow: #FFFA82;
+  --vibrant-lilac:  #CDBBFF;
+
+  /* =====================================================================
+     PRIMARY LIGHT — washed-out tints of the Vibrant set. Used inside Fade
+     patterns and as ultra-subtle ambient surfaces / aura glows. Not for
+     UI fills (too low contrast). Note: official set has NO Lilac variant.
+     Values are tints (≈90% white + 10% Vibrant) derived from observed
+     Fade-pattern outputs; refine if exact CMYK/RGB values are published.
+     ===================================================================== */
+  --light-peach:  #FFEFE2;
+  --light-cyan:   #E2F4FF;
+  --light-green:  #DEF7E5;
+  --light-yellow: #FFFCDC;
+
+  /* Legacy aliases kept for back-compat with earlier files. */
+  --bright-peach:    var(--vibrant-peach);
+  --bright-sky:      var(--vibrant-cyan);
+  --bright-mint:     var(--vibrant-green);
+  --bright-yellow:   var(--vibrant-yellow);
+  --bright-lavender: var(--vibrant-lilac);
+  --primary-bright:  var(--vibrant-peach);
+
+  /* -------- NEUTRAL SCALE (alias map onto the brand-guide Core greys) -------- */
+  --gray-50:  var(--furiosa-white);
+  --gray-100: #F4F4F4;             /* derived — for very subtle surfaces */
+  --gray-200: var(--core-gray-200); /* #D4D4D4 */
+  --gray-300: #B5B5B5;             /* derived — between brand-guide steps */
+  --gray-500: var(--core-gray-500); /* #7F7F7F */
+  --gray-700: var(--core-gray-700); /* #444444 */
+  --gray-800: var(--furiosa-black-soft); /* #151515 */
+  --gray-900: var(--furiosa-black); /* #000000 */
+
+  /* -------- SEMANTIC FOREGROUND / BACKGROUND -------- */
+  --fg-1: var(--core-gray-700);        /* primary body text — #444 per guide */
+  --fg-2: var(--core-gray-500);        /* secondary text — #7F7F7F */
+  --fg-3: var(--core-gray-500);        /* tertiary — same mid-grey */
+  --fg-inverse: var(--furiosa-white);  /* on dark / on red */
+  --fg-accent: var(--furiosa-red);
+
+  --bg-1: var(--furiosa-white);        /* canvas */
+  --bg-2: #F4F4F4;                     /* subtle surface */
+  --bg-3: var(--core-gray-200);        /* card / sectional bg */
+  --bg-inverse: var(--furiosa-black);  /* dark mode hero */
+  --bg-accent: var(--furiosa-red);
+
+  /* -------- BORDERS / DIVIDERS -------- */
+  --border-1: var(--core-gray-200);    /* hairlines / dividers */
+  --border-2: var(--core-gray-500);    /* visible borders, input rest */
+  --border-strong: var(--core-gray-700);
+
+  /* -------- SEMANTIC STATES (used sparingly — Furiosa rarely uses
+     green/yellow; success uses red on dark or just plain text.) -------- */
+  --state-success: #1F8A5B;
+  --state-warning: #E2A100;
+  --state-danger:  var(--furiosa-red);
+  --state-info:    #2E6BD4;
+
+  /* -------- TYPE -------- */
+  --font-sans: "ABC Favorit", "Helvetica Neue", "Inter", Arial, sans-serif;
+  --font-mono: "Berkeley Mono", "JetBrains Mono", "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* Type scale — set as utility tokens; consumers compose into roles. */
+  --fs-display-xl: 96px;   /* hero / keynote */
+  --fs-display-l:  72px;
+  --fs-display-m:  56px;
+  --fs-display-s:  44px;
+  --fs-h1:         40px;
+  --fs-h2:         32px;
+  --fs-h3:         24px;
+  --fs-h4:         20px;
+  --fs-body-l:     18px;
+  --fs-body:       16px;
+  --fs-body-s:     14px;
+  --fs-caption:    12px;
+  --fs-eyebrow:    13px;
+
+  --lh-tight:   1.04;
+  --lh-snug:    1.15;
+  --lh-normal:  1.35;
+  --lh-loose:   1.55;
+
+  --ls-display: -0.02em;      /* slight tighten on big sizes */
+  --ls-eyebrow: 0.14em;        /* SECTION EYEBROWS are wide-tracked, allcaps */
+  --ls-mono:    -0.005em;
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-bold:    700;
+
+  /* -------- SPACING (4px grid, with a few escape-hatch values) -------- */
+  --space-0:   0;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+  --space-32: 128px;
+  --space-40: 160px;
+
+  /* -------- RADII — Furiosa uses hard 0 radius on most surfaces.
+     Slight rounding only for pills and the occasional card. -------- */
+  --radius-0:    0;
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
+  --radius-pill: 9999px;
+
+  /* -------- ELEVATION / SHADOWS — minimal, hard-edged.
+     Furiosa rarely uses soft drop shadows; instead, hard 1px borders
+     and inverse-fill cards. These exist for hover/elevated states only. -------- */
+  --shadow-1: 0 1px 2px rgba(14, 11, 22, 0.06);
+  --shadow-2: 0 4px 12px rgba(14, 11, 22, 0.08);
+  --shadow-3: 0 16px 40px rgba(14, 11, 22, 0.12);
+  --shadow-focus: 0 0 0 3px rgba(226, 21, 0, 0.35);
+
+  /* -------- MOTION — Webflow defaults: short, ease-out, no bounce. -------- */
+  --ease-out:     cubic-bezier(0.16, 0.84, 0.44, 1);
+  --ease-in-out:  cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-instant:  90ms;
+  --dur-fast:    160ms;
+  --dur-base:    240ms;
+  --dur-slow:    420ms;
+
+  /* -------- LAYOUT -------- */
+  --container-max: 1280px;
+  --container-pad: 24px;
+}
+
+
+/* --------------------------------------------------------------------
+   ROLE / SEMANTIC TYPE CLASSES
+   Apply to elements directly. They set size, weight, leading and
+   tracking. Color is left to the surrounding theme.
+   -------------------------------------------------------------------- */
+
+.t-display-xl,
+.t-display-l,
+.t-display-m,
+.t-display-s,
+.t-h1, .t-h2, .t-h3, .t-h4,
+.t-body-l, .t-body, .t-body-s,
+.t-eyebrow, .t-caption, .t-mono {
+  font-family: var(--font-sans);
+  margin: 0;
+}
+
+.t-display-xl { font-size: var(--fs-display-xl); font-weight: var(--fw-bold); line-height: var(--lh-tight); letter-spacing: var(--ls-display); }
+.t-display-l  { font-size: var(--fs-display-l);  font-weight: var(--fw-bold); line-height: var(--lh-tight); letter-spacing: var(--ls-display); }
+.t-display-m  { font-size: var(--fs-display-m);  font-weight: var(--fw-bold); line-height: var(--lh-tight); letter-spacing: var(--ls-display); }
+.t-display-s  { font-size: var(--fs-display-s);  font-weight: var(--fw-bold); line-height: var(--lh-snug);  letter-spacing: var(--ls-display); }
+
+.t-h1 { font-size: var(--fs-h1); font-weight: var(--fw-bold);   line-height: var(--lh-snug); letter-spacing: -0.01em; }
+.t-h2 { font-size: var(--fs-h2); font-weight: var(--fw-bold);   line-height: var(--lh-snug); letter-spacing: -0.005em; }
+.t-h3 { font-size: var(--fs-h3); font-weight: var(--fw-medium); line-height: var(--lh-snug); }
+.t-h4 { font-size: var(--fs-h4); font-weight: var(--fw-medium); line-height: var(--lh-normal); }
+
+.t-body-l { font-size: var(--fs-body-l); font-weight: var(--fw-regular); line-height: var(--lh-loose); }
+.t-body   { font-size: var(--fs-body);   font-weight: var(--fw-regular); line-height: var(--lh-loose); }
+.t-body-s { font-size: var(--fs-body-s); font-weight: var(--fw-regular); line-height: var(--lh-normal); }
+
+/* Eyebrow — the small wide-tracked allcaps label above section titles.
+   This is a signature Furiosa typography move. */
+.t-eyebrow {
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-eyebrow);
+  line-height: 1.2;
+}
+
+.t-caption { font-size: var(--fs-caption); font-weight: var(--fw-regular); line-height: var(--lh-normal); color: var(--fg-2); }
+.t-mono    { font-family: var(--font-mono); font-size: 14px; letter-spacing: var(--ls-mono); }
+
+
+/* --------------------------------------------------------------------
+   BASE ELEMENT DEFAULTS
+   -------------------------------------------------------------------- */
+
+html, body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-loose);
+  color: var(--fg-1);
+  background: var(--bg-1);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1 { font-size: var(--fs-h1); font-weight: var(--fw-bold);   line-height: var(--lh-snug); letter-spacing: -0.01em; margin: 0; }
+h2 { font-size: var(--fs-h2); font-weight: var(--fw-bold);   line-height: var(--lh-snug); margin: 0; }
+h3 { font-size: var(--fs-h3); font-weight: var(--fw-medium); line-height: var(--lh-snug); margin: 0; }
+h4 { font-size: var(--fs-h4); font-weight: var(--fw-medium); line-height: var(--lh-normal); margin: 0; }
+p  { margin: 0; }
+small { font-size: var(--fs-body-s); color: var(--fg-2); }
+
+code, pre, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--bg-3);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.4em;
+}
+pre {
+  padding: var(--space-4) var(--space-5);
+  overflow-x: auto;
+  line-height: var(--lh-normal);
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--furiosa-red);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+a:hover { color: var(--furiosa-red); }
+
+
+/* --------------------------------------------------------------------
+   UTILITY: HALFTONE BACKGROUND MOTIF
+   The signature flowing halftone-dot artwork. Use the AVIFs from
+   /assets directly as bg-image. Two variants:
+     .bg-halftone-red    → red field, indigo dots (light hero)
+     .bg-halftone-black  → black field, red dots (dark hero)
+   -------------------------------------------------------------------- */
+.bg-halftone-red {
+  background: var(--furiosa-red) url("assets/bg-redhalftone.avif") center/cover no-repeat;
+  color: var(--fg-inverse);
+}
+.bg-halftone-black {
+  background: var(--furiosa-black) url("assets/bg-blackhalftone.avif") center/cover no-repeat;
+  color: var(--fg-inverse);
+}
