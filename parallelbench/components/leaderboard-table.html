@@ -1,0 +1,165 @@
+<section class="bg-white pb-16 sm:pb-20 lg:pb-28">
+  <div class="mx-auto max-w-6xl px-6 lg:px-12">
+    <!-- Loading Skeleton -->
+    <div id="leaderboard-loading" class="animate-pulse min-h-screen">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="h-5 w-32 rounded bg-slate-200"></span>
+        <span class="h-8 w-14 rounded-lg bg-slate-200"></span>
+        <span class="h-8 w-14 rounded-lg bg-slate-200"></span>
+        <span class="h-8 w-14 rounded-lg bg-slate-200"></span>
+      </div>
+      <div class="rounded-xl border border-slate-200 overflow-hidden">
+        <table class="w-full">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200">
+              <th class="px-6 py-3 w-16">
+                <span class="block h-3 w-8 rounded bg-slate-200"></span>
+              </th>
+              <th class="px-6 py-3">
+                <span class="block h-3 w-12 rounded bg-slate-200"></span>
+              </th>
+              <th class="px-6 py-3">
+                <span class="block h-3 w-12 rounded bg-slate-200"></span>
+              </th>
+              <th class="px-6 py-3">
+                <span class="block h-3 w-28 rounded bg-slate-200"></span>
+              </th>
+              <th class="px-6 py-3">
+                <span class="block h-3 w-16 rounded bg-slate-200 ml-auto"></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-slate-100">
+              <td class="px-6 py-4"><span class="block h-4 w-6 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-16 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-24 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-32 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-10 rounded bg-slate-200 ml-auto"></span></td>
+            </tr>
+            <tr class="border-b border-slate-100 bg-slate-50/50">
+              <td class="px-6 py-4"><span class="block h-4 w-6 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-12 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-20 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-36 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-10 rounded bg-slate-200 ml-auto"></span></td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="px-6 py-4"><span class="block h-4 w-6 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-14 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-28 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-28 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-10 rounded bg-slate-200 ml-auto"></span></td>
+            </tr>
+            <tr class="border-b border-slate-100 bg-slate-50/50">
+              <td class="px-6 py-4"><span class="block h-4 w-6 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-16 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-20 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-32 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-10 rounded bg-slate-200 ml-auto"></span></td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4"><span class="block h-4 w-6 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-12 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-24 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-28 rounded bg-slate-200"></span></td>
+              <td class="px-6 py-4"><span class="block h-4 w-10 rounded bg-slate-200 ml-auto"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Table Content (initially hidden) -->
+    <div id="leaderboard-table-wrapper" class="hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="relative group flex items-center gap-1">
+          <span class="text-sm font-semibold text-slate-700"
+            >Accuracy Threshold</span
+          >
+          <svg
+            class="h-4 w-4 text-slate-400 cursor-help"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <div
+            class="absolute left-0 top-full mt-2 z-10 hidden group-hover:block w-64 rounded-lg bg-slate-800 px-3 py-2 text-xs text-white shadow-lg"
+          >
+            Shows the maximum TPS (Tokens Per Step) achieved by each method
+            while maintaining at least this level of accuracy.
+          </div>
+        </div>
+        <div id="combined-threshold-selector" class="flex gap-2"></div>
+      </div>
+      <div
+        id="active-filters"
+        class="mb-4 flex flex-wrap items-center gap-2 hidden"
+      ></div>
+      <div
+        id="combined-leaderboard-table-container"
+        class="rounded-xl border border-slate-200 overflow-x-auto"
+      >
+        <table class="w-full" style="min-width: 720px">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200">
+              <th
+                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider w-16"
+              >
+                Rank
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+              >
+                Family
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+              >
+                Model
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider"
+              >
+                Unmasking Method
+              </th>
+              <th
+                class="px-6 py-3 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider"
+              >
+                <div class="relative group inline-flex items-center justify-end gap-1">
+                  Max TPS
+                  <svg
+                    class="h-3.5 w-3.5 text-slate-400 cursor-help"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <div
+                    class="absolute right-0 top-full mt-2 z-10 hidden group-hover:block w-48 rounded-lg bg-slate-800 px-3 py-2 text-xs font-normal normal-case tracking-normal text-white shadow-lg"
+                  >
+                    TPS (Tokens Per Step): the number of tokens decoded in a
+                    single denoising step.
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="combined-leaderboard-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
