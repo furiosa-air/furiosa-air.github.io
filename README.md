@@ -4,8 +4,11 @@ Static site for FuriosaAI AI Research (AIR) project pages (no build step).
 
 ## Layout
 - `index.html` — redirects to https://furiosa.ai/research (the official publication list)
-- `<project>/` — one self-contained project page per folder (e.g. `metacurate/` →
-  https://furiosa-air.github.io/metacurate/)
+- `<project>/` — one self-contained project page per folder:
+  - `metacurate/` → https://furiosa-air.github.io/metacurate/
+  - `parallelbench/` → https://furiosa-air.github.io/parallelbench/ (imported from
+    `parallelbench/parallelbench.github.io` at commit `7b93009`; root-absolute links and
+    `<base href>` were rewritten to `/parallelbench/`)
 
 ## Adding a project
 Add the page as `<project>/index.html` with its own `static/` assets. Project pages link
