@@ -1,8 +1,8 @@
 # MetaCurate project page
 
 Static project page served at https://furiosa-air.github.io/metacurate/ (no build step).
-It lives as a subfolder of the `furiosa-air.github.io` hub; the header logo links back
-to the hub (`../`).
+It lives as a subfolder of the `furiosa-air.github.io` repo; the header logo links to
+https://furiosa.ai/research.
 
 ## Deploy
 This folder is deployed together with the hub. Commit changes to the
