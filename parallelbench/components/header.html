@@ -2,17 +2,30 @@
   <div
     class="mx-auto flex max-w-5xl items-center justify-between px-6 py-3 lg:px-12"
   >
-    <a
-      href="/parallelbench/"
-      class="flex items-center gap-2.5 text-base font-bold text-slate-900 transition hover:opacity-80"
-    >
-      <img
-        src="assets/images/logo.png"
-        alt="ParallelBench logo"
-        class="h-8 object-cover"
-      />
-      <span>ParallelBench</span>
-    </a>
+    <div class="flex min-w-0 items-center gap-3.5">
+      <a
+        href="https://furiosa.ai/research"
+        aria-label="FuriosaAI AI Research"
+        class="shrink-0 transition hover:opacity-80"
+      >
+        <img
+          src="assets/theme/furiosa-wordmark-red.svg"
+          alt="FuriosaAI"
+          class="h-[18px] w-auto"
+        />
+      </a>
+      <a
+        href="/parallelbench/"
+        class="flex min-w-0 items-center gap-2 border-l border-slate-200 pl-3.5 text-base font-bold text-slate-900 transition hover:opacity-80"
+      >
+        <img
+          src="assets/images/logo.png"
+          alt="ParallelBench logo"
+          class="hidden h-7 object-cover sm:block"
+        />
+        <span class="truncate">ParallelBench</span>
+      </a>
+    </div>
     <button
       type="button"
       id="menu-toggle"
@@ -40,26 +53,26 @@
         href="https://arxiv.org/abs/2510.04767"
         target="_blank"
         rel="noopener noreferrer"
-        class="nav-link rounded-md px-3 py-1.5 text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+        class="nav-link rounded-md px-3 py-1.5 text-slate-600 transition hover:text-primary"
         >Paper</a
       >
       <a
         href="/parallelbench/leaderboard/"
         data-nav="leaderboard"
-        class="nav-link rounded-md px-3 py-1.5 text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+        class="nav-link rounded-md px-3 py-1.5 text-slate-600 transition hover:text-primary"
         >Leaderboard</a
       >
       <a
         href="/parallelbench/chart/"
         data-nav="chart"
-        class="nav-link rounded-md px-3 py-1.5 text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+        class="nav-link rounded-md px-3 py-1.5 text-slate-600 transition hover:text-primary"
         >Chart</a
       >
       <a
         href="https://github.com/furiosa-ai/ParallelBench"
         target="_blank"
         rel="noopener noreferrer"
-        class="ml-2 flex items-center gap-1.5 rounded-full bg-slate-900 px-4 py-1.5 text-sm text-white transition hover:bg-slate-700"
+        class="ml-2 flex items-center gap-1.5 rounded-full bg-primary px-4 py-1.5 text-sm font-bold text-white transition hover:bg-primary-dark"
       >
         <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
           <path
@@ -78,26 +91,26 @@
       <a
         href="/parallelbench/"
         data-nav="paper"
-        class="nav-link rounded-md px-3 py-2 text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+        class="nav-link rounded-md px-3 py-2 text-slate-600 transition hover:text-primary"
         >Paper</a
       >
       <a
         href="/parallelbench/leaderboard/"
         data-nav="leaderboard"
-        class="nav-link rounded-md px-3 py-2 text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+        class="nav-link rounded-md px-3 py-2 text-slate-600 transition hover:text-primary"
         >Leaderboard</a
       >
       <a
         href="/parallelbench/chart/"
         data-nav="chart"
-        class="nav-link rounded-md px-3 py-2 text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+        class="nav-link rounded-md px-3 py-2 text-slate-600 transition hover:text-primary"
         >Chart</a
       >
       <a
         href="https://github.com/furiosa-ai/ParallelBench"
         target="_blank"
         rel="noopener noreferrer"
-        class="mt-1 flex items-center justify-center gap-1.5 rounded-full bg-slate-900 px-4 py-2 text-white transition hover:bg-slate-700"
+        class="mt-1 flex items-center justify-center gap-1.5 rounded-full bg-primary px-4 py-2 font-bold text-white transition hover:bg-primary-dark"
       >
         <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
           <path
@@ -118,17 +131,13 @@
     var links = document.querySelectorAll('.nav-link[data-nav]');
     for (var i = 0; i < links.length; i++) {
       if (links[i].getAttribute('data-nav') === active) {
-        links[i].classList.add(
-          'bg-slate-100',
-          'text-slate-900',
-          'font-semibold',
-        );
+        links[i].classList.add('text-primary');
         links[i].classList.remove('text-slate-600');
       }
     }
   })();
 </script>
-<div class="bg-primary text-white text-center text-sm py-2 px-4">
+<div class="bg-black text-white text-center text-sm py-2.5 px-4">
   <a
     href="https://furiosa.ai/careers/algorithm-ai-research-engineer-2"
     target="_blank"
@@ -137,7 +146,7 @@
   >
     We're hiring! Join FuriosaAI as an AI Research Engineer
     <svg
-      class="h-3.5 w-3.5"
+      class="h-3.5 w-3.5 text-primary"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

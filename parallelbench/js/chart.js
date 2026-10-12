@@ -70,7 +70,7 @@ function generateStrategyFilter(strategyIds) {
 
   for (const strategy of currentModelStrategies) {
     selectedStrategies.add(strategy.id);
-    const color = STRATEGY_COLORS[strategy.id] || '#94a3b8';
+    const color = STRATEGY_COLORS[strategy.id] || '#9A9A9A';
 
     const chip = document.createElement('button');
     chip.type = 'button';
@@ -146,7 +146,7 @@ function updateAllStrategyChipStyles(active) {
   );
   chips.forEach((chip) => {
     const id = chip.dataset.strategyId;
-    const color = STRATEGY_COLORS[id] || '#94a3b8';
+    const color = STRATEGY_COLORS[id] || '#9A9A9A';
     if (active) {
       chip.className = CHIP_ACTIVE;
       chip.style.backgroundColor = color;
@@ -237,11 +237,11 @@ function generatePerTaskCharts(strategyDataMap) {
         name: strategyInfo.displayName,
         marker: {
           size: 7,
-          color: STRATEGY_COLORS[strategyId] || '#94a3b8',
+          color: STRATEGY_COLORS[strategyId] || '#9A9A9A',
           line: { width: 1, color: 'white' },
         },
         line: {
-          color: STRATEGY_COLORS[strategyId] || '#94a3b8',
+          color: STRATEGY_COLORS[strategyId] || '#9A9A9A',
           width: 2,
         },
         hovertemplate:
@@ -256,29 +256,29 @@ function generatePerTaskCharts(strategyDataMap) {
     const layout = {
       title: {
         text: getTaskDisplayName(taskId),
-        font: { family: 'Inter, sans-serif', size: 15, color: '#0f172a' },
+        font: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 15, color: '#151515' },
         x: 0.5,
       },
       xaxis: {
         title: {
           text: '# Tokens per Step (TPS)',
-          font: { family: 'Inter, sans-serif', size: 12, color: '#475569' },
+          font: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 12, color: '#444444' },
         },
         tickvals: [1, 2, 4, 8, 16, 32, 64],
-        gridcolor: '#e2e8f0',
-        zerolinecolor: '#cbd5e1',
-        tickfont: { family: 'Inter, sans-serif', size: 11, color: '#64748b' },
+        gridcolor: '#ECECEC',
+        zerolinecolor: '#D4D4D4',
+        tickfont: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 11, color: '#7F7F7F' },
       },
       yaxis: {
         title: {
           text: 'Accuracy (%)',
-          font: { family: 'Inter, sans-serif', size: 12, color: '#475569' },
+          font: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 12, color: '#444444' },
         },
         range: [0, 105],
         dtick: 10,
-        gridcolor: '#e2e8f0',
-        zerolinecolor: '#cbd5e1',
-        tickfont: { family: 'Inter, sans-serif', size: 11, color: '#64748b' },
+        gridcolor: '#ECECEC',
+        zerolinecolor: '#D4D4D4',
+        tickfont: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 11, color: '#7F7F7F' },
       },
       legend: {
         orientation: 'h',
@@ -286,7 +286,7 @@ function generatePerTaskCharts(strategyDataMap) {
         x: 0.5,
         xanchor: 'center',
         yanchor: 'top',
-        font: { family: 'Inter, sans-serif', size: 10 },
+        font: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 10 },
       },
       plot_bgcolor: 'white',
       paper_bgcolor: 'white',
@@ -314,7 +314,7 @@ function generateAverageChart(strategyDataMap) {
       .sort((a, b) => a.tps - b.tps || b.accuracy - a.accuracy);
     if (rows.length === 0) continue;
 
-    const color = STRATEGY_COLORS[strategyId] || '#94a3b8';
+    const color = STRATEGY_COLORS[strategyId] || '#9A9A9A';
     const hoverTpl =
       'TPS: %{x}<br>' +
       'Accuracy: %{y}%' +
@@ -388,37 +388,37 @@ function generateAverageChart(strategyDataMap) {
       xref: 'paper',
       y0: currentThreshold,
       y1: currentThreshold,
-      line: { color: '#94a3b8', width: 1.5, dash: 'dash' },
+      line: { color: '#9A9A9A', width: 1.5, dash: 'dash' },
     });
   }
 
   const layout = {
     title: {
       text: 'Average Results',
-      font: { family: 'Inter, sans-serif', size: 15, color: '#0f172a' },
+      font: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 15, color: '#151515' },
       x: 0.5,
     },
     xaxis: {
       title: {
         text: '# Tokens per Step (TPS)',
-        font: { family: 'Inter, sans-serif', size: 12, color: '#475569' },
+        font: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 12, color: '#444444' },
       },
       tickvals: [1, 2, 4, 8, 16, 32],
       range: [0, 34],
-      gridcolor: '#e2e8f0',
-      zerolinecolor: '#cbd5e1',
-      tickfont: { family: 'Inter, sans-serif', size: 11, color: '#64748b' },
+      gridcolor: '#ECECEC',
+      zerolinecolor: '#D4D4D4',
+      tickfont: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 11, color: '#7F7F7F' },
     },
     yaxis: {
       title: {
         text: 'Accuracy (%)',
-        font: { family: 'Inter, sans-serif', size: 12, color: '#475569' },
+        font: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 12, color: '#444444' },
       },
       range: [0, 105],
       dtick: 10,
-      gridcolor: '#e2e8f0',
-      zerolinecolor: '#cbd5e1',
-      tickfont: { family: 'Inter, sans-serif', size: 11, color: '#64748b' },
+      gridcolor: '#ECECEC',
+      zerolinecolor: '#D4D4D4',
+      tickfont: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 11, color: '#7F7F7F' },
     },
     shapes,
     legend: {
@@ -427,7 +427,7 @@ function generateAverageChart(strategyDataMap) {
       x: 0.5,
       xanchor: 'center',
       yanchor: 'top',
-      font: { family: 'Inter, sans-serif', size: 10 },
+      font: { family: '"ABC Favorit", "Helvetica Neue", Arial, sans-serif', size: 10 },
     },
     plot_bgcolor: 'white',
     paper_bgcolor: 'white',
@@ -649,7 +649,7 @@ async function initializeChart() {
           )) {
             const id = chip.dataset.strategyId;
             if (selectedStrategies.has(id)) {
-              const color = STRATEGY_COLORS[id] || '#94a3b8';
+              const color = STRATEGY_COLORS[id] || '#9A9A9A';
               chip.className = CHIP_ACTIVE;
               chip.style.backgroundColor = color;
             }

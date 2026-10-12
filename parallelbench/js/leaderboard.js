@@ -210,7 +210,7 @@ function renderCombinedLeaderboardTable() {
   }
 
   entries.forEach((entry, index) => {
-    const color = STRATEGY_COLORS[entry.strategyId] || '#94a3b8';
+    const color = STRATEGY_COLORS[entry.strategyId] || '#9A9A9A';
     const row = document.createElement('tr');
     row.className =
       'border-b border-slate-100 last:border-0' +
@@ -249,7 +249,7 @@ function renderCombinedLeaderboardTable() {
       modelLink.target = '_blank';
       modelLink.rel = 'noopener noreferrer';
       modelLink.className =
-        'text-blue-600 hover:text-blue-800 hover:underline';
+        'text-slate-900 underline decoration-slate-300 underline-offset-4 hover:text-primary hover:decoration-primary';
       modelLink.textContent = entry.modelDisplayName;
       modelWrapper.appendChild(modelLink);
     } else {
@@ -287,7 +287,7 @@ function renderCombinedLeaderboardTable() {
       nameLink.target = '_blank';
       nameLink.rel = 'noopener noreferrer';
       nameLink.className =
-        'text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline';
+        'text-sm font-medium text-slate-900 underline decoration-slate-300 underline-offset-4 hover:text-primary hover:decoration-primary';
       nameLink.textContent = entry.strategyDisplayName;
       strategyLeftGroup.appendChild(nameLink);
     } else {

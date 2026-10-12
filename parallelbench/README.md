@@ -21,4 +21,5 @@ components/           # HTML fragments loaded at runtime
 data/                 # Metadata, CSV figures, leaderboard JSON
 js/                   # JavaScript (leaderboard logic, main page interactions)
 assets/               # Images and static assets
+assets/theme/         # FuriosaAI brand theme (Tailwind config, base CSS, fonts, wordmark)
 ```

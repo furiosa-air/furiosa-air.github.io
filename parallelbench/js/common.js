@@ -72,7 +72,7 @@ function buildStrategyLookup(strategies) {
 function buildStrategyColors(strategies) {
   const colors = {};
   for (const strategy of strategies) {
-    colors[strategy.id] = strategy.color || '#94a3b8';
+    colors[strategy.id] = strategy.color || '#9A9A9A';
   }
   return colors;
 }
