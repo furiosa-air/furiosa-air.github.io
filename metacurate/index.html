@@ -18,6 +18,12 @@ body{margin:0}
 a{color:#151515}a:hover{color:#B01500}
 html{scroll-behavior:smooth}
 @media (max-width: 959px){.author-break{display:none}}
+.section-heading-link{position:relative;display:inline-block;color:inherit;text-decoration:none}
+.section-heading-link:hover{color:inherit}
+.section-heading-link__icon{position:absolute;top:50%;left:100%;margin-left:10px;display:flex;color:#7F7F7F;opacity:0;transform:translateY(-50%);transition:opacity .15s}
+h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .section-heading-link__icon{opacity:1}
+.section-heading-link:hover .section-heading-link__icon{color:#E21500}
+@media (hover: none), (max-width: 640px){.section-heading-link__icon{display:none}}
 </style>
 </head>
 <body>
@@ -94,7 +100,7 @@ html{scroll-behavior:smooth}
 <!-- Abstract -->
 <section id="abstract" style="background: #FFFFFF;">
 <div style="max-width: 800px; margin: 0 auto; padding: 0 24px 88px; display: flex; flex-direction: column; gap: 20px;">
-<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515; text-align: center;">Abstract</h2>
+<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515; text-align: center;"><a href="#abstract" class="section-heading-link">Abstract<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
 <div style="display: flex; flex-direction: column; gap: 16px; font-size: 17px; line-height: 1.65; color: #444444; text-align: justify; hyphens: auto;">
 <p style="margin: 0;">Supervised fine-tuning (SFT) on agent trajectories is an effective way to improve coding agents, but selecting useful training examples requires more than identifying successful runs. A resolved patch may follow inefficient reasoning or unnecessary tool use, while a failed run may still contain useful intermediate steps. Training pipelines therefore rely on rules and qualitative assessments to filter trajectories, yet designing these filters typically requires substantial human expertise, and validating improvements through repeated training and evaluation is expensive.</p>
 <p style="margin: 0;">We introduce MetaCurate, a training-free framework that evolves executable trajectory curation filters using pairwise LLM judgments. Disagreements between the filter’s rankings and the judge’s preferences provide targeted feedback for jointly revising its rules, rubric, and aggregation policy. The resulting filter scores trajectories independently, so pairwise comparisons are required only during search. Starting from a blank filter, MetaCurate autonomously discovers a curation strategy that achieves competitive downstream performance without task-specific handwritten criteria.</p>
@@ -107,7 +113,7 @@ html{scroll-behavior:smooth}
 <section id="method" style="background: #F4F4F4; border-top: 1px solid #D4D4D4; border-bottom: 1px solid #D4D4D4;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 40px;">
 <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
-<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;">Method</h2>
+<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#method" class="section-heading-link">Method<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
 <p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">A filter is an executable scorer. Each iteration, a coding-agent proposer revises it from misranked pairs and judge rationales; a revision is promoted only when it agrees with the judge on fixed selection pairs by more than expected noise.</p>
 </div>
 
@@ -148,7 +154,7 @@ html{scroll-behavior:smooth}
 <section id="filter" style="background: #FFFFFF;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 32px;">
 <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
-<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;">What the evolved filter looks like</h2>
+<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#filter" class="section-heading-link">What the evolved filter looks like<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
 <p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">The final blank-seed filter after [N] iterations, as three files. Excerpts below; the full filter is in the repository.</p>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
@@ -213,7 +219,7 @@ def [rule_name](traj):
 <section id="results" style="background: #FFFFFF; border-top: 1px solid #D4D4D4;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 32px;">
 <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
-<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;">Results</h2>
+<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#results" class="section-heading-link">Results<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
 <p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">Qwen 3.5 9B fine-tuned on 1,000 selected trajectories. SWE-bench Verified resolved rate (%), mean ± SD over three evaluations of each checkpoint.</p>
 </div>
 <div style="overflow-x: auto; border-top: 2px solid #151515; border-bottom: 2px solid #151515;">
@@ -266,7 +272,7 @@ def [rule_name](traj):
 <section id="dataset" style="background: #F4F4F4; border-top: 1px solid #D4D4D4; border-bottom: 1px solid #D4D4D4;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 32px;">
 <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
-<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;">Dataset</h2>
+<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#dataset" class="section-heading-link">Dataset<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
 <p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">We release the uncurated DSv4Pro trajectory pool used in the paper, so others can run and compare their own curation filters.</p>
 </div>
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; display: flex; flex-wrap: wrap;">
@@ -298,7 +304,7 @@ def [rule_name](traj):
 <!-- Citation -->
 <section id="citation" style="background: #FFFFFF;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 20px;">
-<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;">BibTeX</h2>
+<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#citation" class="section-heading-link">BibTeX<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
 <div style="overflow-x: auto; background: #F4F4F4; border: 1px solid #D4D4D4;">
 <pre style="margin: 0; padding: 24px 28px; background: #F4F4F4; border: 0; border-radius: 0; color: #151515; font-family: var(--font-mono); font-size: 14px; line-height: 1.7; white-space: pre;">@article{kim2026metacurate,
   title   = {MetaCurate: Evolving Curation Filters for High-Quality Agentic Coding Data},
