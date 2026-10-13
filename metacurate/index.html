@@ -24,6 +24,9 @@ html{scroll-behavior:smooth}
 h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .section-heading-link__icon{opacity:1}
 .section-heading-link:hover .section-heading-link__icon{color:#E21500}
 @media (hover: none), (max-width: 640px){.section-heading-link__icon{display:none}}
+.method-steps{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width: 899px){.method-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width: 519px){.method-steps{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -119,7 +122,7 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 
 <img src="static/images/figure_method.png" alt="The MetaCurate loop: propose filters, score data, pairwise evaluation, and rank, persist and repeat." style="display: block; width: 100%; height: auto; box-sizing: border-box; padding: clamp(12px, 3vw, 32px); background: #FFFFFF; border: 1px solid #D4D4D4;">
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px;">
+<div class="method-steps" style="display: grid; gap: 12px;">
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; padding: 24px 22px; display: flex; flex-direction: column; gap: 10px;">
 <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.12em; color: #E21500;">STEP 1</span>
 <h3 style="margin: 0; font-size: 19px; font-weight: 700; color: #151515;">Propose filters</h3>
