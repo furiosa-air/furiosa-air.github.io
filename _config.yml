@@ -3,4 +3,5 @@
 # Folders starting with "_" (e.g. _templates/) are already skipped by Jekyll.
 exclude:
   - README.md
+  - metacurate/README.md
   - parallelbench/README.md
