@@ -26,6 +26,7 @@ The root used to be a hub listing project pages. To bring it back:
 
 ## Deploy
 Push to `main`; GitHub Pages builds the repo root with Jekyll (Settings → Pages → `main` / root).
-There is deliberately no `.nojekyll`: Jekyll skips `_`-prefixed folders such as `_templates/`.
+There is deliberately no `.nojekyll`: Jekyll skips `_`-prefixed folders such as `_templates/`,
+and `_config.yml` excludes the README files.
 Pages are plain HTML without front matter, so Jekyll copies them unchanged; do not add
 front matter (`---`) to them.

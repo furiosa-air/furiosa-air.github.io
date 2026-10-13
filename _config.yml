@@ -1,0 +1,6 @@
+# GitHub Pages (Jekyll) build settings.
+# Pages are plain HTML copied as-is; this file only keeps repo docs off the public site.
+# Folders starting with "_" (e.g. _templates/) are already skipped by Jekyll.
+exclude:
+  - README.md
+  - parallelbench/README.md
