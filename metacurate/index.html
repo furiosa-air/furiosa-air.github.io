@@ -58,14 +58,10 @@ html{scroll-behavior:smooth}
 </div>
 </section>
 
-<!-- Teaser figure placeholder -->
+<!-- Teaser figure -->
 <section style="background: #FFFFFF;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 0 24px 64px; display: flex; flex-direction: column; gap: 16px;">
-<div role="img" aria-label="Placeholder for the teaser figure" style="aspect-ratio: 16 / 7; width: 100%; box-sizing: border-box; background: #F4F4F4; border: 1px dashed #7F7F7F; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 24px; text-align: center;">
-<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#444444" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M3 5h18v14H3z"></path><path d="M3 16l5-5 4 4 3-3 6 6"></path><circle cx="16" cy="9" r="1.5"></circle></svg>
-<p style="margin: 0; font-size: 15px; font-weight: 700; color: #151515;">[TEASER FIGURE]</p>
-<p style="margin: 0; max-width: 52ch; font-size: 14px; line-height: 1.5; color: #444444;">One image that explains the method at a glance, e.g. the MetaCurate loop (paper Fig. 3) or the four selection strategies (Fig. 1). Suggested 1600 × 700 px.</p>
-</div>
+<img src="static/images/figure_teaser.png" alt="Comparison of trajectory curation strategies: outcome-only filtering, a one-shot filter with no loop, train-and-validate search, and MetaCurate, which validates each filter revision with an LLM judge instead of training." style="display: block; width: 100%; height: auto;">
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444; text-align: center;"><strong style="color: #151515;">MetaCurate</strong> evolves an executable trajectory filter from pairwise LLM judgments, without training a model inside the search loop.</p>
 </div>
 </section>
@@ -113,6 +109,8 @@ html{scroll-behavior:smooth}
 <h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;">Method</h2>
 <p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">A filter is an executable scorer. Each iteration, a coding-agent proposer revises it from misranked pairs and judge rationales; a revision is promoted only when it agrees with the judge on fixed selection pairs by more than expected noise.</p>
 </div>
+
+<img src="static/images/figure_method.png" alt="The MetaCurate loop: propose filters, score data, pairwise evaluation, and rank, persist and repeat." style="display: block; width: 100%; height: auto; box-sizing: border-box; padding: clamp(12px, 3vw, 32px); background: #FFFFFF; border: 1px solid #D4D4D4;">
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px;">
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; padding: 24px 22px; display: flex; flex-direction: column; gap: 10px;">
