@@ -1,10 +1,5 @@
 // ── Shared Constants ──
 
-const CHIP_ACTIVE =
-  'rounded-full px-3 py-1 text-xs font-medium border transition border-transparent text-white';
-const CHIP_INACTIVE =
-  'rounded-full px-3 py-1 text-xs font-medium border transition border-slate-300 bg-white text-slate-500';
-
 const DEFAULT_THRESHOLD = 75;
 
 // ── Shared State ──

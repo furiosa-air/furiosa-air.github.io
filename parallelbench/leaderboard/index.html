@@ -1,79 +1,104 @@
 <!doctype html>
+<!-- Styles: static/css/project.css (template), parallelbench.css, explorer.css. Logic: js/common.js + js/leaderboard.js. -->
 <html lang="en">
-  <head>
-    <base href="/parallelbench/" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leaderboard - ParallelBench</title>
-    <meta
-      name="description"
-      content="See how accuracy scales with TPS (Tokens Per Step) for each unmasking method on ParallelBench."
-    />
+<head>
+<base href="/parallelbench/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaderboard - ParallelBench</title>
+<meta name="description" content="See how accuracy scales with TPS (Tokens Per Step) for each unmasking method on ParallelBench.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="static/css/colors_and_type.css">
+<link rel="stylesheet" href="static/css/project.css">
+<link rel="stylesheet" href="static/css/parallelbench.css">
+<link rel="stylesheet" href="static/css/explorer.css">
+</head>
+<body>
 
-    <link rel="icon" type="image/png" href="/assets/favicon.png" />
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
-    <link rel="stylesheet" href="assets/theme/furiosa.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="assets/theme/tailwind-config.js"></script>
-    </head>
-  <body class="bg-white">
-    <div id="header-component" class="sticky top-0 z-50 transition-transform duration-300"></div>
-    <script>
-      (function () {
-        let lastScrollY = window.scrollY;
-        const header = document.getElementById('header-component');
-        window.addEventListener('scroll', function () {
-          const y = window.scrollY;
-          header.style.transform =
-            y > lastScrollY && y > 80 ? 'translateY(-100%)' : 'translateY(0)';
-          lastScrollY = y;
-        });
-      })();
-    </script>
+<!-- ============ Header ============ -->
+<header class="topbar">
+  <div class="container topbar__inner">
+    <a class="brand" href="https://furiosa.ai/research" aria-label="FuriosaAI AI Research (AIR)">
+      <img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI">
+      <span>AI Research</span>
+    </a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="./#abstract">Abstract</a>
+      <a href="./#benchmark">Benchmark</a>
+      <a href="./#results">Results</a>
+      <a href="leaderboard/" class="is-active" aria-current="page">Leaderboard</a>
+      <a href="chart/">Chart</a>
+      <a href="./#citation">BibTeX</a>
+    </nav>
+  </div>
+</header>
+<script src="/shared/notice-banner.js"></script>
 
-    <main>
-      <div id="nav-component"></div>
-      <div id="leaderboard-component"></div>
-    </main>
+<main>
 
-    <div id="footer-component"></div>
+<!-- ============ Page head ============ -->
+<section class="container hero hero--compact">
+  <p class="eyebrow">ParallelBench</p>
+  <h1>Leaderboard</h1>
+  <p class="section__lede">Compare the speed and accuracy of parallel decoding strategies across diffusion LLMs on <strong>ParallelBench</strong>.</p>
+  <nav class="segmented" aria-label="Views">
+    <span class="segmented__item is-active" aria-current="page">Leaderboard</span>
+    <a class="segmented__item" href="chart/">Chart</a>
+  </nav>
+</section>
 
-    <script>
-      async function loadComponent(componentId, componentFile) {
-        try {
-          const response = await fetch(`components/${componentFile}`);
-          if (!response.ok)
-            throw new Error(`HTTP ${response.status} loading ${componentFile}`);
-          const html = await response.text();
-          document.getElementById(componentId).innerHTML = html;
-        } catch (error) {
-          console.error(`Error loading ${componentFile}:`, error);
-        }
-      }
+<!-- ============ Table ============ -->
+<section class="section">
+  <div class="container section__inner">
+    <div id="leaderboard-loading" class="status status--tall"><span class="spinner" aria-hidden="true"></span>Loading data...</div>
 
-      async function loadAllComponents() {
-        await Promise.all([
-          loadComponent('header-component', 'header.html'),
-          loadComponent('nav-component', 'leaderboard-nav.html'),
-          loadComponent('leaderboard-component', 'leaderboard-table.html'),
-          loadComponent('footer-component', 'footer.html'),
-        ]);
+    <div id="leaderboard-table-wrapper" class="controls" hidden>
+      <div class="control__head">
+        <span class="control__label">Accuracy Threshold</span>
+        <span class="info" tabindex="0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg>
+          <span class="info__tip">Shows the maximum TPS (Tokens Per Step) achieved by each method while maintaining at least this level of accuracy.</span>
+        </span>
+        <div id="combined-threshold-selector" class="control__row"></div>
+      </div>
+      <div id="active-filters" class="filters" hidden></div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" class="rank">Rank</th>
+              <th scope="col">Family</th>
+              <th scope="col">Model</th>
+              <th scope="col">Unmasking Method</th>
+              <th scope="col" class="num">
+                <span class="th-info"><span>Max TPS</span>
+                  <span class="info info--end" tabindex="0">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg>
+                    <span class="info__tip">TPS (Tokens Per Step): the number of tokens decoded in a single denoising step.</span>
+                  </span>
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="combined-leaderboard-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
 
-        const commonScript = document.createElement('script');
-        commonScript.src = 'js/common.js';
-        commonScript.onload = () => {
-          const leaderboardScript = document.createElement('script');
-          leaderboardScript.src = 'js/leaderboard.js';
-          document.body.appendChild(leaderboardScript);
-        };
-        document.body.appendChild(commonScript);
-      }
+</main>
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadAllComponents);
-      } else {
-        loadAllComponents();
-      }
-    </script>
-  </body>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <span class="footer__brand"><img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI"><span>in collaboration with UW-Madison, Microsoft Research, UC Berkeley, Seoul National University, KRAFTON, and Ludo Robotics</span></span>
+    <span class="footer__meta"><a href="https://github.com/furiosa-ai/ParallelBench/issues">Questions: GitHub Issues</a><span>&copy; 2025 ParallelBench Contributors &middot; Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></span></span>
+  </div>
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/leaderboard.js"></script>
+</body>
 </html>

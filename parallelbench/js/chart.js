@@ -32,8 +32,8 @@ function generateChartThresholdSelector(activeThreshold) {
   }
 
   const select = document.createElement('select');
-  select.className =
-    'rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer';
+  select.className = 'select';
+  select.setAttribute('aria-label', 'Accuracy threshold');
 
   for (const threshold of thresholds) {
     const option = document.createElement('option');
@@ -76,15 +76,11 @@ function generateStrategyFilter(strategyIds) {
     chip.type = 'button';
     chip.textContent = strategy.displayName;
     chip.dataset.strategyId = strategy.id;
-    chip.className = CHIP_ACTIVE;
-    chip.style.backgroundColor = color;
+    chip.style.setProperty('--chip-color', color);
+    setStrategyChipActive(chip, true);
 
-    chip.addEventListener('click', () =>
-      toggleStrategy(strategy.id, chip, color),
-    );
-    chip.addEventListener('dblclick', () =>
-      isolateStrategy(strategy.id, color),
-    );
+    chip.addEventListener('click', () => toggleStrategy(strategy.id, chip));
+    chip.addEventListener('dblclick', () => isolateStrategy(strategy.id));
     container.appendChild(chip);
   }
 
@@ -111,31 +107,31 @@ function generateStrategyFilter(strategyIds) {
   });
 }
 
-function toggleStrategy(strategyId, chip, color) {
+function setStrategyChipActive(chip, active) {
+  chip.className = active ? 'chip chip--strategy is-active' : 'chip chip--strategy';
+  chip.setAttribute('aria-pressed', String(active));
+}
+
+function toggleStrategy(strategyId, chip) {
   if (selectedStrategies.has(strategyId)) {
     selectedStrategies.delete(strategyId);
-    chip.className = CHIP_INACTIVE;
-    chip.style.backgroundColor = '';
+    setStrategyChipActive(chip, false);
   } else {
     selectedStrategies.add(strategyId);
-    chip.className = CHIP_ACTIVE;
-    chip.style.backgroundColor = color;
+    setStrategyChipActive(chip, true);
   }
   updateChartURL();
   renderCharts();
 }
 
-function isolateStrategy(strategyId, color) {
+function isolateStrategy(strategyId) {
   selectedStrategies.clear();
   selectedStrategies.add(strategyId);
   updateAllStrategyChipStyles(false);
   const chip = document.querySelector(
     `#strategy-filter button[data-strategy-id="${strategyId}"]`,
   );
-  if (chip) {
-    chip.className = CHIP_ACTIVE;
-    chip.style.backgroundColor = color;
-  }
+  if (chip) setStrategyChipActive(chip, true);
   updateChartURL();
   renderCharts();
 }
@@ -144,17 +140,7 @@ function updateAllStrategyChipStyles(active) {
   const chips = document.querySelectorAll(
     '#strategy-filter button[data-strategy-id]',
   );
-  chips.forEach((chip) => {
-    const id = chip.dataset.strategyId;
-    const color = STRATEGY_COLORS[id] || '#9A9A9A';
-    if (active) {
-      chip.className = CHIP_ACTIVE;
-      chip.style.backgroundColor = color;
-    } else {
-      chip.className = CHIP_INACTIVE;
-      chip.style.backgroundColor = '';
-    }
-  });
+  chips.forEach((chip) => setStrategyChipActive(chip, active));
 }
 
 function getFilteredStrategyDataMap(strategyDataMap) {
@@ -196,7 +182,7 @@ function generatePerTaskCharts(strategyDataMap) {
 
   if (visibleTaskIds.length === 0) {
     container.innerHTML =
-      '<p class="text-sm text-slate-400 text-center col-span-2 py-8">No data available.</p>';
+      '<p class="status">No data available.</p>';
     return;
   }
 
@@ -212,7 +198,7 @@ function generatePerTaskCharts(strategyDataMap) {
 
   for (const taskId of visibleTaskIds) {
     const card = document.createElement('div');
-    card.className = 'rounded-xl border border-slate-200 bg-white p-4';
+    card.className = 'chart-card';
 
     const chartDiv = document.createElement('div');
     const chartDivId = `chart-${taskId}`;
@@ -445,13 +431,6 @@ function generateAverageChart(strategyDataMap) {
 
 // ── UI: Model Tabs ──
 
-const MODEL_TAB_ACTIVE =
-  'rounded-full px-3 py-1 text-xs font-medium border transition border-transparent text-white bg-slate-900';
-const MODEL_TAB_INACTIVE =
-  'rounded-full px-3 py-1 text-xs font-medium border transition border-slate-300 bg-white text-slate-500 hover:border-slate-400';
-const MODEL_TAB_DISABLED =
-  'rounded-full px-3 py-1 text-xs font-medium border transition border-slate-200 bg-slate-50 text-slate-400 cursor-not-allowed';
-
 function generateModelTabs(models, activeModelId) {
   const selector = document.getElementById('model-selector');
   selector.innerHTML = '';
@@ -460,10 +439,10 @@ function generateModelTabs(models, activeModelId) {
 
   for (const group of familyGroups) {
     const groupDiv = document.createElement('div');
-    groupDiv.className = 'flex flex-wrap items-center gap-2';
+    groupDiv.className = 'control__row';
 
     const label = document.createElement('span');
-    label.className = 'text-xs font-semibold text-slate-400 mr-1';
+    label.className = 'control__group-label';
     label.textContent = familyLookup[group.familyId] || group.familyId;
     groupDiv.appendChild(label);
 
@@ -475,14 +454,11 @@ function generateModelTabs(models, activeModelId) {
 
       const isActive = model.id === activeModelId;
 
+      button.className = isActive ? 'chip is-active' : 'chip';
+      button.setAttribute('aria-pressed', String(isActive));
       if (model.strategies.length === 0) {
         button.disabled = true;
-        button.className = MODEL_TAB_DISABLED;
         button.title = 'Coming soon';
-      } else if (isActive) {
-        button.className = MODEL_TAB_ACTIVE;
-      } else {
-        button.className = MODEL_TAB_INACTIVE;
       }
 
       button.addEventListener('click', () => handleModelSelection(model.id));
@@ -496,22 +472,22 @@ function generateModelTabs(models, activeModelId) {
 // ── UI: State Management ──
 
 function showLoading() {
-  document.getElementById('chart-loading').classList.remove('hidden');
+  document.getElementById('chart-loading').hidden = false;
   document.getElementById('per-task-charts').innerHTML = '';
   document.getElementById('average-chart').style.visibility = 'hidden';
-  document.getElementById('chart-empty').classList.add('hidden');
+  document.getElementById('chart-empty').hidden = true;
 }
 
 function showEmpty() {
-  document.getElementById('chart-loading').classList.add('hidden');
+  document.getElementById('chart-loading').hidden = true;
   document.getElementById('per-task-charts').innerHTML = '';
   document.getElementById('average-chart').style.visibility = 'hidden';
-  document.getElementById('chart-empty').classList.remove('hidden');
+  document.getElementById('chart-empty').hidden = false;
 }
 
 function showCharts() {
-  document.getElementById('chart-loading').classList.add('hidden');
-  document.getElementById('chart-empty').classList.add('hidden');
+  document.getElementById('chart-loading').hidden = true;
+  document.getElementById('chart-empty').hidden = true;
   document.getElementById('average-chart').style.visibility = 'visible';
 }
 
@@ -643,16 +619,10 @@ async function initializeChart() {
         if (filtered.length > 0) {
           selectedStrategies.clear();
           filtered.forEach((id) => selectedStrategies.add(id));
-          updateAllStrategyChipStyles(false);
           for (const chip of document.querySelectorAll(
             '#strategy-filter button[data-strategy-id]',
           )) {
-            const id = chip.dataset.strategyId;
-            if (selectedStrategies.has(id)) {
-              const color = STRATEGY_COLORS[id] || '#9A9A9A';
-              chip.className = CHIP_ACTIVE;
-              chip.style.backgroundColor = color;
-            }
+            setStrategyChipActive(chip, selectedStrategies.has(chip.dataset.strategyId));
           }
           renderCharts();
         } else {
@@ -665,16 +635,6 @@ async function initializeChart() {
   } catch (error) {
     console.error('Failed to initialize chart:', error);
   }
-}
-
-// Mobile menu toggle
-const toggleButton = document.getElementById('menu-toggle');
-const mobileNav = document.getElementById('mobile-nav');
-
-if (toggleButton && mobileNav) {
-  toggleButton.addEventListener('click', () => {
-    mobileNav.classList.toggle('hidden');
-  });
 }
 
 initializeChart();
