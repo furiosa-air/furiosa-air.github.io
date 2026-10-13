@@ -42,7 +42,6 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 <nav aria-label="Sections" style="display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 14px; font-weight: 500;">
 <a href="#abstract" style="text-decoration: none; color: #444444; padding: 10px 0;">Abstract</a>
 <a href="#method" style="text-decoration: none; color: #444444; padding: 10px 0;">Method</a>
-<a href="#filter" style="text-decoration: none; color: #444444; padding: 10px 0;">Filter evolution</a>
 <a href="#results" style="text-decoration: none; color: #444444; padding: 10px 0;">Results</a>
 <a href="#dataset" style="text-decoration: none; color: #444444; padding: 10px 0;">Dataset</a>
 <a href="#citation" style="text-decoration: none; color: #444444; padding: 10px 0;">BibTeX</a>
@@ -154,87 +153,6 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 </div>
 </section>
 
-<!-- Filter evolution -->
-<section id="filter" style="background: #FFFFFF;">
-<div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 32px;">
-<div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
-<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#filter" class="section-heading-link">From a blank seed to an evolved filter<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
-<p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">A filter is three files. The main run starts from a blank seed with one generic criterion and one trivial rule, with no task-specific repair heuristics.</p>
-</div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
-
-<div style="border: 1px solid #D4D4D4; display: flex; flex-direction: column; min-width: 0;">
-<div style="padding: 14px 18px; border-bottom: 1px solid #D4D4D4; display: flex; justify-content: space-between; align-items: baseline; gap: 12px;">
-<span style="font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: #151515;">rules.py</span>
-<span style="font-size: 12px; color: #444444;">1 rule</span>
-</div>
-<div style="overflow-x: auto; background: #F4F4F4;">
-<pre style="margin: 0; padding: 18px; background: #F4F4F4; border: 0; border-radius: 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.65; color: #444444; white-space: pre;">def rule_no_turns(traj):
-    # reject empty trajectories
-    return len(traj.turns) == 0</pre>
-</div>
-<p style="margin: 0; padding: 14px 18px; font-size: 14px; line-height: 1.5; color: #444444;">Deterministic checks over the transcript, submitted diff or labels. The seed only rejects trajectories with zero turns.</p>
-</div>
-
-<div style="border: 1px solid #D4D4D4; display: flex; flex-direction: column; min-width: 0;">
-<div style="padding: 14px 18px; border-bottom: 1px solid #D4D4D4; display: flex; justify-content: space-between; align-items: baseline; gap: 12px;">
-<span style="font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: #151515;">rubric.md</span>
-<span style="font-size: 12px; color: #444444;">1 criterion, −2 to +2</span>
-</div>
-<div style="overflow-x: auto; background: #F4F4F4;">
-<pre style="margin: 0; padding: 18px; background: #F4F4F4; border: 0; border-radius: 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.65; color: #444444; white-space: pre;">## Overall Training Value
-How valuable is this trajectory
-as SFT data?
-+2  among the most valuable
-+1  more valuable than typical
- 0  typical, or no evidence
--1  less valuable than typical
--2  among the least valuable</pre>
-</div>
-<p style="margin: 0; padding: 14px 18px; font-size: 14px; line-height: 1.5; color: #444444;">LLM-scored criteria, each in its own call. A nonzero score must cite one line of evidence; doubt scores 0.</p>
-</div>
-
-<div style="border: 1px solid #D4D4D4; display: flex; flex-direction: column; min-width: 0;">
-<div style="padding: 14px 18px; border-bottom: 1px solid #D4D4D4; display: flex; justify-content: space-between; align-items: baseline; gap: 12px;">
-<span style="font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: #151515;">policy.py</span>
-<span style="font-size: 12px; color: #444444;">score in [0, 100]</span>
-</div>
-<div style="overflow-x: auto; background: #F4F4F4;">
-<pre style="margin: 0; padding: 18px; background: #F4F4F4; border: 0; border-radius: 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.65; color: #444444; white-space: pre;">def score(s, rule_adj):
-    raw = 50 + 12.5 * s
-    raw += clip(rule_adj, -15, 15)
-    return clip(raw, 0, 100)
-# ACCEPT if score &gt;= 50</pre>
-</div>
-<p style="margin: 0; padding: 14px 18px; font-size: 14px; line-height: 1.5; color: #444444;">Aggregates rubric scores and rule signals into one continuous score, used to rank the full pool.</p>
-</div>
-
-</div>
-
-<figure style="margin: 0; display: flex; flex-direction: column; gap: 16px;">
-<img src="static/images/figure_search_history.png" alt="Search history from a blank seed over twelve iterations. Each row shows the current filter and three proposed candidates, colored by concordance difference; promoted candidates are outlined in green. The filter grows from 1 criterion and 1 rule at 0.777 concordance to 4 criteria and 3 rules at 0.912." style="display: block; width: 100%; height: auto; box-sizing: border-box; padding: clamp(12px, 3vw, 32px); background: #FFFFFF; border: 1px solid #D4D4D4;">
-<figcaption style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444; text-align: center;">Search history of the blank-seed run. C and R count criteria and rules; red and blue mark gains and losses in concordance against the current filter, and green outlines mark promoted candidates.</figcaption>
-</figure>
-
-<div style="border: 1px solid #D4D4D4; display: flex; flex-wrap: wrap;">
-<div style="flex: 1 1 220px; padding: 24px; border-right: 1px solid #D4D4D4; display: flex; flex-direction: column; gap: 8px;">
-<span style="font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #444444;">Seed</span>
-<span style="font-size: 28px; font-weight: 700; line-height: 1.1; color: #151515;">1C · 1R</span>
-<span style="font-size: 14px; color: #444444;">0.777 selection concordance</span>
-</div>
-<div style="flex: 1 1 220px; padding: 24px; border-right: 1px solid #D4D4D4; display: flex; flex-direction: column; gap: 8px;">
-<span style="font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #E21500;">Final, 12 iterations</span>
-<span style="font-size: 28px; font-weight: 700; line-height: 1.1; color: #151515;">4C · 3R</span>
-<span style="font-size: 14px; color: #444444;">0.912 selection concordance</span>
-</div>
-<div style="flex: 2 1 320px; padding: 24px; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
-<span style="font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #444444;">Promoted edits</span>
-<span style="font-size: 15px; line-height: 1.55; color: #444444;">test invocation → verification residual → process axis → repair focus → concrete value → validation gate. Six of twelve iterations promoted a candidate; the rest kept the current filter.</span>
-</div>
-</div>
-</div>
-</section>
-
 <!-- Results -->
 <section id="results" style="background: #FFFFFF; border-top: 1px solid #D4D4D4;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 32px;">
@@ -277,8 +195,8 @@ as SFT data?
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">The same subsets train Qwen 3.5 27B to 74.3%, against 73.3% for Resolved, 73.1% for Rule filter and 72.7% for Random, with no new search.</p>
 </div>
 <div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-<h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">No handwritten seed needed</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">A blank seed reaches 0.912 concordance against 0.916 for a six-criterion handwritten seed, and higher downstream scores on both pools.</p>
+<h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Handwritten vs. blank seed</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">A blank seed achieves concordance comparable to a handwritten filter, without task-specific handwritten initialization.</p>
 </div>
 <div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
 <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Cheaper feedback</h3>
