@@ -1,161 +1,349 @@
 <!doctype html>
+<!-- Built from _templates/project-page. Shared styles: static/css/project.css; page additions: static/css/parallelbench.css. -->
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      ParallelBench: Understanding the Trade-offs of Parallel Decoding in
-      Diffusion LLMs
-    </title>
-    <meta
-      name="description"
-      content="ParallelBench analyzes diffusion LLMs under parallel decoding, revealing the speed-quality trade-offs and benchmark tasks that surface token dependency failures."
-    />
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs</title>
+<meta name="description" content="ParallelBench analyzes diffusion LLMs under parallel decoding, revealing the speed-quality trade-offs and benchmark tasks that surface token dependency failures.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs">
+<meta property="og:description" content="ParallelBench analyzes diffusion LLMs under parallel decoding, revealing the speed-quality trade-offs and benchmark tasks that surface token dependency failures.">
+<meta property="og:url" content="https://furiosa-air.github.io/parallelbench/">
+<meta property="og:image" content="https://furiosa-air.github.io/parallelbench/assets/images/logo_with_background.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://furiosa-air.github.io/parallelbench/">
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="static/css/colors_and_type.css">
+<link rel="stylesheet" href="static/css/project.css">
+<link rel="stylesheet" href="static/css/parallelbench.css">
+</head>
+<body>
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://furiosa-air.github.io/parallelbench/" />
-    <meta
-      property="og:title"
-      content="ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs"
-    />
-    <meta
-      property="og:description"
-      content="ParallelBench analyzes diffusion LLMs under parallel decoding, revealing the speed-quality trade-offs and benchmark tasks that surface token dependency failures."
-    />
-    <meta
-      property="og:image"
-      content="https://furiosa-air.github.io/parallelbench/assets/images/logo_with_background.png"
-    />
+<!-- ============ Header ============ -->
+<header class="topbar">
+  <div class="container topbar__inner">
+    <a class="brand" href="https://furiosa.ai/research" aria-label="FuriosaAI AI Research (AIR)">
+      <img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI">
+      <span>AI Research</span>
+    </a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#abstract">Abstract</a>
+      <a href="#benchmark">Benchmark</a>
+      <a href="#results">Results</a>
+      <a href="leaderboard/">Leaderboard</a>
+      <a href="chart/">Chart</a>
+      <a href="#citation">BibTeX</a>
+    </nav>
+  </div>
+</header>
+<div class="notice">
+  <a href="https://furiosa.ai/careers/algorithm-ai-research-engineer-2" target="_blank" rel="noopener noreferrer">We're hiring! Join FuriosaAI as an AI Research Engineer <span aria-hidden="true">→</span></a>
+</div>
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://furiosa-air.github.io/parallelbench/" />
-    <meta
-      property="twitter:title"
-      content="ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs"
-    />
-    <meta
-      property="twitter:description"
-      content="ParallelBench analyzes diffusion LLMs under parallel decoding, revealing the speed-quality trade-offs and benchmark tasks that surface token dependency failures."
-    />
-    <meta
-      property="twitter:image"
-      content="https://furiosa-air.github.io/parallelbench/assets/images/logo_with_background.png"
-    />
+<main id="top">
 
-    <!-- Additional SEO Meta Tags -->
-    <meta
-      name="keywords"
-      content="ParallelBench, Diffusion LLMs, Parallel Decoding, Token Dependencies, Machine Learning, Benchmark, AI Research, Autoregressive Models, dLLMs"
-    />
-    <meta name="author" content="ParallelBench Contributors" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://furiosa-air.github.io/parallelbench/" />
-    <link rel="icon" href="favicon.ico" />
-    <link rel="stylesheet" href="assets/theme/furiosa.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="assets/theme/tailwind-config.js"></script>
-    <style>
-      /* Fix for iOS Safari modal background */
-      @supports (-webkit-touch-callout: none) {
-        .fixed.inset-0 {
-          position: fixed;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          height: 100vh;
-          height: 100dvh;
-        }
-      }
-    </style>
-  </head>
-  <body class="bg-white">
-    <!-- Header Navigation -->
-    <div id="header-component" class="sticky top-0 z-50 transition-transform duration-300"></div>
-    <script>
-      (function () {
-        let lastScrollY = window.scrollY;
-        const header = document.getElementById('header-component');
-        window.addEventListener('scroll', function () {
-          const y = window.scrollY;
-          header.style.transform =
-            y > lastScrollY && y > 80 ? 'translateY(-100%)' : 'translateY(0)';
-          lastScrollY = y;
-        });
-      })();
-    </script>
+<!-- ============ Hero ============ -->
+<section class="container hero">
+  <p class="eyebrow">ICLR 2026</p>
+  <h1>ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs</h1>
+  <div class="hero__people">
+    <p class="hero__authors">
+      <a href="https://wonjunn.github.io/" target="_blank" rel="noopener noreferrer">Wonjun Kang</a><sup>1,5*</sup>,
+      <a href="https://kevingalim.com/" target="_blank" rel="noopener noreferrer">Kevin Galim</a><sup>1*</sup>,
+      <a href="https://seunghyukoh.com" target="_blank" rel="noopener noreferrer">Seunghyuk Oh</a><sup>1*</sup>,
+      <a href="https://scholar.google.com/citations?user=XJXKp60AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Minjae Lee</a><sup>1</sup>,
+      <a href="https://yzeng58.github.io/" target="_blank" rel="noopener noreferrer">Yuchen Zeng</a><sup>2,3</sup>,
+      <a href="https://zhangshuibai.github.io/" target="_blank" rel="noopener noreferrer">Shuibai Zhang</a><sup>2</sup>,
+      <a href="https://colemanhooper.org/" target="_blank" rel="noopener noreferrer">Coleman Hooper</a><sup>4</sup>,
+      <a href="https://scholar.google.com/citations?user=7JwZCwEAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener noreferrer">Yuezhou Hu</a><sup>4</sup>,
+      <a href="https://scholar.google.com/citations?user=Oyy8aDMAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Hyung Il Koo</a><sup>1</sup>,
+      <a href="https://scholar.google.com/citations?user=Ntx5VRIAAAAJ&amp;hl=ko" target="_blank" rel="noopener noreferrer">Nam Ik Cho</a><sup>5</sup>,
+      <a href="https://kangwooklee.com/" target="_blank" rel="noopener noreferrer">Kangwook Lee</a><sup>2,6,7</sup>
+    </p>
+    <p class="hero__affiliations">
+      <span><sup>1</sup><a href="https://www.furiosa.ai/" target="_blank" rel="noopener noreferrer">FuriosaAI</a></span>
+      <span><sup>2</sup><a href="https://www.wisc.edu/" target="_blank" rel="noopener noreferrer">UW-Madison</a></span>
+      <span><sup>3</sup><a href="https://www.microsoft.com/en-us/research/" target="_blank" rel="noopener noreferrer">Microsoft Research</a></span>
+      <span><sup>4</sup><a href="https://www.berkeley.edu/" target="_blank" rel="noopener noreferrer">UC Berkeley</a></span>
+      <span><sup>5</sup><a href="https://www.snu.ac.kr/" target="_blank" rel="noopener noreferrer">Seoul National University</a></span>
+      <span><sup>6</sup><a href="https://www.krafton.com/" target="_blank" rel="noopener noreferrer">KRAFTON</a></span>
+      <span><sup>7</sup><a href="https://www.linkedin.com/company/ludorobotics/" target="_blank" rel="noopener noreferrer">Ludo Robotics</a></span>
+      <span><sup>*</sup>Equal Contribution</span>
+    </p>
+  </div>
+  <div class="hero__links">
+    <a href="assets/pdf/ParallelBench.pdf" class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M14 3H6v18h12V7z"></path><path d="M14 3v4h4"></path><path d="M9 13h6M9 17h6"></path></svg>Paper</a>
+    <a href="https://arxiv.org/abs/2510.04767" class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M4 4h16v16H4z"></path><path d="M8 9l3 3-3 3M13 15h3"></path></svg>arXiv</a>
+    <a href="https://github.com/furiosa-ai/ParallelBench" class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M8 7l-5 5 5 5"></path><path d="M16 7l5 5-5 5"></path></svg>Code</a>
+    <a href="leaderboard/" class="btn btn--ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M4 20h16"></path><path d="M6 16v-5M12 16V6M18 16v-8"></path></svg>Leaderboard</a>
+  </div>
+</section>
 
-    <main>
-      <!-- Hero Section -->
-      <div id="hero-component"></div>
+<!-- ============ Teaser figure ============ -->
+<section class="container teaser">
+  <img src="assets/images/teaser_figure.png" alt="ParallelBench Teaser: Issue, Analysis, and Benchmark Overview">
+  <p class="teaser__caption"><strong>Left:</strong> Parallel decoding fails to capture token dependencies, risking incorrect combinations of individually likely tokens (e.g., "New" and "City"). <strong>Middle:</strong> Quantitative analysis of parallel decoding performance on list operations. <strong>Right:</strong> Based on our findings, we develop a realistic benchmark to evaluate the speed-quality trade-off of parallel decoding methods.</p>
+</section>
 
-      <!-- Abstract Section -->
-      <!-- <div id="abstract-component"></div> -->
+<!-- ============ Abstract ============ -->
+<section id="abstract" class="section">
+  <div class="container container--narrow section__inner section__inner--top-flush">
+    <div class="section__head"><h2>Abstract</h2></div>
+    <div class="prose">
+      <p>While most autoregressive LLMs are constrained to one-by-one decoding, diffusion LLMs (dLLMs) have attracted growing interest for their potential to dramatically accelerate inference through parallel decoding. Despite this promise, the conditional independence assumption in dLLMs causes parallel decoding to ignore token dependencies, inevitably degrading generation quality when these dependencies are strong. However, existing works largely overlook these inherent challenges, and evaluations on standard benchmarks (e.g., math and coding) are not sufficient to capture the quality degradation caused by parallel decoding.</p>
+      <p>To address this gap, we first provide an information-theoretic analysis of parallel decoding. We then conduct case studies on analytically tractable synthetic list operations from both data distribution and decoding strategy perspectives, offering quantitative insights that highlight the fundamental limitations of parallel decoding. Building on these insights, we propose ParallelBench, the first benchmark specifically designed for dLLMs, featuring realistic tasks that are trivial for humans and autoregressive LLMs yet exceptionally challenging for dLLMs under parallel decoding.</p>
+      <p>Using ParallelBench, we systematically analyze both dLLMs and autoregressive LLMs, revealing that: (i) dLLMs under parallel decoding can suffer dramatic quality degradation in real-world scenarios, and (ii) current parallel decoding strategies struggle to adapt their degree of parallelism based on task difficulty, thus failing to achieve meaningful speedup without compromising quality. Our findings underscore the pressing need for innovative decoding methods that can overcome the current speed-quality trade-off. We are releasing our benchmark to help accelerate the development of truly efficient dLLMs.</p>
+    </div>
+  </div>
+</section>
 
-      <!-- Problem Section -->
-      <div id="problem-component"></div>
+<!-- ============ Method: why ParallelBench ============ -->
+<section id="method" class="section section--muted">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>Why ParallelBench?</h2>
+      <p class="section__lede">Parallel decoding is fast, but not free. Under conditional independence assumption, parallel decoding ignores dependencies, resulting in a drop in quality when tokens depend on each other. We provide information-theoretic analysis and quantitatively evaluate this trade-off using synthetic tasks.</p>
+    </div>
+    <div class="grid grid--steps">
+      <div class="card"><span class="card__step">Step 1</span><h3>Information-Theoretic Analysis</h3><p>Proves that <u>parallel decoding has fundamental error bounds</u> when tokens depend on each other, showing even ideal models suffer as we increase parallelism on tasks requiring strong token coordination.</p></div>
+      <div class="card"><span class="card__step">Step 2</span><h3>Quantitative Case Studies</h3><p>Analytically tractable synthetic list operations (<i>Copy, Replace, Shuffle</i>) with closed-form accuracy formulas demonstrate fundamental limitations: <u>specific tasks show inevitable quality degradation under parallel decoding</u>.</p></div>
+      <div class="card"><span class="card__step">Step 3</span><h3>Realistic Benchmark Tasks</h3><p>17 tasks across <i>Waiting Line, Text Writing, and Puzzles</i>—all <u>trivial for humans</u> and <u>AR LLMs</u>—reveal severe quality degradation in dLLMs under parallel decoding in real-world scenarios.</p></div>
+    </div>
+  </div>
+</section>
 
-      <!-- Benchmark Section -->
-      <div id="benchmark-component"></div>
+<!-- ============ Benchmark ============ -->
+<section id="benchmark" class="section">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>Benchmark Overview</h2>
+      <p class="section__lede"><strong>ParallelBench</strong> consists of 17 tasks across 3 categories. Each task exposes different aspects of <strong>the speed-quality trade-off</strong> in dLLMs.</p>
+    </div>
 
-      <!-- Results Section -->
-      <div id="results-component"></div>
+    <figure class="figure figure--narrow">
+      <img src="assets/figures/task_clustering.png" alt="Task Clustering: 17 tasks positioned by Parallelizability vs Order Preference" loading="lazy">
+      <figcaption>ParallelBench covers a range of tasks positioned by <strong>parallelizability</strong> and <strong>order preference</strong>.</figcaption>
+    </figure>
 
-      <!-- Comparison Section -->
-      <div id="comparison-component"></div>
+    <div class="grid grid--code">
+      <div class="code-card">
+        <div class="code-card__head"><span class="code-card__name">Waiting Line</span><span class="code-card__meta">10 tasks</span></div>
+        <p class="code-card__desc"><i>Waiting Line</i> is a set of list operations (e.g., shuffle, replace) manipulating realistic customer service scenarios. The number of customers <i>n</i> serves as a controlled variable for adjusting difficulty.</p>
+        <p class="code-card__example">Shuffle</p>
+        <div class="code-card__body"><pre>You are managing a waiting line at a customer service desk.
+The waiting line should be randomly shuffled to ensure fair service distribution:
 
-      <!-- Implications Section -->
-      <div id="implications-component"></div>
-    </main>
+["Paul Payne", "Robert Riley", "Peter Stone"]
 
-    <!-- Footer -->
-    <div id="footer-component"></div>
+Please randomly shuffle the list and provide only the final list.
+Ensure the sequence is different from the original.</pre></div>
+        <details class="code-card__more">
+          <summary>More examples</summary>
+          <p class="code-card__example">Replace Index</p>
+          <div class="code-card__body"><pre>You are managing a waiting line at a customer service desk.
+The person at position 0 must be replaced with "Henry Warren":
 
-    <!-- Modals -->
-    <div id="modals-component"></div>
+["Patrick Morgan", "Eric King", "Joe Reed"]
 
-    <!-- Component Loader Script -->
-    <script>
-      // Function to load HTML component
-      async function loadComponent(componentId, componentFile) {
-        try {
-          const response = await fetch(`components/${componentFile}`);
-          const html = await response.text();
-          document.getElementById(componentId).innerHTML = html;
-        } catch (error) {
-          console.error(`Error loading ${componentFile}:`, error);
-        }
-      }
+Please replace the person at the specified position with "Henry Warren" and provide only the final list.</pre></div>
+          <p class="code-card__example">Replace Random</p>
+          <div class="code-card__body"><pre>You are managing a waiting line at a customer service desk.
+One person in the waiting line must be replaced with "Juan Torres":
 
-      // Load all components
-      async function loadAllComponents() {
-        await Promise.all([
-          loadComponent('header-component', 'header.html'),
-          loadComponent('hero-component', 'hero.html'),
-          // loadComponent('abstract-component', 'abstract.html'),
-          loadComponent('problem-component', 'problem.html'),
-          loadComponent('benchmark-component', 'benchmark.html'),
-          loadComponent('results-component', 'results.html'),
-          loadComponent('comparison-component', 'comparison.html'),
-          loadComponent('implications-component', 'implications.html'),
-          loadComponent('footer-component', 'footer.html'),
-          loadComponent('modals-component', 'modals.html'),
-        ]);
+["David Owens", "Kelly Payne", "Aaron Freeman"]
 
-        // Load main.js after components are loaded
-        const mainScript = document.createElement('script');
-        mainScript.src = 'js/main.js';
-        document.body.appendChild(mainScript);
-      }
+Please replace one random person with "Juan Torres" and provide only the final list.</pre></div>
+        </details>
+      </div>
 
-      // Load components when DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadAllComponents);
-      } else {
-        loadAllComponents();
-      }
-    </script>
-  </body>
+      <div class="code-card">
+        <div class="code-card__head"><span class="code-card__name">Text Writing</span><span class="code-card__meta">5 tasks</span></div>
+        <p class="code-card__desc"><i>Text Writing</i> consists of five text generation tasks: <i>summarization, paraphrasing, words-to-sentence generation</i>. We introduce a <i>Grammar Score</i> metric that imposes stronger token-level dependencies.</p>
+        <p class="code-card__example">Summary</p>
+        <div class="code-card__body"><pre>Summarize the following conversation. Only output the final result.
+
+Steve: Bought the new Dream Theater album 5 minutes ago. I hope it's good.
+Rob: I have it here on my desk, ready for the first listening.
+Steve: Ok, I'll tell you later what I think about it.
+Rob: Same here. See you later!
+
+Summary:</pre></div>
+        <details class="code-card__more">
+          <summary>More examples</summary>
+          <p class="code-card__example">Paraphrase</p>
+          <div class="code-card__body"><pre>Paraphrase the following sentence. Only output the final result.
+
+Sentence: Any idea of what sweater this is?
+
+Paraphrase:</pre></div>
+          <p class="code-card__example">Words-to-Sentence (easy)</p>
+          <div class="code-card__body"><pre>Construct a single, coherent sentence using the words dog, park, ball, and throw.</pre></div>
+          <p class="code-card__example">Words-to-Sentence (hard)</p>
+          <div class="code-card__body"><pre>Construct a single, coherent sentence using the words algorithm, river, symphony, and moss.</pre></div>
+        </details>
+      </div>
+
+      <div class="code-card">
+        <div class="code-card__head"><span class="code-card__name">Puzzles</span><span class="code-card__meta">2 tasks</span></div>
+        <p class="code-card__desc"><i>Puzzles</i> consists of two classic puzzle tasks: <i>Sudoku</i>, which has a unique solution, and <i>Latin Square</i>, which has multiple valid solutions. This difference in solution space affects parallel decoding differently based on conditional total correlation C(Y|X).</p>
+        <p class="code-card__example">Sudoku</p>
+        <div class="code-card__body"><pre>Fill the positions where the values are 0 in a 4x4 grid with digits 1-4 so that each column, each row, and each of the four 2x2 subgrids that compose the grid contains all of the digits from 1 to 4.
+
+Input:
+0042
+2031
+4023
+3214
+Output:</pre></div>
+        <details class="code-card__more">
+          <summary>More examples</summary>
+          <p class="code-card__example">Latin Square</p>
+          <div class="code-card__body"><pre>Generate a Latin square of size 4 with the symbols [H, 4, C, A]. Only output the final result as CSV.</pre></div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Results ============ -->
+<section id="results" class="section section--muted">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>Results on ParallelBench</h2>
+      <p class="section__lede">Evaluation of <strong>LLaDA 1.5</strong> across tasks reveals systematic quality degradation as parallelism increases.</p>
+    </div>
+
+    <div>
+      <div class="subsection">
+        <h3 class="subsection__title">Waiting Line</h3>
+        <div class="figure-grid">
+          <figure class="figure"><img src="assets/figures/results/copy.png" alt="Copy task results" loading="lazy"><figcaption>Copy</figcaption></figure>
+          <figure class="figure"><img src="assets/figures/results/reverse.png" alt="Reverse task results" loading="lazy"><figcaption>Reverse</figcaption></figure>
+          <figure class="figure"><img src="assets/figures/results/replace_index.png" alt="Replace Index task results" loading="lazy"><figcaption>Replace Index</figcaption></figure>
+          <figure class="figure"><img src="assets/figures/results/replace_random.png" alt="Replace Random task results" loading="lazy"><figcaption>Replace Random</figcaption></figure>
+          <figure class="figure"><img src="assets/figures/results/shuffle.png" alt="Shuffle task results" loading="lazy"><figcaption>Shuffle</figcaption></figure>
+          <figure class="figure"><img src="assets/figures/results/sort.png" alt="Sort task results" loading="lazy"><figcaption>Sort</figcaption></figure>
+        </div>
+        <div class="card card--insight"><span class="card__step">Key Insight</span><p>Replace Index and Replace Random exhibit contrasting trends. Despite Replace Random achieving near-perfect one-by-one decoding accuracy compared to Replace Index's below 50% accuracy, this advantage reverses under parallelization. This aligns with our theory: C(Y|X)=0 for Replace Index but C(Y|X)&gt;0 for Replace Random.</p></div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">Text Writing</h3>
+        <div class="figure-grid">
+          <figure class="figure"><img src="assets/figures/results/paraphrasing.png" alt="Paraphrasing task results" loading="lazy"><figcaption>Paraphrasing</figcaption></figure>
+          <figure class="figure"><img src="assets/figures/results/w2s_easy.png" alt="Words-to-Sentence Easy results" loading="lazy"><figcaption>W2S (Easy)</figcaption></figure>
+          <figure class="figure"><img src="assets/figures/results/w2s_hard.png" alt="Words-to-Sentence Hard results" loading="lazy"><figcaption>W2S (Hard)</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">Puzzles</h3>
+        <div class="figure-grid figure-grid--pair">
+          <figure class="figure"><img src="assets/figures/results/sudoku.png" alt="Sudoku results" loading="lazy"><figcaption>Sudoku</figcaption></figure>
+          <figure class="figure"><img src="assets/figures/results/latin_square.png" alt="Latin Square results" loading="lazy"><figcaption>Latin Square</figcaption></figure>
+        </div>
+        <div class="card card--insight"><span class="card__step">Key Insight</span><p>Latin Square outperforms the harder Sudoku under one-by-one decoding, but this advantage disappears with increased parallelism. This reflects the difference in conditional total correlation: C(Y|X)&gt;0 for Latin Square, while C(Y|X)=0 for Sudoku.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Cross-model comparison ============ -->
+<section id="comparison" class="section">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>Cross-Model Comparison</h2>
+      <p class="section__lede">The speed-quality trade-off is not unique to LLaDA.<br>Closed-source dLLM <strong>Mercury</strong> and autoregressive LLMs show contrasting behaviors.</p>
+    </div>
+    <div class="figure-grid">
+      <figure class="figure"><img src="assets/figures/comparison/mercury.png" alt="Mercury (dLLM) results" loading="lazy"><figcaption>Mercury (dLLM)</figcaption></figure>
+      <figure class="figure"><img src="assets/figures/comparison/claude_haiku.png" alt="Claude 3.5 Haiku results" loading="lazy"><figcaption>Claude 3.5 Haiku (AR)</figcaption></figure>
+      <figure class="figure"><img src="assets/figures/comparison/qwen_3.png" alt="Qwen2.5 3B results" loading="lazy"><figcaption>Qwen2.5 3B (AR)</figcaption></figure>
+    </div>
+    <div class="card card--insight"><span class="card__step">Key Insight</span><p>Mercury and autoregressive LLMs show opposite accuracy trends on Reverse and Shuffle. Mercury maintains near-perfect accuracy on Reverse but fails with Shuffle, with accuracy dropping sharply as n increases. This indicates that the closed-source Mercury struggles to adaptively adjust its parallelism to maintain quality on tasks with high token dependencies.</p></div>
+  </div>
+</section>
+
+<!-- ============ Speed-quality trade-off ============ -->
+<section id="tradeoff" class="section section--ruled">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>The Speed-Quality Trade-off</h2>
+      <p class="section__lede">Current parallel decoding strategies are far from optimal. Oracle performance shows where they fall short.</p>
+    </div>
+    <figure class="figure figure--narrow">
+      <img src="assets/figures/tradeoff.png" alt="Speed-Quality Trade-off with Oracle Performance" loading="lazy">
+      <figcaption><strong>Accuracy vs. Tokens-per-Step</strong> for different unmasking strategies. Static methods (Top-K) degrade rapidly, while adaptive methods (Threshold) achieve better trade-offs. The <strong>Oracle</strong> (star) shows the gap between current approaches and optimal performance.</figcaption>
+    </figure>
+    <div class="card card--insight"><span class="card__step">Key Insight</span><p>The oracle achieves both the best accuracy and a significant speedup over threshold methods with comparable accuracy, demonstrating that per-sample threshold adaptation alone yields significant improvements and suggests a substantial room for future research.</p></div>
+  </div>
+</section>
+
+<!-- ============ Leaderboard ============ -->
+<section id="leaderboard" class="section section--muted">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>Leaderboard</h2>
+      <p class="section__lede">Compare the speed and accuracy of parallel decoding strategies across diffusion LLMs on <strong>ParallelBench</strong>.</p>
+    </div>
+    <div class="resource">
+      <div class="resource__summary">
+        <p class="eyebrow">Interactive</p>
+        <h3 class="resource__title">Max TPS at an accuracy threshold</h3>
+        <p>The leaderboard shows the maximum TPS (Tokens Per Step) achieved by each method while maintaining at least a chosen accuracy. The chart visualizes accuracy vs. TPS trade-offs for each unmasking method.</p>
+        <div class="resource__actions">
+          <a href="leaderboard/" class="btn btn--secondary">Leaderboard</a>
+          <a href="chart/" class="btn btn--ghost">Chart</a>
+        </div>
+      </div>
+      <div class="resource__facts">
+        <dl>
+          <dt>Models</dt><dd>LLaDA 1.5, LLaDA 8B Instruct, Dream 7B, DiffuCoder</dd>
+          <dt>Unmasking methods</dt><dd>Random, Left-to-Right, Confidence Threshold, Confidence Top-K, Confidence Factor, Entropy Top-K, Top-K Margin, KLASS, SlowFast Sampling, DUS, WINO-DLLM</dd>
+          <dt>Metric</dt><dd>TPS (Tokens Per Step): the number of tokens decoded in a single denoising step.</dd>
+          <dt>Code</dt><dd class="mono"><a href="https://github.com/furiosa-ai/ParallelBench">furiosa-ai/ParallelBench</a></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Citation ============ -->
+<section id="citation" class="section">
+  <div class="container section__inner">
+    <h2>BibTeX</h2>
+    <div class="bibtex">
+      <button type="button" class="bibtex__copy" onclick="copyBibtex(this)">Copy</button>
+      <pre id="bibtex-text">@article{kang2025parallelbench,
+  title   = {ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs},
+  author  = {Kang, Wonjun and Galim, Kevin and Oh, Seunghyuk and Lee, Minjae and Zeng, Yuchen and Zhang, Shuibai and Hooper, Coleman and Hu, Yuezhou and Koo, Hyung Il and Cho, Nam Ik and others},
+  journal = {arXiv preprint arXiv:2510.04767},
+  year    = {2025}
+}</pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <span class="footer__brand"><img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI"><span>in collaboration with UW-Madison, Microsoft Research, UC Berkeley, Seoul National University, KRAFTON, and Ludo Robotics</span></span>
+    <span class="footer__meta"><a href="https://github.com/furiosa-ai/ParallelBench/issues">Questions: GitHub Issues</a><span>&copy; 2025 ParallelBench Contributors &middot; Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></span></span>
+  </div>
+</footer>
+
+<script>
+  function copyBibtex(button) {
+    const text = document.getElementById('bibtex-text').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      button.textContent = 'Copied';
+      setTimeout(() => { button.textContent = 'Copy'; }, 1500);
+    });
+  }
+</script>
+
+</body>
 </html>

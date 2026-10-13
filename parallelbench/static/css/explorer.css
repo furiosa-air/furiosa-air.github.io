@@ -1,0 +1,82 @@
+/* Leaderboard and chart pages ("explorer"), on top of project.css and parallelbench.css.
+   Same palette as the template: red #E21500 (hover #B01500), text #151515 / #444444,
+   rules #D4D4D4, muted surface #F4F4F4. */
+
+[hidden] { display: none !important; }
+
+/* ---------- Page head ---------- */
+.hero--compact { padding-top: 72px; padding-bottom: 8px; gap: 20px; }
+.hero--compact .section__lede { text-align: center; }
+
+.segmented { display: inline-flex; padding: 4px; border: 1px solid #D4D4D4; border-radius: 9999px; background: #FFFFFF; }
+.segmented__item { padding: 9px 22px; border-radius: 9999px; font-size: 14px; font-weight: 700; color: #444444; text-decoration: none; }
+.segmented__item:hover { color: #E21500; }
+.segmented__item.is-active { background: #151515; color: #FFFFFF; cursor: default; }
+
+/* ---------- Controls ---------- */
+.controls { display: flex; flex-direction: column; gap: 20px; }
+.control { display: flex; flex-direction: column; gap: 10px; }
+.control__head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.control__label { font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #151515; }
+.control__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.control__group-label { min-width: 52px; font-size: 13px; font-weight: 500; color: #7F7F7F; }
+.control__stack { display: flex; flex-direction: column; gap: 8px; }
+
+.text-button { padding: 0; border: 0; background: none; font-family: var(--font-sans); font-size: 13px; font-weight: 700; color: #444444; cursor: pointer; }
+.text-button:hover { color: #E21500; text-decoration: underline; }
+
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border: 1px solid #D4D4D4; border-radius: 9999px; background: #FFFFFF; font-family: var(--font-sans); font-size: 13px; font-weight: 500; line-height: 1; color: #444444; cursor: pointer; transition: background .16s, color .16s, border-color .16s; }
+.chip:hover { border-color: #444444; }
+.chip.is-active { background: #151515; border-color: #151515; color: #FFFFFF; }
+.chip:disabled { background: #F4F4F4; color: #7F7F7F; cursor: not-allowed; }
+/* Strategy chips carry their series color in --chip-color. */
+.chip--strategy::before { content: ""; width: 8px; height: 8px; border-radius: 9999px; background: var(--chip-color); }
+.chip--strategy.is-active { background: var(--chip-color); border-color: var(--chip-color); }
+.chip--strategy.is-active::before { background: #FFFFFF; }
+
+.select { padding: 8px 12px; border: 1px solid #D4D4D4; border-radius: 0; background: #FFFFFF; font-family: var(--font-sans); font-size: 14px; font-weight: 700; color: #151515; cursor: pointer; }
+.select:hover { border-color: #444444; }
+
+/* Info icon with a hover/focus tooltip. */
+.info { position: relative; display: inline-flex; color: #7F7F7F; cursor: help; }
+.info svg { width: 15px; height: 15px; }
+.info__tip { position: absolute; left: 0; top: calc(100% + 8px); z-index: 10; display: none; width: 260px; padding: 10px 12px; background: #151515; color: #FFFFFF; font-size: 12px; font-weight: 500; line-height: 1.5; letter-spacing: 0; text-transform: none; text-align: left; }
+.info:hover .info__tip, .info:focus .info__tip { display: block; }
+.info--end .info__tip { left: auto; right: 0; width: 200px; }
+
+/* ---------- Leaderboard table ---------- */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.filter-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px 6px 12px; border-radius: 9999px; background: #F4F4F4; font-size: 13px; font-weight: 500; color: #151515; }
+.filter-chip__label { color: #7F7F7F; }
+.filter-chip button { display: inline-flex; padding: 2px; border: 0; background: none; color: #7F7F7F; cursor: pointer; }
+.filter-chip button:hover { color: #E21500; }
+.filter-chip svg { width: 12px; height: 12px; }
+
+.table .rank { width: 64px; color: #7F7F7F; font-variant-numeric: tabular-nums; }
+.table .muted { color: #7F7F7F; }
+.table td.num { font-weight: 700; color: #151515; }
+.table tbody tr:hover { background: #F4F4F4; }
+.table a { color: #151515; text-decoration: underline; text-decoration-color: #D4D4D4; text-underline-offset: 4px; }
+.table a:hover { color: #B01500; text-decoration-color: #B01500; }
+.table .empty { padding: 32px 16px; text-align: center; color: #7F7F7F; }
+.th-info { display: inline-flex; align-items: center; gap: 4px; font-variant-numeric: normal; }
+.cell { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cell__main { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.dot { width: 10px; height: 10px; flex-shrink: 0; border-radius: 9999px; }
+.filter-toggle { display: inline-flex; flex-shrink: 0; padding: 2px; border: 0; background: none; color: #B5B5B5; cursor: pointer; opacity: 0; transition: opacity .16s; }
+.filter-toggle svg { width: 14px; height: 14px; }
+tr:hover .filter-toggle, .filter-toggle:focus-visible { opacity: 1; }
+.filter-toggle:hover { color: #E21500; }
+.filter-toggle.is-active { opacity: 1; color: #E21500; }
+
+/* ---------- Charts ---------- */
+.subsection__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; padding-bottom: 10px; border-bottom: 2px solid #151515; }
+.subsection__head .subsection__title { padding-bottom: 0; border-bottom: 0; }
+.chart-card { border: 1px solid #D4D4D4; background: #FFFFFF; padding: 16px; }
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 16px; }
+
+/* ---------- Loading / empty states ---------- */
+.status { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 80px 0; font-size: 14px; color: #7F7F7F; text-align: center; }
+.status--tall { min-height: 60vh; }
+.spinner { width: 28px; height: 28px; border: 3px solid #D4D4D4; border-top-color: #E21500; border-radius: 9999px; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
