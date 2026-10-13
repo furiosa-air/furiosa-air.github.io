@@ -27,6 +27,8 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 .method-steps{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width: 899px){.method-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width: 519px){.method-steps{grid-template-columns:minmax(0,1fr)}}
+.result-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width: 639px){.result-cards{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -185,7 +187,7 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 </table>
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+<div class="result-cards" style="display: grid; gap: 16px;">
 <div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
 <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Concordance tracks utility</h3>
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">Across iterations 3, 6, 9 and final, selection concordance rises 0.845 → 0.912 and held-out test concordance 0.830 → 0.896, while SWE-bench Verified rises overall from 62.4% to 64.0%.</p>
