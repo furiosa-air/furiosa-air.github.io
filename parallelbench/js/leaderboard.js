@@ -9,15 +9,14 @@ let filteredFamilyId = null;
 // ── Filter Icon ──
 
 const FILTER_ICON_SVG =
-  '<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>';
+  '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>';
 
 function createFilterButton(type, id, displayName, isActive) {
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.title = isActive ? 'Remove filter' : `Filter by ${displayName}`;
-  btn.className = isActive
-    ? 'shrink-0 text-slate-500 transition-opacity'
-    : 'shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-slate-300 hover:text-slate-500';
+  btn.setAttribute('aria-label', btn.title);
+  btn.className = isActive ? 'filter-toggle is-active' : 'filter-toggle';
   btn.innerHTML = FILTER_ICON_SVG;
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -78,20 +77,15 @@ function renderActiveFilters() {
     });
   }
 
-  if (filters.length === 0) {
-    container.classList.add('hidden');
-    return;
-  }
-
-  container.classList.remove('hidden');
+  container.hidden = filters.length === 0;
+  if (filters.length === 0) return;
 
   for (const filter of filters) {
     const chip = document.createElement('span');
-    chip.className =
-      'inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700';
+    chip.className = 'filter-chip';
 
     const labelSpan = document.createElement('span');
-    labelSpan.className = 'text-slate-400';
+    labelSpan.className = 'filter-chip__label';
     labelSpan.textContent = filter.label + ':';
 
     const valueSpan = document.createElement('span');
@@ -99,9 +93,9 @@ function renderActiveFilters() {
 
     const clearBtn = document.createElement('button');
     clearBtn.type = 'button';
-    clearBtn.className = 'ml-0.5 text-slate-400 hover:text-slate-600';
+    clearBtn.setAttribute('aria-label', `Remove ${filter.label} filter`);
     clearBtn.innerHTML =
-      '<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+      '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
     clearBtn.addEventListener('click', () => clearFilter(filter.type));
 
     chip.appendChild(labelSpan);
@@ -146,13 +140,7 @@ function generateCombinedThresholdSelector(activeThreshold) {
     button.textContent = `${threshold}%`;
     button.dataset.threshold = threshold;
 
-    if (threshold === activeThreshold) {
-      button.className =
-        'rounded-lg px-4 py-1.5 text-sm font-semibold bg-slate-900 text-white transition';
-    } else {
-      button.className =
-        'rounded-lg px-4 py-1.5 text-sm font-semibold border border-slate-300 bg-white text-slate-700 transition hover:bg-slate-50';
-    }
+    button.className = threshold === activeThreshold ? 'chip is-active' : 'chip';
 
     button.addEventListener('click', () => {
       currentThreshold = threshold;
@@ -205,27 +193,24 @@ function renderCombinedLeaderboardTable() {
 
   if (entries.length === 0) {
     tableBody.innerHTML =
-      '<tr><td colspan="5" class="px-6 py-8 text-center text-sm text-slate-400">No methods meet this accuracy threshold.</td></tr>';
+      '<tr><td colspan="5" class="empty">No methods meet this accuracy threshold.</td></tr>';
     return;
   }
 
   entries.forEach((entry, index) => {
     const color = STRATEGY_COLORS[entry.strategyId] || '#9A9A9A';
     const row = document.createElement('tr');
-    row.className =
-      'border-b border-slate-100 last:border-0' +
-      (index % 2 === 1 ? ' bg-slate-50/50' : '');
 
     const rankCell = document.createElement('td');
-    rankCell.className = 'px-6 py-4 text-sm font-medium text-slate-500';
+    rankCell.className = 'rank';
     rankCell.textContent = index + 1;
 
     // Family cell with filter
     const familyCell = document.createElement('td');
-    familyCell.className = 'px-6 py-4 text-sm font-medium text-slate-500 group';
     const familyWrapper = document.createElement('div');
-    familyWrapper.className = 'flex items-center justify-between gap-2';
+    familyWrapper.className = 'cell';
     const familyText = document.createElement('span');
+    familyText.className = 'muted';
     familyText.textContent = entry.familyDisplayName;
     familyWrapper.appendChild(familyText);
     familyWrapper.appendChild(
@@ -240,21 +225,17 @@ function renderCombinedLeaderboardTable() {
 
     // Model cell with filter
     const modelCell = document.createElement('td');
-    modelCell.className = 'px-6 py-4 text-sm font-medium group';
     const modelWrapper = document.createElement('div');
-    modelWrapper.className = 'flex items-center justify-between gap-2';
+    modelWrapper.className = 'cell';
     if (entry.modelUrl) {
       const modelLink = document.createElement('a');
       modelLink.href = entry.modelUrl;
       modelLink.target = '_blank';
       modelLink.rel = 'noopener noreferrer';
-      modelLink.className =
-        'text-slate-900 underline decoration-slate-300 underline-offset-4 hover:text-primary hover:decoration-primary';
       modelLink.textContent = entry.modelDisplayName;
       modelWrapper.appendChild(modelLink);
     } else {
       const modelText = document.createElement('span');
-      modelText.className = 'text-slate-900';
       modelText.textContent = entry.modelDisplayName;
       modelWrapper.appendChild(modelText);
     }
@@ -270,15 +251,14 @@ function renderCombinedLeaderboardTable() {
 
     // Strategy cell with filter
     const strategyCell = document.createElement('td');
-    strategyCell.className = 'px-6 py-4 group';
     const cellWrapper = document.createElement('div');
-    cellWrapper.className = 'flex items-center gap-2';
+    cellWrapper.className = 'cell';
     const colorDot = document.createElement('span');
-    colorDot.className = 'inline-block w-3 h-3 rounded-full shrink-0';
+    colorDot.className = 'dot';
     colorDot.style.backgroundColor = color;
 
     const strategyLeftGroup = document.createElement('div');
-    strategyLeftGroup.className = 'flex items-center gap-2 flex-1 min-w-0';
+    strategyLeftGroup.className = 'cell__main';
     strategyLeftGroup.appendChild(colorDot);
 
     if (entry.strategyUrl) {
@@ -286,13 +266,10 @@ function renderCombinedLeaderboardTable() {
       nameLink.href = entry.strategyUrl;
       nameLink.target = '_blank';
       nameLink.rel = 'noopener noreferrer';
-      nameLink.className =
-        'text-sm font-medium text-slate-900 underline decoration-slate-300 underline-offset-4 hover:text-primary hover:decoration-primary';
       nameLink.textContent = entry.strategyDisplayName;
       strategyLeftGroup.appendChild(nameLink);
     } else {
       const nameSpan = document.createElement('span');
-      nameSpan.className = 'text-sm font-medium text-slate-900';
       nameSpan.textContent = entry.strategyDisplayName;
       strategyLeftGroup.appendChild(nameSpan);
     }
@@ -309,8 +286,7 @@ function renderCombinedLeaderboardTable() {
     strategyCell.appendChild(cellWrapper);
 
     const tpsCell = document.createElement('td');
-    tpsCell.className =
-      'px-6 py-4 text-right text-sm font-semibold text-slate-900';
+    tpsCell.className = 'num';
     tpsCell.textContent = Number(entry.tps).toFixed(2);
 
     row.appendChild(rankCell);
@@ -427,23 +403,11 @@ async function initializeLeaderboard() {
     renderCombinedLeaderboardTable();
 
     // Hide loading, show table
-    document.getElementById('leaderboard-loading').classList.add('hidden');
-    document
-      .getElementById('leaderboard-table-wrapper')
-      .classList.remove('hidden');
+    document.getElementById('leaderboard-loading').hidden = true;
+    document.getElementById('leaderboard-table-wrapper').hidden = false;
   } catch (error) {
     console.error('Failed to initialize leaderboard:', error);
   }
-}
-
-// Mobile menu toggle
-const toggleButton = document.getElementById('menu-toggle');
-const mobileNav = document.getElementById('mobile-nav');
-
-if (toggleButton && mobileNav) {
-  toggleButton.addEventListener('click', () => {
-    mobileNav.classList.toggle('hidden');
-  });
 }
 
 initializeLeaderboard();
