@@ -58,9 +58,9 @@ img { display: block; max-width: 100%; }
   text-decoration: none;
 }
 .btn--primary { background: var(--furiosa-red); color: #fff; border-color: var(--furiosa-red); }
-.btn--primary:hover { background: var(--furiosa-red-dark); border-color: var(--furiosa-red-dark); }
+.btn--primary:hover { background: var(--furiosa-red-dark); border-color: var(--furiosa-red-dark); color: #fff; }
 .btn--secondary { background: #000; color: #fff; border-color: #000; }
-.btn--secondary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+.btn--secondary:hover { background: var(--primary-dark); border-color: var(--primary-dark); color: #fff; }
 .btn--ghost { background: transparent; color: var(--furiosa-ink); border-color: var(--furiosa-ink); }
 .btn--ghost:hover { color: var(--furiosa-red); border-color: var(--furiosa-red); }
 .btn--ghost-light { background: transparent; color: #fff; border-color: #fff; }
