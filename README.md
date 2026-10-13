@@ -5,6 +5,8 @@ Static site for FuriosaAI AI Research (AIR) project pages (no build step).
 ## Layout
 - `index.html` — redirects to https://furiosa.ai/research (the official publication list)
 - `_templates/project-page/` — starter template for new project pages (not published)
+- `shared/notice-banner.js` — site-wide notice banner (e.g. hiring) loaded by every project page;
+  edit its `NOTICE` text/link once to update all pages
 - `<project>/` — one self-contained project page per folder:
   - `parallelbench/` → https://furiosa-air.github.io/parallelbench/ (imported from
     `parallelbench/parallelbench.github.io` at commit `7b93009`; root-absolute links and
@@ -16,7 +18,8 @@ Start from the project page template (see `_templates/README.md`):
     ./_templates/new-project.sh my-project
     grep -n '{{' my-project/index.html
 
-Each project folder is self-contained with its own `static/` assets, and its header logo
+Each project folder is self-contained with its own `static/` assets (except the shared notice
+banner, included right after `</header>` via `<script src="/shared/notice-banner.js"></script>`), and its header logo
 links to https://furiosa.ai/research.
 
 ## Restoring the hub page
