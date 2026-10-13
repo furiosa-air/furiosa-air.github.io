@@ -21,6 +21,7 @@ The script fills `{{SLUG}}`. Everything else is a
 | Section | Required | Notes |
 |---|---|---|
 | Header | yes | Logo links to furiosa.ai/research. Keep the nav in sync with the sections you keep. |
+| Notice banner | yes | `<script src="/shared/notice-banner.js">` right after `</header>`. Shared by all pages; edit `/shared/notice-banner.js`, not the page. |
 | Hero | yes | Venue · year, title, authors with affiliation superscripts, link buttons. |
 | Teaser figure | yes | Replace the dashed placeholder with `<img src="static/images/teaser.png">`. |
 | Key numbers | optional | 2–4 headline results. |

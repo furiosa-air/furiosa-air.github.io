@@ -6,10 +6,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 
 /* ---------- Header extras ---------- */
 .topnav a.is-active { color: #E21500; }
-.notice { background: #000000; color: #FFFFFF; text-align: center; font-size: 14px; font-weight: 500; }
-.notice a { display: inline-block; padding: 10px 24px; color: #FFFFFF; text-decoration: none; }
-.notice a:hover { color: #FFFFFF; text-decoration: underline; }
-.notice a span { color: #E21500; }
 
 /* ---------- Hero extras ---------- */
 .hero__authors a { color: #151515; text-decoration: underline; text-decoration-color: #D4D4D4; text-underline-offset: 4px; }
