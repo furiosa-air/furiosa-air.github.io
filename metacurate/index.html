@@ -294,23 +294,19 @@ as SFT data?
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; display: flex; flex-wrap: wrap;">
 <div style="flex: 1 1 300px; min-width: 0; padding: 28px; border-right: 1px solid #D4D4D4; display: flex; flex-direction: column; gap: 16px;">
 <p style="margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #444444;">Dataset card</p>
-<h3 style="margin: 0; font-family: var(--font-mono); font-size: 18px; font-weight: 500; color: #151515; overflow-wrap: anywhere;">[org]/[dataset-name]</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">Coding-agent trajectories on real GitHub issues, generated with DeepSeek V4 Pro using mini-swe-agent.</p>
+<h3 style="margin: 0; font-size: 22px; font-weight: 700; color: #151515; overflow-wrap: anywhere;">DSv4Pro trajectory pool</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">Uncurated coding-agent trajectories on real GitHub issues, generated with DeepSeek V4 Pro using mini-swe-agent. About three attempts per instance, kept regardless of outcome.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto;">
 <a href="#" class="btn btn--secondary" style="text-decoration: none;">Hugging Face</a>
-<a href="#" class="btn btn--ghost" style="text-decoration: none;">Loading example</a>
 </div>
 </div>
 <div style="flex: 2 1 420px; min-width: 0;">
 <dl style="margin: 0; display: grid; grid-template-columns: minmax(120px, 0.6fr) minmax(0, 1.4fr);">
 <dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Trajectories</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">4,286</dd>
 <dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Distinct issues</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">1,415 GitHub issue IDs</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Generator</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">DeepSeek V4 Pro + mini-swe-agent</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Task sources</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">[e.g. SWE-rebench, SWE-rebench v2, SWE-Gym]</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Fields</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-family: var(--font-mono); font-size: 13px; color: #444444;">[instance_id, messages, patch, resolved, …]</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Resolved rate</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">[XX.X%]</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Format / size</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">[Parquet / JSONL], [X GB]</dd>
-<dt style="padding: 14px 20px; font-size: 14px; font-weight: 700; color: #151515;">License</dt><dd style="margin: 0; padding: 14px 20px; font-size: 14px; color: #444444;">[LICENSE]</dd>
+<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Generator</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">DeepSeek V4 Pro + mini-swe-agent, temperature 0.7</dd>
+<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Task sources</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">SWE-rebench (690 issues, 2,100 trajectories), SWE-rebench-V2 (531, 1,599), SWE-Gym (196, 587)</dd>
+<dt style="padding: 14px 20px; font-size: 14px; font-weight: 700; color: #151515;">Resolved rate</dt><dd style="margin: 0; padding: 14px 20px; font-size: 14px; color: #444444;">41.1% (1,760 trajectories pass both fail-to-pass and pass-to-pass tests)</dd>
 </dl>
 </div>
 </div>
