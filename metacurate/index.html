@@ -187,20 +187,26 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 </table>
 </div>
 
-<div class="result-cards" style="display: grid; gap: 16px;">
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #444444; text-align: center; text-wrap: balance;"><strong style="color: #151515;">Training-free curation achieves the highest mean downstream scores.</strong> MetaCurate thus obtains the highest observed means among the compared methods on both pools without model training during filter search.</p>
+
+<div class="result-cards" style="display: grid; gap: 16px; padding-top: 32px; border-top: 1px solid #D4D4D4;">
 <div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-<h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Concordance tracks utility</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">Across iterations 3, 6, 9 and final, selection concordance rises 0.845 → 0.912 and held-out test concordance 0.830 → 0.896, while SWE-bench Verified rises overall from 62.4% to 64.0%.</p>
-</div>
-<div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #E21500;">Model scale</span>
 <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Transfers to 27B</h3>
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">The same subsets train Qwen 3.5 27B to 74.3%, against 73.3% for Resolved, 73.1% for Rule filter and 72.7% for Random, with no new search.</p>
 </div>
 <div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #E21500;">Seed comparison</span>
 <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Handwritten vs. blank seed</h3>
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">A blank seed achieves concordance comparable to a handwritten filter, without task-specific handwritten initialization.</p>
 </div>
 <div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #E21500;">Iteration series</span>
+<h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Concordance tracks utility</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">Across iterations 3, 6, 9 and final, selection concordance rises 0.845 → 0.912 and held-out test concordance 0.830 → 0.896, while SWE-bench Verified rises overall from 62.4% to 64.0%.</p>
+</div>
+<div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #E21500;">Feedback cost</span>
 <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Cheaper feedback</h3>
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">$191 to evaluate 45 candidates by pairwise judgment, against $659 for 3 candidates evaluated by training (CurateEvo).</p>
 </div>
