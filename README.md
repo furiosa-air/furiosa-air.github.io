@@ -8,6 +8,7 @@ Static site for FuriosaAI AI Research (AIR) project pages (no build step).
 - `shared/notice-banner.js` — site-wide notice banner (e.g. hiring) loaded by every project page;
   edit its `NOTICE` text/link once to update all pages
 - `<project>/` — one self-contained project page per folder:
+  - `metacurate/` → https://furiosa-air.github.io/metacurate/
   - `parallelbench/` → https://furiosa-air.github.io/parallelbench/ (imported from
     `parallelbench/parallelbench.github.io` at commit `7b93009`; root-absolute links and
     `<base href>` were rewritten to `/parallelbench/`)
