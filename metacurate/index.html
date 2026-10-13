@@ -17,13 +17,18 @@
 body{margin:0}
 a{color:#151515}a:hover{color:#B01500}
 html{scroll-behavior:smooth}
-@media (max-width: 959px){.author-break{display:none}}
+@media (max-width: 959px){.author-break,.desktop-break{display:none}}
 .section-heading-link{position:relative;display:inline-block;color:inherit;text-decoration:none}
 .section-heading-link:hover{color:inherit}
 .section-heading-link__icon{position:absolute;top:50%;left:100%;margin-left:10px;display:flex;color:#7F7F7F;opacity:0;transform:translateY(-50%);transition:opacity .15s}
 h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .section-heading-link__icon{opacity:1}
 .section-heading-link:hover .section-heading-link__icon{color:#E21500}
 @media (hover: none), (max-width: 640px){.section-heading-link__icon{display:none}}
+.method-steps{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width: 899px){.method-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width: 519px){.method-steps{grid-template-columns:minmax(0,1fr)}}
+.result-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width: 639px){.result-cards{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -39,7 +44,6 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 <nav aria-label="Sections" style="display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 14px; font-weight: 500;">
 <a href="#abstract" style="text-decoration: none; color: #444444; padding: 10px 0;">Abstract</a>
 <a href="#method" style="text-decoration: none; color: #444444; padding: 10px 0;">Method</a>
-<a href="#filter" style="text-decoration: none; color: #444444; padding: 10px 0;">Evolved filter</a>
 <a href="#results" style="text-decoration: none; color: #444444; padding: 10px 0;">Results</a>
 <a href="#dataset" style="text-decoration: none; color: #444444; padding: 10px 0;">Dataset</a>
 <a href="#citation" style="text-decoration: none; color: #444444; padding: 10px 0;">BibTeX</a>
@@ -69,7 +73,7 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 <section style="background: #FFFFFF;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 0 24px 64px; display: flex; flex-direction: column; gap: 16px;">
 <img src="static/images/figure_teaser.png" alt="Comparison of trajectory curation strategies: outcome-only filtering, a one-shot filter with no loop, train-and-validate search, and MetaCurate, which validates each filter revision with an LLM judge instead of training." style="display: block; width: 100%; height: auto;">
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444; text-align: center;"><strong style="color: #151515;">MetaCurate</strong> evolves an executable trajectory filter from pairwise LLM judgments, without training a model inside the search loop.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444; text-align: center; text-wrap: balance;"><strong style="color: #151515;">Four ways to select agent trajectories for SFT:</strong> (a)&nbsp;outcome-only filtering, (b)&nbsp;a filter designed once with no loop, (c)&nbsp;a loop that validates each filter by training, and (d)&nbsp;MetaCurate, a loop that validates each filter with an LLM judge, without training a model.</p>
 </div>
 </section>
 
@@ -114,103 +118,39 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 <div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 40px;">
 <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
 <h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#method" class="section-heading-link">Method<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
-<p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">A filter is an executable scorer. Each iteration, a coding-agent proposer revises it from misranked pairs and judge rationales; a revision is promoted only when it agrees with the judge on fixed selection pairs by more than expected noise.</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #444444; text-wrap: balance;">MetaCurate uses pairwise judge preferences as supervision, transferring comparison feedback into a reusable pointwise filter. Once fixed, the filter scores the full pool without further pairwise judgments.</p>
 </div>
 
 <img src="static/images/figure_method.png" alt="The MetaCurate loop: propose filters, score data, pairwise evaluation, and rank, persist and repeat." style="display: block; width: 100%; height: auto; box-sizing: border-box; padding: clamp(12px, 3vw, 32px); background: #FFFFFF; border: 1px solid #D4D4D4;">
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px;">
+<div class="method-steps" style="display: grid; gap: 12px;">
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; padding: 24px 22px; display: flex; flex-direction: column; gap: 10px;">
 <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.12em; color: #E21500;">STEP 1</span>
 <h3 style="margin: 0; font-size: 19px; font-weight: 700; color: #151515;">Propose filters</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">The proposer reads the run history, drafts candidates that each change one mechanism, and probes them on exploration trajectories.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">The proposer revises the current filter from misranked pairs and judge rationales, probing each draft on exploration trajectories.</p>
 </div>
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; padding: 24px 22px; display: flex; flex-direction: column; gap: 10px;">
 <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.12em; color: #E21500;">STEP 2</span>
 <h3 style="margin: 0; font-size: 19px; font-weight: 700; color: #151515;">Score data</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">A solver applies each candidate to sampled trajectories, giving every trajectory a score in [0, 100].</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">The solver scores each sampled trajectory with every candidate filter.</p>
 </div>
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; padding: 24px 22px; display: flex; flex-direction: column; gap: 10px;">
 <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.12em; color: #E21500;">STEP 3</span>
 <h3 style="margin: 0; font-size: 19px; font-weight: 700; color: #151515;">Pairwise evaluation</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">An LLM judge picks the more useful SFT example in each pair, in both AB and BA order; only consistent verdicts are kept.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">The judge compares trajectory pairs in both orders and keeps only order-consistent preferences.</p>
 </div>
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; padding: 24px 22px; display: flex; flex-direction: column; gap: 10px;">
 <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.12em; color: #E21500;">STEP 4</span>
-<h3 style="margin: 0; font-size: 19px; font-weight: 700; color: #151515;">Rank and persist</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">Candidates are ranked by concordance with the judge. The best is promoted; scores, verdicts and rationales go to the run directory.</p>
+<h3 style="margin: 0; font-size: 19px; font-weight: 700; color: #151515;">Rank &amp; persist</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">A candidate is promoted only if it improves agreement with the judge on fixed selection pairs by more than expected scoring noise.</p>
 </div>
 </div>
 
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; padding: 28px; display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
-<p style="margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #444444;">Search objective</p>
-<p style="margin: 0; font-size: 26px; line-height: 1.3; color: #151515; font-family: 'Times New Roman', serif;"><i>C</i><sub>F</sub>(<i>P</i>) = <span style="font-size: 21px;">1⁄|<i>P</i>|</span> Σ<sub style="font-size: 14px;">(x≻y)∈P</sub> κ<sub>F</sub>(<i>x</i>, <i>y</i>)</p>
-<p style="margin: 0; max-width: 64ch; font-size: 15px; line-height: 1.55; color: #444444;">κ is 1 when the filter scores the judge-preferred trajectory higher, ½ for a tie, 0 otherwise. Selection pairs are hidden from the proposer, so a revision is never judged on the examples that prompted it.</p>
-</div>
-</div>
-</section>
-
-<!-- Evolved filter example (placeholder) -->
-<section id="filter" style="background: #FFFFFF;">
-<div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 32px;">
-<div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
-<h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#filter" class="section-heading-link">What the evolved filter looks like<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
-<p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">The final blank-seed filter after [N] iterations, as three files. Excerpts below; the full filter is in the repository.</p>
-</div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
-
-<div style="border: 1px solid #D4D4D4; display: flex; flex-direction: column; min-width: 0;">
-<div style="padding: 14px 18px; border-bottom: 1px solid #D4D4D4; display: flex; justify-content: space-between; align-items: baseline; gap: 12px;">
-<span style="font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: #151515;">rules.py</span>
-<span style="font-size: 12px; color: #444444;">[n] rules</span>
-</div>
-<div style="overflow-x: auto; background: #F4F4F4;">
-<pre style="margin: 0; padding: 18px; background: #F4F4F4; border: 0; border-radius: 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.65; color: #444444; white-space: pre;"># [RULE EXCERPT]
-def [rule_name](traj):
-    # e.g. flags repeated
-    # edit-and-test loops
-    ...
-    return [score]</pre>
-</div>
-<p style="margin: 0; padding: 14px 18px; font-size: 14px; line-height: 1.5; color: #444444;">[What this rule catches and why the proposer added it]</p>
-</div>
-
-<div style="border: 1px solid #D4D4D4; display: flex; flex-direction: column; min-width: 0;">
-<div style="padding: 14px 18px; border-bottom: 1px solid #D4D4D4; display: flex; justify-content: space-between; align-items: baseline; gap: 12px;">
-<span style="font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: #151515;">rubric.md</span>
-<span style="font-size: 12px; color: #444444;">[n] criteria, −2 to +2</span>
-</div>
-<div style="overflow-x: auto; background: #F4F4F4;">
-<pre style="margin: 0; padding: 18px; background: #F4F4F4; border: 0; border-radius: 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.65; color: #444444; white-space: pre;">## [Criterion name]
-+2  [anchor description]
-+1  [anchor description]
- 0  [anchor description]
--1  [anchor description]
--2  [anchor description]</pre>
-</div>
-<p style="margin: 0; padding: 14px 18px; font-size: 14px; line-height: 1.5; color: #444444;">[What this criterion measures that rules cannot]</p>
-</div>
-
-<div style="border: 1px solid #D4D4D4; display: flex; flex-direction: column; min-width: 0;">
-<div style="padding: 14px 18px; border-bottom: 1px solid #D4D4D4; display: flex; justify-content: space-between; align-items: baseline; gap: 12px;">
-<span style="font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: #151515;">policy.py</span>
-<span style="font-size: 12px; color: #444444;">score in [0, 100]</span>
-</div>
-<div style="overflow-x: auto; background: #F4F4F4;">
-<pre style="margin: 0; padding: 18px; background: #F4F4F4; border: 0; border-radius: 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.65; color: #444444; white-space: pre;">def score(rubric, rules):
-    # [AGGREGATION EXCERPT]
-    # weights, gates,
-    # penalties
-    ...
-    return [0..100]</pre>
-</div>
-<p style="margin: 0; padding: 14px 18px; font-size: 14px; line-height: 1.5; color: #444444;">[How rubric and rule signals are combined]</p>
-</div>
-
-</div>
-<div style="border: 1px dashed #7F7F7F; padding: 20px 22px; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline;">
-<span style="font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #151515;">Seed → final</span>
-<span style="flex: 1 1 320px; min-width: 0; font-size: 15px; line-height: 1.55; color: #444444;">[Optional: how the filter changed from the one generic seed criterion, e.g. criteria added, removed or merged across iterations]</span>
+<p style="margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #444444;">Concordance</p>
+<p style="margin: 0; max-width: 64ch; font-size: 15px; line-height: 1.55; color: #444444;">We evaluate each candidate filter by comparing its trajectory rankings with the judge’s pairwise preferences for SFT usefulness.</p>
+<p style="margin: 0; font-size: 26px; line-height: 1.3; color: #151515; font-family: 'Times New Roman', serif;"><i>C</i><sub><i>F</i></sub>(<i>P</i>) = <span style="font-size: 21px;">1⁄|<i>P</i>|</span> Σ<sub style="font-size: 14px;">(<i>x</i>≻<i>y</i>)∈<i>P</i></sub> κ<sub><i>F</i></sub>(<i>x</i>, <i>y</i>)</p>
+<p style="margin: 0; max-width: 64ch; font-size: 15px; line-height: 1.55; color: #444444;">Each filter <i>F</i> scores a trajectory <i>x</i> individually, producing <i>s</i><sub><i>F</i></sub>(<i>x</i>). For a judged pair (<i>x</i> ≻ <i>y</i>) in a preference set <i>P</i>, κ<sub><i>F</i></sub>(<i>x</i>, <i>y</i>) equals 1 if <i>s</i><sub><i>F</i></sub>(<i>x</i>) &gt; <i>s</i><sub><i>F</i></sub>(<i>y</i>), ½ for a tie, and 0 otherwise.</p>
 </div>
 </div>
 </section>
@@ -220,7 +160,7 @@ def [rule_name](traj):
 <div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 32px;">
 <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
 <h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#results" class="section-heading-link">Results<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
-<p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">Qwen 3.5 9B fine-tuned on 1,000 selected trajectories. SWE-bench Verified resolved rate (%), mean ± SD over three evaluations of each checkpoint.</p>
+<p style="margin: 0; max-width: 80ch; font-size: 17px; line-height: 1.6; color: #444444;">Qwen 3.5 9B fine-tuned on 1,000 selected trajectories.<br class="desktop-break"> SWE-bench Verified resolved rate&nbsp;(%), mean&nbsp;±&nbsp;SD over three evaluations of each checkpoint.</p>
 </div>
 <div style="overflow-x: auto; border-top: 2px solid #151515; border-bottom: 2px solid #151515;">
 <table style="width: 100%; min-width: 680px; border-collapse: collapse; font-size: 15px;">
@@ -247,20 +187,26 @@ def [rule_name](traj):
 </table>
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #444444; text-align: center; text-wrap: balance;"><strong style="color: #151515;">Training-free curation achieves the highest mean downstream scores.</strong> MetaCurate thus obtains the highest observed means among the compared methods on both pools without model training during filter search.</p>
+
+<div class="result-cards" style="display: grid; gap: 16px; padding-top: 32px; border-top: 1px solid #D4D4D4;">
 <div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-<h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Concordance tracks utility</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">Across iterations 3, 6, 9 and final, selection concordance rises 0.845 → 0.912 and held-out test concordance 0.830 → 0.896, while SWE-bench Verified rises overall from 62.4% to 64.0%.</p>
-</div>
-<div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #E21500;">Model scale</span>
 <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Transfers to 27B</h3>
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">The same subsets train Qwen 3.5 27B to 74.3%, against 73.3% for Resolved, 73.1% for Rule filter and 72.7% for Random, with no new search.</p>
 </div>
 <div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-<h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">No handwritten seed needed</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">A blank seed reaches 0.912 concordance against 0.916 for a six-criterion handwritten seed, and higher downstream scores on both pools.</p>
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #E21500;">Seed comparison</span>
+<h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Handwritten vs. blank seed</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">A blank seed achieves concordance comparable to a handwritten filter, without task-specific handwritten initialization.</p>
 </div>
 <div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #E21500;">Iteration series</span>
+<h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Concordance tracks utility</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">Across iterations 3, 6, 9 and final, selection concordance rises 0.845 → 0.912 and held-out test concordance 0.830 → 0.896, while SWE-bench Verified rises overall from 62.4% to 64.0%.</p>
+</div>
+<div style="border: 1px solid #D4D4D4; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #E21500;">Feedback cost</span>
 <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #151515;">Cheaper feedback</h3>
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">$191 to evaluate 45 candidates by pairwise judgment, against $659 for 3 candidates evaluated by training (CurateEvo).</p>
 </div>
@@ -268,33 +214,29 @@ def [rule_name](traj):
 </div>
 </section>
 
-<!-- Dataset card (placeholder) -->
+<!-- Dataset -->
 <section id="dataset" style="background: #F4F4F4; border-top: 1px solid #D4D4D4; border-bottom: 1px solid #D4D4D4;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 32px;">
 <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
 <h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#dataset" class="section-heading-link">Dataset<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
-<p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">We release the uncurated DSv4Pro trajectory pool used in the paper, so others can run and compare their own curation filters.</p>
+<p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">We generate and release a corpus of 4,286 coding-agent trajectories with DeepSeek V4 Pro from 1,415 instance IDs, designed to support experiments with a range of curation strategies.</p>
 </div>
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; display: flex; flex-wrap: wrap;">
 <div style="flex: 1 1 300px; min-width: 0; padding: 28px; border-right: 1px solid #D4D4D4; display: flex; flex-direction: column; gap: 16px;">
 <p style="margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #444444;">Dataset card</p>
-<h3 style="margin: 0; font-family: var(--font-mono); font-size: 18px; font-weight: 500; color: #151515; overflow-wrap: anywhere;">[org]/[dataset-name]</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">Coding-agent trajectories on real GitHub issues, generated with DeepSeek V4 Pro using mini-swe-agent.</p>
+<h3 style="margin: 0; font-size: 22px; font-weight: 700; color: #151515; overflow-wrap: anywhere;">DSv4Pro dataset</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">An uncurated pool of coding-agent trajectories for SFT. We aimed to collect three attempts per source instance.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto;">
 <a href="#" class="btn btn--secondary" style="text-decoration: none;">Hugging Face</a>
-<a href="#" class="btn btn--ghost" style="text-decoration: none;">Loading example</a>
 </div>
 </div>
 <div style="flex: 2 1 420px; min-width: 0;">
 <dl style="margin: 0; display: grid; grid-template-columns: minmax(120px, 0.6fr) minmax(0, 1.4fr);">
 <dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Trajectories</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">4,286</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Distinct issues</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">1,415 GitHub issue IDs</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Generator</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">DeepSeek V4 Pro + mini-swe-agent</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Task sources</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">[e.g. SWE-rebench, SWE-rebench v2, SWE-Gym]</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Fields</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-family: var(--font-mono); font-size: 13px; color: #444444;">[instance_id, messages, patch, resolved, …]</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Resolved rate</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">[XX.X%]</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Format / size</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">[Parquet / JSONL], [X GB]</dd>
-<dt style="padding: 14px 20px; font-size: 14px; font-weight: 700; color: #151515;">License</dt><dd style="margin: 0; padding: 14px 20px; font-size: 14px; color: #444444;">[LICENSE]</dd>
+<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Instance IDs</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">1,415</dd>
+<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Generator</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">DeepSeek V4 Pro + mini-swe-agent, temperature 0.7</dd>
+<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Task sources</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">SWE-rebench (690 instance IDs, 2,100 trajectories), SWE-rebench-V2 (531, 1,599), SWE-Gym (196, 587)</dd>
+<dt style="padding: 14px 20px; font-size: 14px; font-weight: 700; color: #151515;">Resolved rate</dt><dd style="margin: 0; padding: 14px 20px; font-size: 14px; color: #444444;">41.1% (1,760 trajectories pass both fail-to-pass and pass-to-pass tests)</dd>
 </dl>
 </div>
 </div>
