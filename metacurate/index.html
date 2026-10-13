@@ -214,18 +214,18 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 </div>
 </section>
 
-<!-- Dataset card (placeholder) -->
+<!-- Dataset -->
 <section id="dataset" style="background: #F4F4F4; border-top: 1px solid #D4D4D4; border-bottom: 1px solid #D4D4D4;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 32px;">
 <div style="display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center;">
 <h2 style="margin: 0; font-size: 32px; font-weight: 700; line-height: 1.15; color: #151515;"><a href="#dataset" class="section-heading-link">Dataset<span class="section-heading-link__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg></span></a></h2>
-<p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">We release the uncurated DSv4Pro trajectory pool used in the paper, so others can run and compare their own curation filters.</p>
+<p style="margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.6; color: #444444;">We generate and release a corpus of 4,286 coding-agent trajectories with DeepSeek V4 Pro from 1,415 instance IDs, designed to support experiments with a range of curation strategies.</p>
 </div>
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; display: flex; flex-wrap: wrap;">
 <div style="flex: 1 1 300px; min-width: 0; padding: 28px; border-right: 1px solid #D4D4D4; display: flex; flex-direction: column; gap: 16px;">
 <p style="margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #444444;">Dataset card</p>
-<h3 style="margin: 0; font-size: 22px; font-weight: 700; color: #151515; overflow-wrap: anywhere;">DSv4Pro trajectory pool</h3>
-<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">Uncurated coding-agent trajectories on real GitHub issues, generated with DeepSeek V4 Pro using mini-swe-agent. About three attempts per instance, kept regardless of outcome.</p>
+<h3 style="margin: 0; font-size: 22px; font-weight: 700; color: #151515; overflow-wrap: anywhere;">DSv4Pro dataset</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444;">An uncurated pool of coding-agent trajectories for SFT. We aimed to collect three attempts per source instance.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto;">
 <a href="#" class="btn btn--secondary" style="text-decoration: none;">Hugging Face</a>
 </div>
@@ -233,9 +233,9 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 <div style="flex: 2 1 420px; min-width: 0;">
 <dl style="margin: 0; display: grid; grid-template-columns: minmax(120px, 0.6fr) minmax(0, 1.4fr);">
 <dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Trajectories</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">4,286</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Distinct issues</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">1,415 GitHub issue IDs</dd>
+<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Instance IDs</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">1,415</dd>
 <dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Generator</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">DeepSeek V4 Pro + mini-swe-agent, temperature 0.7</dd>
-<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Task sources</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">SWE-rebench (690 issues, 2,100 trajectories), SWE-rebench-V2 (531, 1,599), SWE-Gym (196, 587)</dd>
+<dt style="padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; font-weight: 700; color: #151515;">Task sources</dt><dd style="margin: 0; padding: 14px 20px; border-bottom: 1px solid #D4D4D4; font-size: 14px; color: #444444;">SWE-rebench (690 instance IDs, 2,100 trajectories), SWE-rebench-V2 (531, 1,599), SWE-Gym (196, 587)</dd>
 <dt style="padding: 14px 20px; font-size: 14px; font-weight: 700; color: #151515;">Resolved rate</dt><dd style="margin: 0; padding: 14px 20px; font-size: 14px; color: #444444;">41.1% (1,760 trajectories pass both fail-to-pass and pass-to-pass tests)</dd>
 </dl>
 </div>
