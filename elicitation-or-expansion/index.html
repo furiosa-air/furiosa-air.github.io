@@ -90,7 +90,10 @@
     <div class="section__head">
       <p class="eyebrow">01 · Background</p>
       <h2>Same weights.<br><span class="muted">Wider reach?</span></h2>
-      <p class="section__lede"><span class="s">Harness optimization rewrites the code around a fixed model, including its prompts, context, tool use, and execution logic, and reports large gains.</span><span class="s">A higher success rate can mean two different things.</span></p>
+      <p class="section__lede">
+        <span class="s">Harness optimization rewrites the code around a fixed model, </span>
+        <span class="s">including its prompts, context, tool use, and execution logic, and reports large gains.</span>
+        <span class="s">A higher success rate can mean two different things.</span></p>
     </div>
     <figure class="fig">
       <div class="schematic-grid">
@@ -158,7 +161,12 @@
         <span class="s">Per-task success probability for eight hypothetical tasks; black ticks mark the baseline.</span><span class="s"><strong>Elicitation</strong> makes tasks already within reach more reliable.</span><span class="s"><strong>Expansion</strong> adds successes on tasks with no baseline success, broadening coverage.</span>
       </figcaption>
     </figure>
-    <p class="section__lede section__lede--center"><span class="s">The difference matters for methods that learn from their own successes, such as self-training and recursive self-improvement.</span><span class="s">For them, even rare successes on previously unreachable tasks can seed further search or learning.</span></p>
+    <p class="section__lede section__lede--center">
+      <span class="s">The difference matters for methods that learn from their own successes, </span>
+      <span class="s">such as self-training and recursive self-improvement.</span>
+      <span class="s">For them, even rare successes on previously unreachable tasks</span>
+      <span class="s">can seed further search or learning.</span>
+    </p>
   </div>
 </section>
 
@@ -168,7 +176,10 @@
     <div class="section__head">
       <p class="eyebrow">02 · The lens</p>
       <h2>A lens from RL.<br><span class="muted">Now on harness optimization.</span></h2>
-      <p class="section__lede"><span class="s">RL studies compare models before and after training with pass@k: pass@1 gains can shrink or reverse at larger sampling budgets (<a href="https://openreview.net/forum?id=4OsgYD7em5">Yue et al., 2025</a>).</span><span class="s">We bring the same analysis to harnesses, with three comparisons.</span></p>
+      <p class="section__lede">
+        <span class="s">RL studies compare models before and after training with pass@k: </span>
+        <span class="s">pass@1 gains can shrink or reverse at larger sampling budgets (<a href="https://openreview.net/forum?id=4OsgYD7em5">Yue et al., 2025</a>).</span>
+        <span class="s">We bring the same analysis to harnesses, with three comparisons.</span></p>
     </div>
     <div class="grid grid--steps">
       <div class="card"><span class="card__step">Step 1</span><h3>Across attempt budgets</h3><p>pass@1 measures reliability; pass@k, the expected share of tasks solved at least once in k attempts, measures coverage.</p></div>
@@ -219,7 +230,8 @@
             <figcaption>
               <span class="tag">Measured · 64 attempts per task (text), 128 (HotpotQA, AppWorld)</span>
               <span class="js-only s">Pick a benchmark and drag the budget.</span>
-              <span class="s">Each red curve is a harness selected by one optimization run; the dashed curve keeps the baseline harness with a larger model (text, HotpotQA) or higher reasoning effort (AppWorld).</span>
+              <span class="s">Each red curve is a harness selected by one optimization run;</span>
+              <span class="s">the dashed curve keeps the baseline harness with a larger model (text, HotpotQA) or higher reasoning effort (AppWorld).</span>
             </figcaption>
           </figure>
     <div class="section__head section__head--sub">
