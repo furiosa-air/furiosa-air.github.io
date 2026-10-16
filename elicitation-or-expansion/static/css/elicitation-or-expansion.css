@@ -148,8 +148,10 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .ex-strata[hidden] { display: none; }
 
 .ex-body { display: grid; gap: 16px; margin-top: 16px; }
+/* A narrower plot keeps the curves' shape readable on the log-scaled k axis. */
+.ex-chart { width: 100%; max-width: 28rem; justify-self: center; }
 @media (min-width: 900px) {
-  .ex-body { grid-template-columns: minmax(0, 1fr) 16rem; align-items: start; }
+  .ex-body { grid-template-columns: minmax(0, 28rem) 16rem; justify-content: center; align-items: start; gap: 40px; }
 }
 .ex-chart svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
 .ex-grid { stroke: #ECECEC; stroke-width: 1; }
@@ -166,8 +168,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .ex-dot-baseline { fill: var(--hp-base); }
 .ex-dot-optimized { fill: var(--hp-opt); }
 .ex-dot-reference { fill: var(--hp-ref); }
-.ex-cross { fill: none; stroke: var(--hp-opt); stroke-width: 1.5; }
-.ex-cross-label { font: 700 11px var(--font-sans); fill: var(--hp-opt); text-anchor: middle; }
 
 .ex-readout { font-size: 14px; }
 .ex-readout ul { margin: 6px 0 0; padding: 0; list-style: none; }
