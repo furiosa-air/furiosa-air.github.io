@@ -31,7 +31,6 @@ numbers change; after the arXiv release they stay fixed.
 
 - Publish together with the arXiv release; nothing in this folder should be pushed before then.
 - Replace every `href="#"` (arXiv, Code, Dataset) with a real link, or delete the button.
-- Resolve every element marked `data-todo` (arXiv ID in the BibTeX):
-  `grep -n 'data-todo\|href="#"' index.html`.
+- Fill in the arXiv ID in the BibTeX: `grep -n 'arXiv:TODO\|href="#"' index.html`.
 - After deploying, check that the `og:image` URL opens (the social preview is `static/images/social_preview.png`).
 - `static/fonts/` holds ABC Favorit (commercial, Dinamo), as on the other project pages.

@@ -20,8 +20,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   outline-offset: 2px;
 }
 
-/* Draft placeholders: every element with data-todo must be resolved before release. */
-[data-todo] { background: #FFF4C2; outline: 1px dashed #C9A400; outline-offset: 2px; }
 
 /* As on the MetaCurate page, headings stay centered while body paragraphs sit in an
    800px column, justified with automatic hyphenation. */
