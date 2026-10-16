@@ -113,7 +113,7 @@
 
     var body = el('div', { class: 'ex-body' }, widget);
     var chartWrap = el('div', { class: 'ex-chart' }, body);
-    this.svg = svgEl('svg', { viewBox: '0 0 640 340', role: 'img' }, chartWrap);
+    this.svg = svgEl('svg', { viewBox: '0 0 440 380', role: 'img' }, chartWrap);
     this.chartWrap = chartWrap;
     this.readout = el('div', { class: 'ex-readout', 'aria-live': 'polite' }, body);
 
@@ -159,7 +159,7 @@
   };
 
   Explorer.prototype.isNarrow = function () {
-    return this.chartWrap.clientWidth < 520;
+    return this.chartWrap.clientWidth < 400;
   };
 
   Explorer.prototype.kFromSlider = function () {
@@ -203,7 +203,7 @@
     var svg = this.svg;
     while (svg.firstChild) svg.removeChild(svg.firstChild);
     var narrow = this.isNarrow();
-    var W = narrow ? 360 : 640, H = narrow ? 300 : 340;
+    var W = narrow ? 360 : 440, H = narrow ? 300 : 380;
     var L = narrow ? 42 : 56, R = W - (narrow ? 14 : 24), T = 16, Bt = H - 50;
     this.geom = { L: L, R: R, W: W, narrow: narrow };
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
@@ -225,20 +225,6 @@
     this.arms.slice().sort(function (a, b) { return order[a.role] - order[b.role]; }).forEach(function (a) {
       var d = a.curve.map(function (val, i) { return (i ? 'L' : 'M') + x(i + 1).toFixed(1) + ',' + y(val).toFixed(1); }).join(' ');
       svgEl('path', { class: 'ex-line ex-' + a.role, d: d }, svg);
-    });
-
-    // Where an optimized curve that starts above the reference first falls below it.
-    var ref = this.arms.filter(function (a) { return a.role === 'reference'; })[0];
-    this.arms.forEach(function (a) {
-      if (a.role !== 'optimized' || a.curve[0] <= ref.curve[0]) return;
-      for (var i = 1; i < K; i++) {
-        if (a.curve[i] < ref.curve[i]) {
-          svgEl('circle', { class: 'ex-cross', cx: x(i + 1), cy: y(a.curve[i]), r: 6 }, svg);
-          svgEl('text', { class: 'ex-cross-label', x: x(i + 1), y: y(a.curve[i]) + 20,
-            text: 'k = ' + (i + 1) + (a.run ? ' (run ' + a.run + ')' : '') }, svg);
-          break;
-        }
-      }
     });
 
     var cx = x(this.k);
