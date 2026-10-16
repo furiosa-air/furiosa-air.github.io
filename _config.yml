@@ -5,3 +5,4 @@ exclude:
   - README.md
   - metacurate/README.md
   - parallelbench/README.md
+  - elicitation-or-expansion/README.md

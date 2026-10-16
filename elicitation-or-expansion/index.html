@@ -1,0 +1,336 @@
+<!doctype html>
+<!-- FuriosaAI AI Research (AIR) project page, built from _templates/project-page.
+     static/figures/ and static/data/ are generated from the paper's evidence;
+     see README.md before editing them by hand. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elicitation or Expansion? Demystifying Gains from Agent Harness Optimization</title>
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="description" content="A pass@k analysis of agent harness optimization: on HotpotQA and AppWorld, selected optimized harnesses approach larger models or higher reasoning effort in aggregate, but never surpass them on hard tasks at any evaluated attempt budget.">
+<link rel="canonical" href="https://furiosa-air.github.io/elicitation-or-expansion/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Elicitation or Expansion? Demystifying Gains from Agent Harness Optimization">
+<meta property="og:description" content="A pass@k analysis of agent harness optimization across attempt budgets, stronger interventions, and task difficulty.">
+<meta property="og:url" content="https://furiosa-air.github.io/elicitation-or-expansion/">
+<meta property="og:image" content="https://furiosa-air.github.io/elicitation-or-expansion/static/images/social_preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Close in aggregate. Never ahead on hard tasks. HotpotQA pass@k curves for Qwen3-8B with optimized harnesses and Qwen3-32B.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://furiosa-air.github.io/elicitation-or-expansion/static/images/social_preview.png">
+<link rel="stylesheet" href="static/css/colors_and_type.css">
+<link rel="stylesheet" href="static/css/project.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="static/css/elicitation-or-expansion.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+
+<!-- ============ Header ============ -->
+<header class="topbar">
+  <div class="container topbar__inner">
+    <a class="brand" href="https://furiosa.ai/research" aria-label="FuriosaAI AI Research (AIR)">
+      <img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI">
+      <span>AI Research</span>
+    </a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#background">Background</a>
+      <a href="#lens">Lens</a>
+      <a href="#budgets">Findings</a>
+      <a href="#citation">BibTeX</a>
+    </nav>
+  </div>
+</header>
+<script src="/shared/notice-banner.js"></script>
+
+<main id="top">
+
+<!-- ============ Hero ============ -->
+<section class="container hero">
+  <p class="eyebrow">Preprint · 2026</p>
+  <h1>Elicitation or Expansion?</h1>
+  <p class="hero__subtitle">Demystifying Gains from Agent Harness Optimization</p>
+  <div class="hero__people">
+    <p class="hero__authors">
+      Younghyun&nbsp;Kim<sup>1*</sup>,
+      Wooseok&nbsp;Seo<sup>2*</sup>,
+      Minseo&nbsp;Kim<sup>3</sup>,
+      Seunghyuk&nbsp;Oh<sup>1</sup>,
+      Minjae&nbsp;Lee<sup>1</sup>,
+      Donghoon&nbsp;Kim<sup>1</sup>,
+      Hyung&nbsp;Il&nbsp;Koo<sup>1</sup>,
+      Jaehyung&nbsp;Kim<sup>2</sup>,
+      Wonjun&nbsp;Kang<sup>1</sup>
+    </p>
+    <p class="hero__affiliations">
+      <span><sup>1</sup>FuriosaAI</span>
+      <span><sup>2</sup>Yonsei University</span>
+      <span><sup>3</sup>University of California, Berkeley</span>
+      <span><sup>*</sup>Equal contribution</span>
+    </p>
+  </div>
+  <div class="hero__links">
+    <a href="#" class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M14 3H6v18h12V7z"></path><path d="M14 3v4h4"></path><path d="M9 13h6M9 17h6"></path></svg>arXiv</a>
+    <a href="#" class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M8 7l-5 5 5 5"></path><path d="M16 7l5 5-5 5"></path></svg>Code</a>
+    <a href="#" class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg>Dataset</a>
+  </div>
+  <p class="hero__lead">We bring <span class="text-core">pass@k analysis</span> to agent harness optimization.</p>
+</section>
+
+<!-- ============ 01 Background ============ -->
+<section id="background" class="section section--ruled">
+  <div class="container section__inner">
+    <div class="section__head">
+      <p class="eyebrow">01 · Background</p>
+      <h2>Same weights.<br><span class="muted">Wider reach?</span></h2>
+      <p class="section__lede"><span class="s">Harness optimization rewrites the code around a fixed model, including its prompts, context, tool use, and execution logic, and reports large gains.</span><span class="s">A higher success rate can mean two different things.</span></p>
+    </div>
+    <figure class="fig">
+      <div class="schematic-grid">
+              <svg class="schematic" viewBox="0 0 220 190" role="img" aria-label="Illustrative baseline: six of eight hypothetical tasks have some chance of success.">
+                <text class="s-title" x="18" y="18">Baseline H₀</text>
+                <line class="s-axis" x1="12" y1="140" x2="210" y2="140" />
+                <line class="s-grid" x1="12" y1="40" x2="210" y2="40" />
+                <rect class="s-base" x="18" y="48.0" width="18" height="92.0" />
+                <rect class="s-base" x="42" y="68.0" width="18" height="72.0" />
+                <rect class="s-base" x="66" y="88.0" width="18" height="52.0" />
+                <rect class="s-base" x="90" y="106.0" width="18" height="34.0" />
+                <rect class="s-base" x="114" y="122.0" width="18" height="18.0" />
+                <rect class="s-base" x="138" y="132.0" width="18" height="8.0" />
+                <text class="s-zero" x="171.0" y="136">0</text>
+                <text class="s-zero" x="195.0" y="136">0</text>
+                <text class="s-label" x="12" y="156">tasks →</text>
+                <text class="s-sub" x="12" y="176">Coverage: 6 of 8 tasks</text>
+              </svg>
+              <svg class="schematic" viewBox="0 0 220 190" role="img" aria-label="Illustrative elicitation: success rises on the same six tasks; the two tasks with no baseline success remain at zero.">
+                <text class="s-title" x="18" y="18">Elicitation</text>
+                <line class="s-axis" x1="12" y1="140" x2="210" y2="140" />
+                <line class="s-grid" x1="12" y1="40" x2="210" y2="40" />
+                <rect class="s-opt" x="18" y="40.0" width="18" height="100.0" />
+                <line class="s-tick" x1="16" y1="48" x2="38" y2="48" />
+                <rect class="s-opt" x="42" y="44.0" width="18" height="96.0" />
+                <line class="s-tick" x1="40" y1="68" x2="62" y2="68" />
+                <rect class="s-opt" x="66" y="54.0" width="18" height="86.0" />
+                <line class="s-tick" x1="64" y1="88" x2="86" y2="88" />
+                <rect class="s-opt" x="90" y="70.0" width="18" height="70.0" />
+                <line class="s-tick" x1="88" y1="106" x2="110" y2="106" />
+                <rect class="s-opt" x="114" y="90.0" width="18" height="50.0" />
+                <line class="s-tick" x1="112" y1="122" x2="134" y2="122" />
+                <rect class="s-opt" x="138" y="110.0" width="18" height="30.0" />
+                <line class="s-tick" x1="136" y1="132" x2="158" y2="132" />
+                <text class="s-zero" x="171.0" y="136">0</text>
+                <text class="s-zero" x="195.0" y="136">0</text>
+                <text class="s-label" x="12" y="156">tasks →</text>
+                <text class="s-sub" x="12" y="176">Coverage: still 6 of 8</text>
+              </svg>
+              <svg class="schematic" viewBox="0 0 220 190" role="img" aria-label="Illustrative expansion: the two tasks with no baseline success gain nonzero success probability.">
+                <text class="s-title" x="18" y="18">Expansion</text>
+                <line class="s-axis" x1="12" y1="140" x2="210" y2="140" />
+                <line class="s-grid" x1="12" y1="40" x2="210" y2="40" />
+                <rect class="s-opt" x="18" y="48.0" width="18" height="92.0" />
+                <line class="s-tick" x1="16" y1="48" x2="38" y2="48" />
+                <rect class="s-opt" x="42" y="68.0" width="18" height="72.0" />
+                <line class="s-tick" x1="40" y1="68" x2="62" y2="68" />
+                <rect class="s-opt" x="66" y="88.0" width="18" height="52.0" />
+                <line class="s-tick" x1="64" y1="88" x2="86" y2="88" />
+                <rect class="s-opt" x="90" y="104.0" width="18" height="36.0" />
+                <line class="s-tick" x1="88" y1="106" x2="110" y2="106" />
+                <rect class="s-opt" x="114" y="118.0" width="18" height="22.0" />
+                <line class="s-tick" x1="112" y1="122" x2="134" y2="122" />
+                <rect class="s-opt" x="138" y="128.0" width="18" height="12.0" />
+                <line class="s-tick" x1="136" y1="132" x2="158" y2="132" />
+                <rect class="s-opt" x="162" y="124.0" width="18" height="16.0" />
+                <rect class="s-opt" x="186" y="132.0" width="18" height="8.0" />
+                <text class="s-new" x="183.0" y="114.0">new</text>
+                <text class="s-label" x="12" y="156">tasks →</text>
+                <text class="s-sub" x="12" y="176">Coverage: 8 of 8 tasks</text>
+              </svg>
+            </div>
+      <figcaption>
+        <span class="tag tag-illustrative">Illustrative</span>
+        <span class="s">Per-task success probability for eight hypothetical tasks; black ticks mark the baseline.</span><span class="s"><strong>Elicitation</strong> makes tasks already within reach more reliable.</span><span class="s"><strong>Expansion</strong> adds successes on tasks with no baseline success, broadening coverage.</span>
+      </figcaption>
+    </figure>
+    <p class="section__lede section__lede--center"><span class="s">The difference matters for methods that learn from their own successes, such as self-training and recursive self-improvement.</span><span class="s">For them, even rare successes on previously unreachable tasks can seed further search or learning.</span></p>
+  </div>
+</section>
+
+<!-- ============ 02 The lens ============ -->
+<section id="lens" class="section section--muted">
+  <div class="container section__inner">
+    <div class="section__head">
+      <p class="eyebrow">02 · The lens</p>
+      <h2>A lens from RL.<br><span class="muted">Now on harness optimization.</span></h2>
+      <p class="section__lede"><span class="s">RL studies compare models before and after training with pass@k: pass@1 gains can shrink or reverse at larger sampling budgets (<a href="https://openreview.net/forum?id=4OsgYD7em5">Yue et al., 2025</a>).</span><span class="s">We bring the same analysis to harnesses, with three comparisons.</span></p>
+    </div>
+    <div class="grid grid--steps">
+      <div class="card"><span class="card__step">Step 1</span><h3>Across attempt budgets</h3><p>pass@1 measures reliability; pass@k, the expected share of tasks solved at least once in k attempts, measures coverage.</p></div>
+      <div class="card"><span class="card__step">Step 2</span><h3>Against stronger interventions</h3><p>The baseline harness with a larger model or higher reasoning effort.</p></div>
+      <div class="card"><span class="card__step">Step 3</span><h3>By task difficulty</h3><p>Using the benchmarks' own difficulty labels for HotpotQA and AppWorld.</p></div>
+    </div>
+    <ul class="bench-chips" aria-label="Benchmarks">
+      <li><strong>Text classification</strong> GPT-OSS-20B vs. 120B</li>
+      <li><strong>HotpotQA</strong> Qwen3-8B vs. 32B</li>
+      <li><strong>AppWorld</strong> GPT-OSS-120B, medium vs. high effort</li>
+    </ul>
+    <details class="details">
+      <summary>The estimator, precisely</summary>
+      <div class="callout">
+        <p class="callout__label">pass@k estimator</p>
+        <div class="callout__math">\[
+          \widehat{\mathrm{pass@}k} \;=\; \frac{1}{N}\sum_{i=1}^{N}\left[\,1-\binom{n-c_i}{k}\Big/\binom{n}{k}\right], \qquad 1 \le k \le n
+        \]</div>
+        <p><span class="s">Each of the \(N\) tasks is attempted \(n\) times, and \(c_i\) counts the successes on task \(x_i\).</span><span class="s">An attempt is one complete execution, including every model call and tool interaction; \(n\) is 64 for text classification and 128 for HotpotQA and AppWorld (planned attempts for AppWorld, where missing attempts count as failures).</span><span class="s">Success is scored by binary correctness for text classification, answer containment confirmed by an LLM judge for HotpotQA, and arity-fixed task goal completion for AppWorld.</span><span class="s">Harnesses are optimized with <a href="https://openreview.net/forum?id=tmbOUyFx3R">Meta-Harness</a>.</span></p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 03 Across budgets ============ -->
+<section id="budgets" class="section">
+  <div class="container section__inner">
+    <div class="section__head">
+      <p class="eyebrow">03 · Across budgets</p>
+      <h2>A first-try lead<br><span class="muted">need not be a coverage lead.</span></h2>
+      <p class="section__lede"><span class="s">On LawBench, the optimized 20B harness leads the 120B model by 16.05 pp at pass@1, but falls behind from \(k = 11\).</span><span class="s">On all three text benchmarks, it ends below the 120B model at pass@64.</span></p>
+    </div>
+    <figure class="fig" id="fig-comparison" data-explorer data-views="Symptom2Disease,LawBench,USPTO,hotpotqa,appworld" data-default-view="LawBench">
+            <div class="static-fallback">
+            <img src="static/figures/task_comparison/legend.png" alt="Legend: base solver with H0 (solid black), base solver with H* (red), reference with H0 (dashed)." class="mx-auto w-full max-w-md" width="2041" height="114" />
+            <p class="panel-group mt-5">Static · text classification <span>GPT-OSS-20B vs 120B · k ≤ 64</span></p>
+            <div class="panels panels-3 mt-2">
+              <div class="panel"><p class="panel-title">Symptom2Disease</p><img src="static/figures/text_classification/symptom2disease.png" alt="pass@k curves on Symptom2Disease." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">LawBench</p><img src="static/figures/text_classification/lawbench.png" alt="pass@k curves on LawBench; the optimized 20B harness leads the 120B reference at small k and falls below it at large k." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">USPTO</p><img src="static/figures/text_classification/uspto.png" alt="pass@k curves on USPTO." width="1200" height="1005" /></div>
+            </div>
+            <p class="panel-group mt-6">Dynamic <span>HotpotQA: Qwen3-8B vs 32B · AppWorld: medium vs high effort · k ≤ 128</span></p>
+            <div class="panels panels-3 mt-2">
+              <div class="panel"><p class="panel-title">HotpotQA</p><img src="static/figures/hotpotqa/all.png" alt="pass@k curves on HotpotQA, all questions." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">AppWorld</p><img src="static/figures/appworld/all.png" alt="pass@k curves on AppWorld, all tasks." width="1200" height="1005" /></div>
+            </div>
+            </div>
+            <figcaption>
+              <span class="tag">Measured · 64 attempts per task (text), 128 (HotpotQA, AppWorld)</span>
+              <span class="js-only s">Pick a benchmark and drag the budget.</span>
+              <span class="s">Each red curve is a harness selected by one optimization run; the dashed curve keeps the baseline harness with a larger model (text, HotpotQA) or higher reasoning effort (AppWorld).</span>
+            </figcaption>
+          </figure>
+    <div class="section__head section__head--sub">
+      <h3>Text classification: mostly elicitation.</h3>
+      <p class="section__lede"><span class="s">Optimization mostly makes existing successes more frequent.</span><span class="s">On LawBench, it keeps 49 of the 53 tasks the baseline solves within 64 attempts, loses 4, and newly solves 7.</span></p>
+    </div>
+    <figure class="fig" id="fig-outcomes" data-outcomes data-default-dataset="LawBench">
+            <div class="static-fallback">
+            <img src="static/figures/text_classification_difficulty/legend.png" alt="Legend: GPT-OSS-20B with H0 (hatched gray) and with H* (red)." class="mx-auto w-full max-w-xl" width="2700" height="126" />
+            <div class="panels panels-3 mt-3">
+              <div class="panel"><p class="panel-title">Symptom2Disease</p><img src="static/figures/text_classification_difficulty/symptom2disease.png" alt="Distribution of per-task success fractions on Symptom2Disease." width="1200" height="840" /></div>
+              <div class="panel"><p class="panel-title">LawBench</p><img src="static/figures/text_classification_difficulty/lawbench.png" alt="Distribution of per-task success fractions on LawBench." width="1200" height="840" /></div>
+              <div class="panel"><p class="panel-title">USPTO</p><img src="static/figures/text_classification_difficulty/uspto.png" alt="Distribution of per-task success fractions on USPTO." width="1200" height="840" /></div>
+            </div>
+            </div>
+            <figcaption>
+              <span class="tag">Measured · GPT-OSS-20B · 64 attempts per task</span>
+              <span class="s">Tasks grouped by how many of their 64 attempts succeeded.</span>
+            </figcaption>
+          </figure>
+  </div>
+</section>
+
+<!-- ============ 04 Key finding ============ -->
+<section id="difficulty" class="section section--muted">
+  <div class="container section__inner">
+    <div class="section__head">
+      <p class="eyebrow">04 · Key finding · Task difficulty</p>
+      <h2>Close in aggregate.<br><span class="muted">Never ahead on hard tasks.</span></h2>
+      <p class="section__lede"><span class="s">On HotpotQA and AppWorld, the selected optimized harnesses approach or exceed a larger model or higher reasoning effort across all tasks.</span><span class="s">On the hard subsets, none exceeds it at any evaluated budget up to 128 attempts.</span></p>
+    </div>
+    <figure class="fig" id="fig-difficulty" data-explorer data-strata data-views="hotpotqa,appworld" data-default-view="hotpotqa" data-default-stratum="hard">
+            <div class="static-fallback">
+            <p class="panel-group">HotpotQA</p>
+            <img src="static/figures/hotpotqa/legend.png" alt="Legend: Qwen3-8B with H0 (solid black), Qwen3-8B with H* (red), Qwen3-32B with H0 (dashed)." class="mx-auto w-full max-w-2xl" width="2700" height="126" />
+            <div class="panels panels-4 mt-3">
+              <div class="panel"><p class="panel-title">All tasks</p><img src="static/figures/hotpotqa/all.png" alt="HotpotQA pass@k, all questions." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">Easy</p><img src="static/figures/hotpotqa/easy.png" alt="HotpotQA pass@k, easy questions." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">Medium</p><img src="static/figures/hotpotqa/medium.png" alt="HotpotQA pass@k, medium questions." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">Hard</p><img src="static/figures/hotpotqa/hard.png" alt="HotpotQA pass@k, hard questions; both optimized harnesses stay below the 32B reference." width="1200" height="1005" /></div>
+            </div>
+            <p class="panel-group mt-8">AppWorld</p>
+            <img src="static/figures/appworld/legend.png" alt="Legend: medium effort with H0 (solid black), medium effort with H* (red), high effort with H0 (dashed)." class="mx-auto w-full max-w-2xl" width="2700" height="126" />
+            <div class="panels panels-4 mt-3">
+              <div class="panel"><p class="panel-title">All tasks</p><img src="static/figures/appworld/all.png" alt="AppWorld pass@k, all tasks." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">Easy</p><img src="static/figures/appworld/easy.png" alt="AppWorld pass@k, easy tasks." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">Medium</p><img src="static/figures/appworld/medium.png" alt="AppWorld pass@k, medium tasks." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">Hard</p><img src="static/figures/appworld/hard.png" alt="AppWorld pass@k, hard tasks; the optimized harnesses at best match the high-effort reference." width="1200" height="1005" /></div>
+            </div>
+            </div>
+            <figcaption>
+              <span class="tag">Measured · 128 attempts per task (planned for AppWorld) · benchmark difficulty labels</span>
+              <span class="js-only s">Pick a benchmark and a difficulty level.</span>
+              <span class="s">Qwen3-8B vs. Qwen3-32B on HotpotQA; GPT-OSS-120B at medium vs. high reasoning effort on AppWorld.</span>
+            </figcaption>
+          </figure>
+    <div class="grid grid--cards grid--three">
+      <div class="card"><h3>Scaling gains more on hard tasks</h3><p>On hard tasks, scaling yields larger mean pass@1 gains than harness optimization on all three benchmarks (dataset-level difficulty for text).</p></div>
+      <div class="card"><h3>Every candidate falls short</h3><p>All 40 candidates from one HotpotQA optimization run stay below the 32B model on hard questions.</p></div>
+      <div class="card"><h3>Hard-focused re-optimization did not close the gap</h3><p>Re-optimizing the HotpotQA harness on a hard-focused task mixture raises hard-task pass@1 (56.88% &rarr; 59.28%; 32B: 59.51%) but leaves pass@128 unchanged at 73.17% (32B: 78.05%).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 Looking ahead ============ -->
+<section id="ahead" class="section">
+  <div class="container section__inner">
+    <div class="section__head">
+      <p class="eyebrow">05 · Looking ahead</p>
+      <h2>Measure reliability<br><span class="muted">and reach separately.</span></h2>
+      <p class="section__lede"><span class="s">Check a harness gain at the attempt budget you will use, against a larger model or more reasoning effort, and on hard tasks.</span><span class="s">Achieving consistent capability expansion on hard tasks remains an open challenge for harness optimization, especially when successful executions support recursive self-improvement or evolutionary search.</span><span class="s">Our results are bounded by the evaluated benchmarks, solver families, and optimization runs.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Citation ============ -->
+<section id="citation" class="section section--ruled">
+  <div class="container section__inner">
+    <h2>BibTeX</h2>
+    <div class="bibtex" data-todo="arXiv identifier">
+      <button type="button" class="bibtex__copy" onclick="copyBibtex(this)">Copy</button>
+      <pre id="bibtex-text">@article{kim2026elicitation,
+  title   = {Elicitation or Expansion? Demystifying Gains from Agent Harness Optimization},
+  author  = {Kim, Younghyun and Seo, Wooseok and Kim, Minseo and Oh, Seunghyuk and
+             Lee, Minjae and Kim, Donghoon and Koo, Hyung Il and Kim, Jaehyung and Kang, Wonjun},
+  journal = {arXiv preprint arXiv:TODO},
+  year    = {2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <span class="footer__brand"><img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI"><span>in collaboration with Yonsei University and University of California, Berkeley</span></span>
+    <span>Contact: <a href="mailto:yhyun.kim@furiosa.ai">yhyun.kim@furiosa.ai</a>, <a href="mailto:wooseok.seo@furiosa.ai">wooseok.seo@furiosa.ai</a></span>
+  </div>
+</footer>
+
+<script src="static/data/passk.js"></script>
+<script src="static/js/explorer.js"></script>
+<script src="static/js/page.js"></script>
+<script>
+  function copyBibtex(button) {
+    const text = document.getElementById('bibtex-text').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      button.textContent = 'Copied';
+      setTimeout(() => { button.textContent = 'Copy'; }, 1500);
+    });
+  }
+</script>
+
+</body>
+</html>
