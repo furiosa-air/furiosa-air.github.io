@@ -64,7 +64,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 @media (max-width: 479px) {
   .hero__notes { font-size: 13px; }
 }
-.hero__lead { margin: 24px 0 0; max-width: 30ch; font-size: clamp(22px, 2.8vw, 30px); font-weight: 700; line-height: 1.25; letter-spacing: -0.015em; color: var(--hp-ink); }
+.hero__lead { margin: 24px 0 0; max-width: 100%; font-size: clamp(22px, 2.8vw, 30px); font-weight: 700; line-height: 1.25; letter-spacing: -0.015em; color: var(--hp-ink); }
 
 /* ---------- Sections ---------- */
 .section h2 .muted { color: var(--hp-soft); }
