@@ -91,9 +91,7 @@
       <p class="eyebrow">01 · Background</p>
       <h2>Same weights.<br><span class="muted">Wider reach?</span></h2>
       <p class="section__lede">
-        <span class="s">Harness optimization rewrites the code around a fixed model, </span>
-        <span class="s">including its prompts, context, tool use, and execution logic, and reports large gains.</span>
-        <span class="s">A higher success rate can mean two different things.</span></p>
+        Harness optimization rewrites the code around a fixed model, including its prompts, context, tool use, and execution logic, and reports large gains. A higher success rate can mean two different things.</p>
     </div>
     <figure class="fig">
       <div class="schematic-grid">
@@ -158,15 +156,10 @@
             </div>
       <figcaption>
         <span class="tag tag-illustrative">Illustrative</span>
-        <span class="s">Per-task success probability for eight hypothetical tasks; black ticks mark the baseline.</span><span class="s"><strong>Elicitation</strong> makes tasks already within reach more reliable.</span><span class="s"><strong>Expansion</strong> adds successes on tasks with no baseline success, broadening coverage.</span>
-      </figcaption>
+        Per-task success probability for eight hypothetical tasks; black ticks mark the baseline. <strong>Elicitation</strong> makes tasks already within reach more reliable. <strong>Expansion</strong> adds successes on tasks with no baseline success, broadening coverage.</figcaption>
     </figure>
     <p class="section__lede section__lede--center">
-      <span class="s">The difference matters for methods that learn from their own successes, </span>
-      <span class="s">such as self-training and recursive self-improvement.</span>
-      <span class="s">For them, even rare successes on previously unreachable tasks</span>
-      <span class="s">can seed further search or learning.</span>
-    </p>
+      The difference matters for methods that learn from their own successes, such as self-training and recursive self-improvement. For them, even rare successes on previously unreachable tasks can seed further search or learning.</p>
   </div>
 </section>
 
@@ -177,9 +170,7 @@
       <p class="eyebrow">02 · The lens</p>
       <h2>A lens from RL.<br><span class="muted">Now on harness optimization.</span></h2>
       <p class="section__lede">
-        <span class="s">RL studies compare models before and after training with pass@k: </span>
-        <span class="s">pass@1 gains can shrink or reverse at larger sampling budgets (<a href="https://openreview.net/forum?id=4OsgYD7em5">Yue et al., 2025</a>).</span>
-        <span class="s">We bring the same analysis to harnesses, with three comparisons.</span></p>
+        RL studies compare models before and after training with pass@k: pass@1 gains can shrink or reverse at larger sampling budgets (<a href="https://openreview.net/forum?id=4OsgYD7em5">Yue et al., 2025</a>). We bring the same analysis to harnesses, with three comparisons.</p>
     </div>
     <div class="grid grid--steps">
       <div class="card"><span class="card__step">Step 1</span><h3>Across attempt budgets</h3><p>pass@1 measures reliability; pass@k, the expected share of tasks solved at least once in k attempts, measures coverage.</p></div>
@@ -198,7 +189,7 @@
         <div class="callout__math">\[
           \widehat{\mathrm{pass@}k} \;=\; \frac{1}{N}\sum_{i=1}^{N}\left[\,1-\binom{n-c_i}{k}\Big/\binom{n}{k}\right], \qquad 1 \le k \le n
         \]</div>
-        <p><span class="s">Each of the \(N\) tasks is attempted \(n\) times, and \(c_i\) counts the successes on task \(x_i\).</span><span class="s">An attempt is one complete execution, including every model call and tool interaction; \(n\) is 64 for text classification and 128 for HotpotQA and AppWorld (planned attempts for AppWorld, where missing attempts count as failures).</span><span class="s">Success is scored by binary correctness for text classification, answer containment confirmed by an LLM judge for HotpotQA, and arity-fixed task goal completion for AppWorld.</span><span class="s">Harnesses are optimized with <a href="https://openreview.net/forum?id=tmbOUyFx3R">Meta-Harness</a>.</span></p>
+        <p>Each of the \(N\) tasks is attempted \(n\) times, and \(c_i\) counts the successes on task \(x_i\). An attempt is one complete execution, including every model call and tool interaction; \(n\) is 64 for text classification and 128 for HotpotQA and AppWorld (planned attempts for AppWorld, where missing attempts count as failures). Success is scored by binary correctness for text classification, answer containment confirmed by an LLM judge for HotpotQA, and arity-fixed task goal completion for AppWorld. Harnesses are optimized with <a href="https://openreview.net/forum?id=tmbOUyFx3R">Meta-Harness</a>.</p>
       </div>
     </details>
   </div>
@@ -210,7 +201,7 @@
     <div class="section__head">
       <p class="eyebrow">03 · Across budgets</p>
       <h2>A first-try lead<br><span class="muted">need not be a coverage lead.</span></h2>
-      <p class="section__lede"><span class="s">On LawBench, the optimized 20B harness leads the 120B model by 16.05 pp at pass@1, but falls behind from \(k = 11\).</span><span class="s">On all three text benchmarks, it ends below the 120B model at pass@64.</span></p>
+      <p class="section__lede">On LawBench, the optimized 20B harness leads the 120B model by 16.05 pp at pass@1, but falls behind from \(k = 11\). On all three text benchmarks, it ends below the 120B model at pass@64.</p>
     </div>
     <figure class="fig" id="fig-comparison" data-explorer data-views="Symptom2Disease,LawBench,USPTO,hotpotqa,appworld" data-default-view="LawBench">
             <div class="static-fallback">
@@ -229,14 +220,12 @@
             </div>
             <figcaption>
               <span class="tag">Measured · 64 attempts per task (text), 128 (HotpotQA, AppWorld)</span>
-              <span class="js-only s">Pick a benchmark and drag the budget.</span>
-              <span class="s">Each red curve is a harness selected by one optimization run;</span>
-              <span class="s">the dashed curve keeps the baseline harness with a larger model (text, HotpotQA) or higher reasoning effort (AppWorld).</span>
-            </figcaption>
+              <span class="js-only">Pick a benchmark and drag the budget.</span>
+              Each red curve is a harness selected by one optimization run; the dashed curve keeps the baseline harness with a larger model (text, HotpotQA) or higher reasoning effort (AppWorld).</figcaption>
           </figure>
     <div class="section__head section__head--sub">
       <h3>Text classification: mostly elicitation.</h3>
-      <p class="section__lede"><span class="s">Optimization mostly makes existing successes more frequent.</span><span class="s">On LawBench, it keeps 49 of the 53 tasks the baseline solves within 64 attempts, loses 4, and newly solves 7.</span></p>
+      <p class="section__lede">Optimization mostly makes existing successes more frequent. On LawBench, it keeps 49 of the 53 tasks the baseline solves within 64 attempts, loses 4, and newly solves 7.</p>
     </div>
     <figure class="fig" id="fig-outcomes" data-outcomes data-default-dataset="LawBench">
             <div class="static-fallback">
@@ -249,8 +238,7 @@
             </div>
             <figcaption>
               <span class="tag">Measured · GPT-OSS-20B · 64 attempts per task</span>
-              <span class="s">Tasks grouped by how many of their 64 attempts succeeded.</span>
-            </figcaption>
+              Tasks grouped by how many of their 64 attempts succeeded.</figcaption>
           </figure>
   </div>
 </section>
@@ -261,7 +249,7 @@
     <div class="section__head">
       <p class="eyebrow">04 · Key finding · Task difficulty</p>
       <h2>Close in aggregate.<br><span class="muted">Never ahead on hard tasks.</span></h2>
-      <p class="section__lede"><span class="s">On HotpotQA and AppWorld, the selected optimized harnesses approach or exceed a larger model or higher reasoning effort across all tasks.</span><span class="s">On the hard subsets, none exceeds it at any evaluated budget up to 128 attempts.</span></p>
+      <p class="section__lede">On HotpotQA and AppWorld, the selected optimized harnesses approach or exceed a larger model or higher reasoning effort across all tasks. On the hard subsets, none exceeds it at any evaluated budget up to 128 attempts.</p>
     </div>
     <figure class="fig" id="fig-difficulty" data-explorer data-strata data-views="hotpotqa,appworld" data-default-view="hotpotqa" data-default-stratum="hard">
             <div class="static-fallback">
@@ -284,9 +272,8 @@
             </div>
             <figcaption>
               <span class="tag">Measured · 128 attempts per task (planned for AppWorld) · benchmark difficulty labels</span>
-              <span class="js-only s">Pick a benchmark and a difficulty level.</span>
-              <span class="s">Qwen3-8B vs. Qwen3-32B on HotpotQA; GPT-OSS-120B at medium vs. high reasoning effort on AppWorld.</span>
-            </figcaption>
+              <span class="js-only">Pick a benchmark and a difficulty level.</span>
+              Qwen3-8B vs. Qwen3-32B on HotpotQA; GPT-OSS-120B at medium vs. high reasoning effort on AppWorld.</figcaption>
           </figure>
     <div class="grid grid--cards grid--three">
       <div class="card"><h3>Scaling gains more on hard tasks</h3><p>On hard tasks, scaling yields larger mean pass@1 gains than harness optimization on all three benchmarks (dataset-level difficulty for text).</p></div>
@@ -302,7 +289,7 @@
     <div class="section__head">
       <p class="eyebrow">05 · Looking ahead</p>
       <h2>Measure reliability<br><span class="muted">and reach separately.</span></h2>
-      <p class="section__lede"><span class="s">Check a harness gain at the attempt budget you will use, against a larger model or more reasoning effort, and on hard tasks.</span><span class="s">Achieving consistent capability expansion on hard tasks remains an open challenge for harness optimization, especially when successful executions support recursive self-improvement or evolutionary search.</span><span class="s">Our results are bounded by the evaluated benchmarks, solver families, and optimization runs.</span></p>
+      <p class="section__lede">Check a harness gain at the attempt budget you will use, against a larger model or more reasoning effort, and on hard tasks. Achieving consistent capability expansion on hard tasks remains an open challenge for harness optimization, especially when successful executions support recursive self-improvement or evolutionary search. Our results are bounded by the evaluated benchmarks, solver families, and optimization runs.</p>
     </div>
   </div>
 </section>

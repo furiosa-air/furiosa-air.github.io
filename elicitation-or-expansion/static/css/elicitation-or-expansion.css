@@ -23,11 +23,27 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 /* Draft placeholders: every element with data-todo must be resolved before release. */
 [data-todo] { background: #FFF4C2; outline: 1px dashed #C9A400; outline-offset: 2px; }
 
-/* One sentence per line in body text; balanced wrapping inside each sentence. */
-.s { display: block; }
-.section__lede .s, .hero__lead { text-wrap: balance; }
-.fig figcaption .s, .card p, .callout p .s { text-wrap: pretty; }
-.has-widget .js-only.s { display: block; }
+/* As on the MetaCurate page, headings stay centered while body paragraphs sit in an
+   800px column, justified with automatic hyphenation. */
+.hero__lead { text-wrap: balance; }
+.fig figcaption, .card p, .callout p { text-wrap: pretty; }
+.section__head .section__lede,
+.section__lede--center,
+.fig figcaption {
+  align-self: center;
+  width: 100%;
+  max-width: 752px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: justify;
+  hyphens: auto;
+}
+/* Captions are short and small; ragged-right avoids wide justified word gaps.
+   Narrow screens use ragged-right body text for the same reason. */
+.fig figcaption { text-align: left; hyphens: manual; }
+@media (max-width: 639px) {
+  .section__head .section__lede, .section__lede--center { text-align: left; hyphens: manual; }
+}
 
 /* Small helpers used by the figure markup. */
 .text-core { color: var(--hp-opt); }
@@ -56,7 +72,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .section h2 .muted { color: var(--hp-soft); }
 .section__head--sub { margin-top: 32px; }
 .section__head--sub h3 { margin: 0; font-size: 22px; font-weight: 700; color: var(--hp-ink); }
-.section__lede--center { align-self: center; text-align: center; }
 .grid--three { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .bench-chips { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .bench-chips li { border: 1px solid var(--hp-rule); border-radius: 9999px; background: #FFFFFF; padding: 6px 14px; font-size: 14px; }
@@ -75,7 +90,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 /* ---------- Figures ---------- */
 .fig { margin: 0; }
 .fig img { display: block; height: auto; max-width: 100%; }
-.fig figcaption { margin-top: 14px; font-size: 14px; line-height: 1.6; color: var(--hp-text); text-align: center; }
+.fig figcaption { margin-top: 14px; font-size: 14px; line-height: 1.6; color: var(--hp-text); }
 .tag {
   display: inline-block;
   margin: 0 6px 4px 0;
