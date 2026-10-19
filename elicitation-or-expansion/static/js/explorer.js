@@ -21,6 +21,14 @@
     'appworld/easy': 'All systems eventually reach complete observed coverage.',
     'hotpotqa/all/mean': 'Averaged over two optimization runs, the optimized Qwen3-8B harness stays close to the 32B reference across budgets: 71.8% versus 69.1% at pass@1 and 88.0% versus 87.7% at pass@128.',
     'appworld/all/mean': 'Averaged over two optimization runs, the optimized medium-effort harness stays below high effort at every budget: 62.2% versus 63.5% at pass@1 and 95.5% versus 97.0% at pass@128.',
+    'hotpotqa/all/runs3': 'Across three optimization runs, the optimized Qwen3-8B harness reaches 72.50 \u00B1 1.43% at pass@1 and 87.78 \u00B1 1.39% at pass@128, against 69.14% and 87.67% for 32B.',
+    'hotpotqa/easy/runs3': 'All three runs match or exceed the 32B reference throughout the evaluated budgets.',
+    'hotpotqa/medium/runs3': 'Across three runs: 75.40 \u00B1 1.87% at pass@1 and 90.92 \u00B1 1.78% at pass@128, against 71.28% and 90.14% for 32B.',
+    'hotpotqa/hard/runs3': 'None of the three runs exceeds the 32B reference at any evaluated budget; at pass@128 they reach 70.73\u201373.17%, versus 78.05% for 32B and 70.73% for the 8B baseline.',
+    'appworld/all/runs3': 'Across three runs, the optimized medium-effort harness reaches 60.84 \u00B1 2.38% at pass@1 and 95.24 \u00B1 0.60% at pass@128, against 63.49% and 97.02% for high effort.',
+    'appworld/easy/runs3': 'All systems, including all three runs, eventually reach complete observed coverage.',
+    'appworld/medium/runs3': 'Across three runs: 64.57 \u00B1 5.39% at pass@1 and 97.92 \u00B1 2.08% at pass@128, against 64.93% and 100% for high effort.',
+    'appworld/hard/runs3': 'None of the three runs exceeds high effort at any evaluated budget; at pass@128 they reach 85.71\u201392.06% (mean 88.89%), versus 92.06% for high effort.',
     'appworld/hard': 'Unlike on HotpotQA, the optimized harnesses gain coverage over the medium-effort baseline (89–92% versus 83% at pass@128), but at best match high effort (92%).',
   };
 
@@ -85,6 +93,31 @@
     return out;
   }
 
+  // Three optimization runs (appendix Figure 12): baseline, reference, and the optimized
+  // mean with its sample SD and the individual runs.
+  function armsFromRuns3(viewKey, stratum) {
+    var view = VIEWS[viewKey];
+    var R3 = DATA.runs3 && DATA.runs3[view.bench];
+    if (!R3 || view.dataset) return null;
+    var s = R3.strata[stratum];
+    var labels = {};
+    B[view.bench].arms.forEach(function (a) { if (!labels[a.role]) labels[a.role] = a.label; });
+    return [
+      { role: 'baseline', label: labels.baseline, curve: s.baseline },
+      { role: 'optimized', label: labels.optimized.replace(/ harness \(run \d+\)$/, '') + ' (3-run mean)',
+        curve: s.mean, sd: s.sd, runs: s.runs },
+      { role: 'reference', label: labels.reference, curve: s.reference },
+    ];
+  }
+
+  var RUN_MARKS = ['circle', 'square', 'triangle'];
+  function runMark(svg, shape, cx, cy) {
+    if (shape === 'circle') return svgEl('circle', { class: 'ex-run-mark', cx: cx, cy: cy, r: 3.2 }, svg);
+    if (shape === 'square') return svgEl('rect', { class: 'ex-run-mark', x: cx - 3, y: cy - 3, width: 6, height: 6 }, svg);
+    return svgEl('path', { class: 'ex-run-mark', d: 'M' + cx + ',' + (cy - 3.8) + 'L' + (cx + 3.6) + ',' + (cy + 2.6) + 'L' + (cx - 3.6) + ',' + (cy + 2.6) + 'Z' }, svg);
+  }
+  var RUN_GLYPH = { circle: '\u25CF', square: '\u25A0', triangle: '\u25B2' };
+
   function niceRange(lo, hi) {
     var span = hi - lo;
     var step = span > 45 ? 20 : span > 22 ? 10 : 5;
@@ -101,6 +134,7 @@
     this.views = root.getAttribute('data-views').split(',');
     this.showStrata = root.hasAttribute('data-strata');
     this.averageRuns = root.hasAttribute('data-average-runs');
+    this.runs3 = root.hasAttribute('data-runs3');
     this.view = root.getAttribute('data-default-view') || this.views[0];
     this.stratum = root.getAttribute('data-default-stratum') || 'all';
     this.k = 1;
@@ -197,7 +231,7 @@
     var self = this;
     this.tabButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.key === self.view)); });
     this.strataButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.key === self.stratum)); });
-    this.arms = armsFor(this.view, this.stratum, this.averageRuns);
+    this.arms = (this.runs3 && armsFromRuns3(this.view, this.stratum)) || armsFor(this.view, this.stratum, this.averageRuns);
     this.K = this.arms[0].curve.length;
     this.k = Math.min(this.k, this.K);
     var optimized = this.arms.filter(function (a) { return a.role === 'optimized'; });
@@ -205,10 +239,14 @@
     var run = 0;
     this.arms.forEach(function (a) { if (a.role === 'optimized' && self.multi) a.run = ++run; });
     var all = [];
-    this.arms.forEach(function (a) { all = all.concat(a.curve); });
+    this.arms.forEach(function (a) {
+      all = all.concat(a.curve);
+      if (a.sd) all = all.concat(a.curve.map(function (v, i) { return v - a.sd[i]; }), a.curve.map(function (v, i) { return v + a.sd[i]; }));
+      if (a.runs) a.runs.forEach(function (run) { all = all.concat(run); });
+    });
     this.range = niceRange(Math.min.apply(null, all), Math.max.apply(null, all));
     var noteKey = view.bench + '/' + (view.dataset || this.stratum);
-    var note = (this.averageRuns && NOTES[noteKey + '/mean']) || NOTES[noteKey];
+    var note = (this.runs3 && NOTES[noteKey + '/runs3']) || (this.averageRuns && NOTES[noteKey + '/mean']) || NOTES[noteKey];
     this.note.textContent = note || '';
     this.note.hidden = !note;
     this.svg.setAttribute('aria-label', view.title + (view.dataset ? '' : ', ' + STRATUM_LABEL[this.stratum].toLowerCase()) +
@@ -240,10 +278,21 @@
     if (narrow && K === 128) svgEl('text', { class: 'ex-xtick', x: x(K), y: Bt + 20, text: String(K) }, svg);
     svgEl('text', { class: 'ex-axis', x: (L + R) / 2, y: Bt + 42, text: 'attempts per task (k), log scale' }, svg);
 
+    var path = function (c) { return c.map(function (val, i) { return (i ? 'L' : 'M') + x(i + 1).toFixed(1) + ',' + y(val).toFixed(1); }).join(' '); };
     var order = { baseline: 0, optimized: 1, reference: 2 };
     this.arms.slice().sort(function (a, b) { return order[a.role] - order[b.role]; }).forEach(function (a) {
-      var d = a.curve.map(function (val, i) { return (i ? 'L' : 'M') + x(i + 1).toFixed(1) + ',' + y(val).toFixed(1); }).join(' ');
-      svgEl('path', { class: 'ex-line ex-' + a.role, d: d }, svg);
+      if (a.sd) {
+        var up = a.curve.map(function (v, i) { return x(i + 1).toFixed(1) + ',' + y(Math.min(r.hi, v + a.sd[i])).toFixed(1); });
+        var lo = a.curve.map(function (v, i) { return x(i + 1).toFixed(1) + ',' + y(Math.max(r.lo, v - a.sd[i])).toFixed(1); }).reverse();
+        svgEl('path', { class: 'ex-band', d: 'M' + up.join('L') + 'L' + lo.join('L') + 'Z' }, svg);
+      }
+      if (a.runs) {
+        a.runs.forEach(function (run, ri) {
+          svgEl('path', { class: 'ex-line ex-run', d: path(run) }, svg);
+          [1, 4, 16, 128].forEach(function (mk) { if (mk <= K) runMark(svg, RUN_MARKS[ri], x(mk), y(run[mk - 1])); });
+        });
+      }
+      svgEl('path', { class: 'ex-line ex-' + a.role + (a.runs ? ' ex-mean' : ''), d: path(a.curve) }, svg);
     });
 
     var cx = x(this.k);
@@ -264,13 +313,20 @@
     var html = '<p class="ex-ro-head">pass@' + this.k + '</p><ul class="ex-ro-list">';
     this.arms.forEach(function (a) {
       var name = a.label;
+      var val = pct(a.curve[i]) + (a.sd ? '<span class="ex-ro-sd"> \u00B1 ' + a.sd[i].toFixed(2) + '</span>' : '');
       html += '<li><span class="ex-sw ex-sw-' + a.role + '"></span><span class="ex-ro-name">' + name + '</span>' +
-        '<span class="ex-ro-val">' + pct(a.curve[i]) + '</span></li>';
+        '<span class="ex-ro-val">' + val + '</span></li>';
+      if (a.runs) {
+        a.runs.forEach(function (run, ri) {
+          html += '<li class="ex-ro-run"><span class="ex-ro-glyph">' + RUN_GLYPH[RUN_MARKS[ri]] + '</span><span class="ex-ro-name">run ' + (ri + 1) + '</span>' +
+            '<span class="ex-ro-val">' + pct(run[i]) + '</span></li>';
+        });
+      }
     });
     html += '</ul><p class="ex-ro-head ex-ro-gap">Optimized minus …</p><ul class="ex-ro-list">';
     this.arms.forEach(function (a) {
       if (a.role !== 'optimized') return;
-      var tag = a.run ? ' (run ' + a.run + ')' : '';
+      var tag = a.run ? ' (run ' + a.run + ')' : (a.runs ? ' (mean)' : '');
       var dBase = a.curve[i] - base.curve[i];
       var dRef = a.curve[i] - ref.curve[i];
       html += '<li><span class="ex-ro-name">baseline' + tag + '</span><span class="ex-ro-val ' + (dBase >= 0.005 ? 'up' : 'down') + '">' + pp(dBase) + '</span></li>';

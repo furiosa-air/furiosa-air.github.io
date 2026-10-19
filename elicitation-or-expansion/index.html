@@ -203,7 +203,7 @@
         <div class="callout__math">\[
           \widehat{\mathrm{pass@}k} \;=\; \frac{1}{N}\sum_{i=1}^{N}\left[\,1-\binom{n-c_i}{k}\Big/\binom{n}{k}\right], \qquad 1 \le k \le n
         \]</div>
-        <p>Each of the \(N\) tasks is attempted \(n\) times, and \(c_i\) counts the successes on task \(x_i\). An attempt is one complete execution, including every model call and tool interaction; \(n\) is 64 for text classification and 128 for HotpotQA and AppWorld (planned attempts for AppWorld, where missing attempts count as failures). Success is scored by binary correctness for text classification, answer containment confirmed by an LLM judge for HotpotQA, and arity-fixed task goal completion for AppWorld. Harnesses are optimized with <a href="https://openreview.net/forum?id=tmbOUyFx3R">Meta-Harness</a>.</p>
+        <p>Each of the \(N\) tasks is attempted \(n\) times, and \(c_i\) counts the successes on task \(x_i\). An attempt is one complete execution, including every model call and tool interaction; \(n\) is 64 for text classification and 128 for HotpotQA and AppWorld. Success is scored by binary correctness for text classification, answer containment confirmed by an LLM judge for HotpotQA, and arity-fixed task goal completion for AppWorld. Harnesses are optimized with <a href="https://openreview.net/forum?id=tmbOUyFx3R">Meta-Harness</a>.</p>
       </div>
     </details>
   </div>
@@ -288,29 +288,29 @@
       <h2>Close in aggregate.<br><span class="muted">Never ahead on hard tasks.</span></h2>
       <p class="section__lede">On HotpotQA and AppWorld, the selected optimized harnesses approach or exceed a larger model or higher reasoning effort across all tasks. On the hard subsets, none exceeds it at any evaluated budget up to 128 attempts.</p>
     </div>
-    <figure class="fig" id="fig-difficulty" data-explorer data-strata data-views="hotpotqa,appworld" data-default-view="hotpotqa" data-default-stratum="hard">
+    <figure class="fig" id="fig-difficulty" data-explorer data-strata data-runs3 data-views="hotpotqa,appworld" data-default-view="hotpotqa" data-default-stratum="hard">
             <div class="static-fallback">
             <p class="panel-group">HotpotQA</p>
-            <img src="static/figures/hotpotqa/legend.png" alt="Legend: Qwen3-8B with H0 (solid black), Qwen3-8B with H* (red), Qwen3-32B with H0 (dashed)." class="mx-auto w-full max-w-2xl" width="2700" height="126" />
+            <img src="static/figures/uncertainty/hotpotqa-legend.png" alt="Legend: Qwen3-8B and Qwen3-32B baselines, and the optimized Qwen3-8B harnesses of three runs with their mean and SD." class="mx-auto w-full" width="3120" height="121">
             <div class="panels panels-4 mt-3">
-              <div class="panel"><p class="panel-title">All tasks</p><img src="static/figures/hotpotqa/all.png" alt="HotpotQA pass@k, all questions." width="1200" height="1005" /></div>
-              <div class="panel"><p class="panel-title">Easy</p><img src="static/figures/hotpotqa/easy.png" alt="HotpotQA pass@k, easy questions." width="1200" height="1005" /></div>
-              <div class="panel"><p class="panel-title">Medium</p><img src="static/figures/hotpotqa/medium.png" alt="HotpotQA pass@k, medium questions." width="1200" height="1005" /></div>
-              <div class="panel"><p class="panel-title">Hard</p><img src="static/figures/hotpotqa/hard.png" alt="HotpotQA pass@k, hard questions; both optimized harnesses stay below the 32B reference." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">All tasks</p><img src="static/figures/uncertainty/hotpotqa-all.png" alt="HotpotQA pass@k across three runs, all questions." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Easy</p><img src="static/figures/uncertainty/hotpotqa-easy.png" alt="HotpotQA pass@k across three runs, easy questions." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Medium</p><img src="static/figures/uncertainty/hotpotqa-medium.png" alt="HotpotQA pass@k across three runs, medium questions." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Hard</p><img src="static/figures/uncertainty/hotpotqa-hard.png" alt="HotpotQA pass@k across three runs, hard questions; no run exceeds the 32B reference." width="1200" height="1005"></div>
             </div>
             <p class="panel-group mt-8">AppWorld</p>
-            <img src="static/figures/appworld/legend.png" alt="Legend: medium effort with H0 (solid black), medium effort with H* (red), high effort with H0 (dashed)." class="mx-auto w-full max-w-2xl" width="2700" height="126" />
+            <img src="static/figures/uncertainty/appworld-legend.png" alt="Legend: medium- and high-effort baselines, and the optimized medium-effort harnesses of three runs with their mean and SD." class="mx-auto w-full" width="3120" height="121">
             <div class="panels panels-4 mt-3">
-              <div class="panel"><p class="panel-title">All tasks</p><img src="static/figures/appworld/all.png" alt="AppWorld pass@k, all tasks." width="1200" height="1005" /></div>
-              <div class="panel"><p class="panel-title">Easy</p><img src="static/figures/appworld/easy.png" alt="AppWorld pass@k, easy tasks." width="1200" height="1005" /></div>
-              <div class="panel"><p class="panel-title">Medium</p><img src="static/figures/appworld/medium.png" alt="AppWorld pass@k, medium tasks." width="1200" height="1005" /></div>
-              <div class="panel"><p class="panel-title">Hard</p><img src="static/figures/appworld/hard.png" alt="AppWorld pass@k, hard tasks; the optimized harnesses at best match the high-effort reference." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">All tasks</p><img src="static/figures/uncertainty/appworld-all.png" alt="AppWorld pass@k across three runs, all tasks." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Easy</p><img src="static/figures/uncertainty/appworld-difficulty-1.png" alt="AppWorld pass@k across three runs, easy tasks." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Medium</p><img src="static/figures/uncertainty/appworld-difficulty-2.png" alt="AppWorld pass@k across three runs, medium tasks." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Hard</p><img src="static/figures/uncertainty/appworld-difficulty-3.png" alt="AppWorld pass@k across three runs, hard tasks; no run exceeds high effort." width="1200" height="1005"></div>
             </div>
             </div>
             <figcaption>
-              <span class="tag">Measured · 128 attempts per task (planned for AppWorld) · benchmark difficulty labels</span>
+              <span class="tag">Measured · 128 attempts per task · benchmark difficulty labels</span>
               <span class="js-only">Pick a benchmark and a difficulty level.</span>
-              Qwen3-8B vs. Qwen3-32B on HotpotQA; GPT-OSS-120B at medium vs. high reasoning effort on AppWorld.</figcaption>
+              pass@k across three optimization runs: the mean ± 1 sample SD (thick red curve and band), the individual runs (thin marked curves), and the baselines (gray). Qwen3-8B vs. Qwen3-32B on HotpotQA; GPT-OSS-120B at medium vs. high reasoning effort on AppWorld.</figcaption>
           </figure>
     <div class="grid grid--cards grid--three">
       <div class="card"><h3>Harness gains trail scaling on hard tasks</h3><p>On hard tasks, harness optimization yields smaller mean pass@1 gains than scaling on all three benchmarks (dataset-level difficulty for text).</p></div>
