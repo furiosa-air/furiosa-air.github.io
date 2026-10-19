@@ -21,6 +21,14 @@
     'appworld/easy': 'All systems eventually reach complete observed coverage.',
     'hotpotqa/all/mean': 'Averaged over two optimization runs, the optimized Qwen3-8B harness stays close to the 32B reference across budgets: 71.8% versus 69.1% at pass@1 and 88.0% versus 87.7% at pass@128.',
     'appworld/all/mean': 'Averaged over two optimization runs, the optimized medium-effort harness stays below high effort at every budget: 62.2% versus 63.5% at pass@1 and 95.5% versus 97.0% at pass@128.',
+    'hotpotqa/all/runs3': 'Across three optimization runs, the optimized Qwen3-8B harness reaches 72.50 \u00B1 1.43% at pass@1 and 87.78 \u00B1 1.39% at pass@128, against 69.14% and 87.67% for 32B.',
+    'hotpotqa/easy/runs3': 'All three runs match or exceed the 32B reference throughout the evaluated budgets.',
+    'hotpotqa/medium/runs3': 'Across three runs: 75.40 \u00B1 1.87% at pass@1 and 90.92 \u00B1 1.78% at pass@128, against 71.28% and 90.14% for 32B.',
+    'hotpotqa/hard/runs3': 'None of the three runs exceeds the 32B reference at any evaluated budget; at pass@128 they reach 70.73\u201373.17%, versus 78.05% for 32B and 70.73% for the 8B baseline.',
+    'appworld/all/runs3': 'Across three runs, the optimized medium-effort harness reaches 60.84 \u00B1 2.38% at pass@1 and 95.24 \u00B1 0.60% at pass@128, against 63.49% and 97.02% for high effort.',
+    'appworld/easy/runs3': 'All systems, including all three runs, eventually reach complete observed coverage.',
+    'appworld/medium/runs3': 'Across three runs: 64.57 \u00B1 5.39% at pass@1 and 97.92 \u00B1 2.08% at pass@128, against 64.93% and 100% for high effort.',
+    'appworld/hard/runs3': 'None of the three runs exceeds high effort at any evaluated budget; at pass@128 they reach 85.71\u201392.06% (mean 88.89%), versus 92.06% for high effort.',
     'appworld/hard': 'Unlike on HotpotQA, the optimized harnesses gain coverage over the medium-effort baseline (89–92% versus 83% at pass@128), but at best match high effort (92%).',
   };
 
@@ -85,6 +93,31 @@
     return out;
   }
 
+  // Three optimization runs (appendix Figure 12): baseline, reference, and the optimized
+  // mean with its sample SD and the individual runs.
+  function armsFromRuns3(viewKey, stratum) {
+    var view = VIEWS[viewKey];
+    var R3 = DATA.runs3 && DATA.runs3[view.bench];
+    if (!R3 || view.dataset) return null;
+    var s = R3.strata[stratum];
+    var labels = {};
+    B[view.bench].arms.forEach(function (a) { if (!labels[a.role]) labels[a.role] = a.label; });
+    return [
+      { role: 'baseline', label: labels.baseline, curve: s.baseline },
+      { role: 'optimized', label: labels.optimized.replace(/ harness \(run \d+\)$/, '') + ' (3-run mean)',
+        curve: s.mean, sd: s.sd, runs: s.runs },
+      { role: 'reference', label: labels.reference, curve: s.reference },
+    ];
+  }
+
+  var RUN_MARKS = ['circle', 'square', 'triangle'];
+  function runMark(svg, shape, cx, cy) {
+    if (shape === 'circle') return svgEl('circle', { class: 'ex-run-mark', cx: cx, cy: cy, r: 3.2 }, svg);
+    if (shape === 'square') return svgEl('rect', { class: 'ex-run-mark', x: cx - 3, y: cy - 3, width: 6, height: 6 }, svg);
+    return svgEl('path', { class: 'ex-run-mark', d: 'M' + cx + ',' + (cy - 3.8) + 'L' + (cx + 3.6) + ',' + (cy + 2.6) + 'L' + (cx - 3.6) + ',' + (cy + 2.6) + 'Z' }, svg);
+  }
+  var RUN_GLYPH = { circle: '\u25CF', square: '\u25A0', triangle: '\u25B2' };
+
   function niceRange(lo, hi) {
     var span = hi - lo;
     var step = span > 45 ? 20 : span > 22 ? 10 : 5;
@@ -101,6 +134,7 @@
     this.views = root.getAttribute('data-views').split(',');
     this.showStrata = root.hasAttribute('data-strata');
     this.averageRuns = root.hasAttribute('data-average-runs');
+    this.runs3 = root.hasAttribute('data-runs3');
     this.view = root.getAttribute('data-default-view') || this.views[0];
     this.stratum = root.getAttribute('data-default-stratum') || 'all';
     this.k = 1;
@@ -197,7 +231,7 @@
     var self = this;
     this.tabButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.key === self.view)); });
     this.strataButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.key === self.stratum)); });
-    this.arms = armsFor(this.view, this.stratum, this.averageRuns);
+    this.arms = (this.runs3 && armsFromRuns3(this.view, this.stratum)) || armsFor(this.view, this.stratum, this.averageRuns);
     this.K = this.arms[0].curve.length;
     this.k = Math.min(this.k, this.K);
     var optimized = this.arms.filter(function (a) { return a.role === 'optimized'; });
@@ -205,10 +239,14 @@
     var run = 0;
     this.arms.forEach(function (a) { if (a.role === 'optimized' && self.multi) a.run = ++run; });
     var all = [];
-    this.arms.forEach(function (a) { all = all.concat(a.curve); });
+    this.arms.forEach(function (a) {
+      all = all.concat(a.curve);
+      if (a.sd) all = all.concat(a.curve.map(function (v, i) { return v - a.sd[i]; }), a.curve.map(function (v, i) { return v + a.sd[i]; }));
+      if (a.runs) a.runs.forEach(function (run) { all = all.concat(run); });
+    });
     this.range = niceRange(Math.min.apply(null, all), Math.max.apply(null, all));
     var noteKey = view.bench + '/' + (view.dataset || this.stratum);
-    var note = (this.averageRuns && NOTES[noteKey + '/mean']) || NOTES[noteKey];
+    var note = (this.runs3 && NOTES[noteKey + '/runs3']) || (this.averageRuns && NOTES[noteKey + '/mean']) || NOTES[noteKey];
     this.note.textContent = note || '';
     this.note.hidden = !note;
     this.svg.setAttribute('aria-label', view.title + (view.dataset ? '' : ', ' + STRATUM_LABEL[this.stratum].toLowerCase()) +
@@ -240,10 +278,21 @@
     if (narrow && K === 128) svgEl('text', { class: 'ex-xtick', x: x(K), y: Bt + 20, text: String(K) }, svg);
     svgEl('text', { class: 'ex-axis', x: (L + R) / 2, y: Bt + 42, text: 'attempts per task (k), log scale' }, svg);
 
+    var path = function (c) { return c.map(function (val, i) { return (i ? 'L' : 'M') + x(i + 1).toFixed(1) + ',' + y(val).toFixed(1); }).join(' '); };
     var order = { baseline: 0, optimized: 1, reference: 2 };
     this.arms.slice().sort(function (a, b) { return order[a.role] - order[b.role]; }).forEach(function (a) {
-      var d = a.curve.map(function (val, i) { return (i ? 'L' : 'M') + x(i + 1).toFixed(1) + ',' + y(val).toFixed(1); }).join(' ');
-      svgEl('path', { class: 'ex-line ex-' + a.role, d: d }, svg);
+      if (a.sd) {
+        var up = a.curve.map(function (v, i) { return x(i + 1).toFixed(1) + ',' + y(Math.min(r.hi, v + a.sd[i])).toFixed(1); });
+        var lo = a.curve.map(function (v, i) { return x(i + 1).toFixed(1) + ',' + y(Math.max(r.lo, v - a.sd[i])).toFixed(1); }).reverse();
+        svgEl('path', { class: 'ex-band', d: 'M' + up.join('L') + 'L' + lo.join('L') + 'Z' }, svg);
+      }
+      if (a.runs) {
+        a.runs.forEach(function (run, ri) {
+          svgEl('path', { class: 'ex-line ex-run', d: path(run) }, svg);
+          [1, 4, 16, 128].forEach(function (mk) { if (mk <= K) runMark(svg, RUN_MARKS[ri], x(mk), y(run[mk - 1])); });
+        });
+      }
+      svgEl('path', { class: 'ex-line ex-' + a.role + (a.runs ? ' ex-mean' : ''), d: path(a.curve) }, svg);
     });
 
     var cx = x(this.k);
@@ -264,13 +313,20 @@
     var html = '<p class="ex-ro-head">pass@' + this.k + '</p><ul class="ex-ro-list">';
     this.arms.forEach(function (a) {
       var name = a.label;
+      var val = pct(a.curve[i]) + (a.sd ? '<span class="ex-ro-sd"> \u00B1 ' + a.sd[i].toFixed(2) + '</span>' : '');
       html += '<li><span class="ex-sw ex-sw-' + a.role + '"></span><span class="ex-ro-name">' + name + '</span>' +
-        '<span class="ex-ro-val">' + pct(a.curve[i]) + '</span></li>';
+        '<span class="ex-ro-val">' + val + '</span></li>';
+      if (a.runs) {
+        a.runs.forEach(function (run, ri) {
+          html += '<li class="ex-ro-run"><span class="ex-ro-glyph">' + RUN_GLYPH[RUN_MARKS[ri]] + '</span><span class="ex-ro-name">run ' + (ri + 1) + '</span>' +
+            '<span class="ex-ro-val">' + pct(run[i]) + '</span></li>';
+        });
+      }
     });
     html += '</ul><p class="ex-ro-head ex-ro-gap">Optimized minus …</p><ul class="ex-ro-list">';
     this.arms.forEach(function (a) {
       if (a.role !== 'optimized') return;
-      var tag = a.run ? ' (run ' + a.run + ')' : '';
+      var tag = a.run ? ' (run ' + a.run + ')' : (a.runs ? ' (mean)' : '');
       var dBase = a.curve[i] - base.curve[i];
       var dRef = a.curve[i] - ref.curve[i];
       html += '<li><span class="ex-ro-name">baseline' + tag + '</span><span class="ex-ro-val ' + (dBase >= 0.005 ? 'up' : 'down') + '">' + pp(dBase) + '</span></li>';
@@ -361,6 +417,109 @@
       '</strong>, some attempts <strong>' + b.sometimes + ' → ' + o.sometimes + '</strong>, no observed success <strong>' + b.never + ' → ' + o.never + '</strong>.';
   };
 
+  // ---------------------------------------------------------------------------
+  // Candidate examples (section 03): one run's pass@1 vs. pass@128, and a crossing pair
+  // ---------------------------------------------------------------------------
+  var CAND_COLORS = { p1: '#E21500', p128: '#006FE2', other: '#C9C9C9', base: '#8D8D8D', ref: '#2D2D2D' };
+
+  function axes(svg, g, xTicks, yTicks, xLabel, yLabel) {
+    yTicks.forEach(function (v) {
+      svgEl('line', { class: 'ex-grid', x1: g.L, x2: g.R, y1: g.y(v), y2: g.y(v) }, svg);
+      svgEl('text', { class: 'ex-ytick', x: g.L - 8, y: g.y(v) + 4, text: v + '%' }, svg);
+    });
+    xTicks.forEach(function (t) {
+      svgEl('text', { class: 'ex-xtick', x: g.x(t.v), y: g.B + 20, text: t.label }, svg);
+    });
+    svgEl('text', { class: 'ex-axis', x: (g.L + g.R) / 2, y: g.B + 42, text: xLabel }, svg);
+    svgEl('text', { class: 'ex-axis', transform: 'translate(14 ' + (g.T + g.B) / 2 + ') rotate(-90)', text: yLabel }, svg);
+  }
+
+  function Candidates(root) {
+    var C = DATA.candidates;
+    if (!C) return;
+    var hp = B.hotpotqa.arms;
+    var base = hp.filter(function (a) { return a.role === 'baseline'; })[0].passk.all;
+    var ref = hp.filter(function (a) { return a.role === 'reference'; })[0].passk.all;
+    var W = 380, H = 340;
+    var geom = function (x0, x1, y0, y1, logX) {
+      var L = 58, R = W - 16, T = 14, Bt = H - 54;
+      return {
+        L: L, R: R, T: T, B: Bt,
+        x: function (v) { return logX ? L + (Math.log2(v) / Math.log2(x1)) * (R - L) : L + ((v - x0) / (x1 - x0)) * (R - L); },
+        y: function (v) { return Bt - ((v - y0) / (y1 - y0)) * (Bt - T); },
+      };
+    };
+
+    var widget = el('div', { class: 'cand-widget' });
+    var legend = el('ul', { class: 'html-legend cand-legend', 'aria-label': 'Legend' }, widget);
+    [['p1', 'Leads at pass@1', ''], ['p128', 'Leads at pass@128', ''], ['other', 'Other candidates', ''],
+     ['base', 'Qwen3-8B baseline', ''], ['ref', 'Qwen3-32B baseline', 'dashed']].forEach(function (item) {
+      var li = el('li', {}, legend);
+      var sw = el('span', { class: 'lg-line' }, li);
+      sw.style.borderColor = CAND_COLORS[item[0]];
+      if (item[2]) sw.style.borderTopStyle = item[2];
+      li.appendChild(document.createTextNode(item[1]));
+    });
+    var selItem = el('li', {}, legend);
+    el('span', { class: 'lg-dot' }, selItem);
+    selItem.appendChild(document.createTextNode('Selected harness (a)'));
+    var grid = el('div', { class: 'cand-grid' }, widget);
+
+    // (a) Scatter.
+    var pts = C.scatter.points;
+    var lead1 = pts.reduce(function (a, b) { return b.p1 > a.p1 ? b : a; });
+    var lead128 = pts.reduce(function (a, b) { return b.p128 > a.p128 ? b : a; });
+    var pa = el('div', { class: 'cand-panel' }, grid);
+    el('p', { class: 'panel-title', text: '(a) One run\u2019s candidates: pass@1 vs. pass@128' }, pa);
+    var sa = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img',
+      'aria-label': 'Scatter of pass@1 against pass@128 for the 40 Qwen3-8B candidates of one optimization run. The candidate with the highest pass@1 (' + pct(lead1.p1) + ', ' + pct(lead1.p128) + ') differs from the one with the highest pass@128 (' + pct(lead128.p1) + ', ' + pct(lead128.p128) + '); the run\u2019s selected harness is at (' + pct(pts.filter(function (p) { return p.selected; })[0].p1) + ', ' + pct(pts.filter(function (p) { return p.selected; })[0].p128) + ').' }, pa);
+    var ga = geom(55, 77, 80, 90, false);
+    axes(sa, ga, [55, 60, 65, 70, 75].map(function (v) { return { v: v, label: v + '%' }; }), [80, 85, 90], 'pass@1', 'pass@128');
+    pts.forEach(function (p) {
+      if (p === lead1 || p === lead128 || p.selected) return;
+      svgEl('circle', { cx: ga.x(p.p1), cy: ga.y(p.p128), r: 4, fill: CAND_COLORS.other }, sa);
+    });
+    var b1 = base[0], b128 = base[base.length - 1], r1 = ref[0], r128 = ref[ref.length - 1];
+    svgEl('rect', { x: ga.x(b1) - 5, y: ga.y(b128) - 5, width: 10, height: 10, fill: CAND_COLORS.base }, sa);
+    // Leader labels sit in empty space: above-left of the pass@128 leader, and in the lower-right
+    // corner for the pass@1 leader, joined to its point by a short line.
+    svgEl('circle', { cx: ga.x(lead128.p1), cy: ga.y(lead128.p128), r: 6.5, fill: CAND_COLORS.p128, stroke: '#FFFFFF', 'stroke-width': 1.5 }, sa);
+    svgEl('text', { class: 'cand-note', x: ga.x(lead128.p1) - 12, y: ga.y(lead128.p128) - 12, fill: CAND_COLORS.p128, 'text-anchor': 'end', text: 'highest pass@128' }, sa);
+    var sel = pts.filter(function (p) { return p.selected; })[0];
+    svgEl('circle', { cx: ga.x(sel.p1), cy: ga.y(sel.p128), r: 6.5, fill: '#000000', stroke: '#FFFFFF', 'stroke-width': 1.5 }, sa);
+    svgEl('text', { class: 'cand-note', x: ga.x(sel.p1) - 12, y: ga.y(sel.p128) + 4, fill: '#000000', 'text-anchor': 'end', text: 'selected' }, sa);
+    var lx = ga.R - 4, ly = ga.y(82.6);
+    svgEl('line', { x1: ga.x(lead1.p1), y1: ga.y(lead1.p128) + 7, x2: lx - 22, y2: ly - 14, stroke: CAND_COLORS.p1, 'stroke-width': 1 }, sa);
+    svgEl('circle', { cx: ga.x(lead1.p1), cy: ga.y(lead1.p128), r: 6.5, fill: CAND_COLORS.p1, stroke: '#FFFFFF', 'stroke-width': 1.5 }, sa);
+    svgEl('text', { class: 'cand-note', x: lx, y: ly, fill: CAND_COLORS.p1, 'text-anchor': 'end', text: 'highest pass@1' }, sa);
+
+    // (b) Crossing pair.
+    var pb = el('div', { class: 'cand-panel' }, grid);
+    el('p', { class: 'panel-title', text: '(b) Two candidates trade places as k grows' }, pb);
+    var curves = C.cross.curves;
+    var a = curves.filter(function (c) { return c.role === 'a'; })[0].passk;
+    var bb = curves.filter(function (c) { return c.role === 'b'; })[0].passk;
+    var sb = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img',
+      'aria-label': 'pass@k for the 40 candidates of one optimization run. One candidate leads Qwen3-32B at pass@1 (' + pct(a[0]) + ' vs. ' + pct(r1) + ') but trails it at pass@128 (' + pct(a[a.length - 1]) + ' vs. ' + pct(r128) + '); another trails at pass@1 (' + pct(bb[0]) + ') but leads at pass@128 (' + pct(bb[bb.length - 1]) + ').' }, pb);
+    var K = a.length;
+    var gb = geom(1, K, 40, 90, true);
+    axes(sb, gb, [1, 4, 16, 128].map(function (v) { return { v: v, label: String(v) }; }), [40, 50, 60, 70, 80, 90], 'attempts per task (k), log scale', 'pass@k');
+    var line = function (c, attrs) {
+      var d = c.map(function (v, i) { return (i ? 'L' : 'M') + gb.x(i + 1).toFixed(1) + ',' + gb.y(v).toFixed(1); }).join(' ');
+      attrs.d = d; attrs.fill = 'none'; attrs['stroke-linejoin'] = 'round'; attrs['stroke-linecap'] = 'round';
+      svgEl('path', attrs, sb);
+    };
+    curves.forEach(function (c) { if (c.role === 'other') line(c.passk, { stroke: CAND_COLORS.other, 'stroke-width': 1.2, opacity: 0.8 }); });
+    line(base, { stroke: CAND_COLORS.base, 'stroke-width': 2.5 });
+    line(ref, { stroke: CAND_COLORS.ref, 'stroke-width': 2, 'stroke-dasharray': '6 5' });
+    line(a, { stroke: CAND_COLORS.p1, 'stroke-width': 3 });
+    line(bb, { stroke: CAND_COLORS.p128, 'stroke-width': 3 });
+
+    root.insertBefore(widget, root.querySelector('figcaption'));
+    root.classList.add('has-widget');
+  }
+
   document.querySelectorAll('[data-explorer]').forEach(function (root) { new Explorer(root); });
+  document.querySelectorAll('[data-candidates]').forEach(function (root) { new Candidates(root); });
   document.querySelectorAll('[data-outcomes]').forEach(function (root) { new Outcomes(root); });
 })();
