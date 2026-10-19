@@ -361,6 +361,109 @@
       '</strong>, some attempts <strong>' + b.sometimes + ' → ' + o.sometimes + '</strong>, no observed success <strong>' + b.never + ' → ' + o.never + '</strong>.';
   };
 
+  // ---------------------------------------------------------------------------
+  // Candidate examples (section 03): one run's pass@1 vs. pass@128, and a crossing pair
+  // ---------------------------------------------------------------------------
+  var CAND_COLORS = { p1: '#E21500', p128: '#006FE2', other: '#C9C9C9', base: '#8D8D8D', ref: '#2D2D2D' };
+
+  function axes(svg, g, xTicks, yTicks, xLabel, yLabel) {
+    yTicks.forEach(function (v) {
+      svgEl('line', { class: 'ex-grid', x1: g.L, x2: g.R, y1: g.y(v), y2: g.y(v) }, svg);
+      svgEl('text', { class: 'ex-ytick', x: g.L - 8, y: g.y(v) + 4, text: v + '%' }, svg);
+    });
+    xTicks.forEach(function (t) {
+      svgEl('text', { class: 'ex-xtick', x: g.x(t.v), y: g.B + 20, text: t.label }, svg);
+    });
+    svgEl('text', { class: 'ex-axis', x: (g.L + g.R) / 2, y: g.B + 42, text: xLabel }, svg);
+    svgEl('text', { class: 'ex-axis', transform: 'translate(14 ' + (g.T + g.B) / 2 + ') rotate(-90)', text: yLabel }, svg);
+  }
+
+  function Candidates(root) {
+    var C = DATA.candidates;
+    if (!C) return;
+    var hp = B.hotpotqa.arms;
+    var base = hp.filter(function (a) { return a.role === 'baseline'; })[0].passk.all;
+    var ref = hp.filter(function (a) { return a.role === 'reference'; })[0].passk.all;
+    var W = 380, H = 340;
+    var geom = function (x0, x1, y0, y1, logX) {
+      var L = 58, R = W - 16, T = 14, Bt = H - 54;
+      return {
+        L: L, R: R, T: T, B: Bt,
+        x: function (v) { return logX ? L + (Math.log2(v) / Math.log2(x1)) * (R - L) : L + ((v - x0) / (x1 - x0)) * (R - L); },
+        y: function (v) { return Bt - ((v - y0) / (y1 - y0)) * (Bt - T); },
+      };
+    };
+
+    var widget = el('div', { class: 'cand-widget' });
+    var legend = el('ul', { class: 'html-legend cand-legend', 'aria-label': 'Legend' }, widget);
+    [['p1', 'Leads at pass@1', ''], ['p128', 'Leads at pass@128', ''], ['other', 'Other candidates', ''],
+     ['base', 'Qwen3-8B baseline', ''], ['ref', 'Qwen3-32B baseline', 'dashed']].forEach(function (item) {
+      var li = el('li', {}, legend);
+      var sw = el('span', { class: 'lg-line' }, li);
+      sw.style.borderColor = CAND_COLORS[item[0]];
+      if (item[2]) sw.style.borderTopStyle = item[2];
+      li.appendChild(document.createTextNode(item[1]));
+    });
+    var selItem = el('li', {}, legend);
+    el('span', { class: 'lg-dot' }, selItem);
+    selItem.appendChild(document.createTextNode('Selected harness (a)'));
+    var grid = el('div', { class: 'cand-grid' }, widget);
+
+    // (a) Scatter.
+    var pts = C.scatter.points;
+    var lead1 = pts.reduce(function (a, b) { return b.p1 > a.p1 ? b : a; });
+    var lead128 = pts.reduce(function (a, b) { return b.p128 > a.p128 ? b : a; });
+    var pa = el('div', { class: 'cand-panel' }, grid);
+    el('p', { class: 'panel-title', text: '(a) One run\u2019s candidates: pass@1 vs. pass@128' }, pa);
+    var sa = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img',
+      'aria-label': 'Scatter of pass@1 against pass@128 for the 40 Qwen3-8B candidates of one optimization run. The candidate with the highest pass@1 (' + pct(lead1.p1) + ', ' + pct(lead1.p128) + ') differs from the one with the highest pass@128 (' + pct(lead128.p1) + ', ' + pct(lead128.p128) + '); the run\u2019s selected harness is at (' + pct(pts.filter(function (p) { return p.selected; })[0].p1) + ', ' + pct(pts.filter(function (p) { return p.selected; })[0].p128) + ').' }, pa);
+    var ga = geom(55, 77, 80, 90, false);
+    axes(sa, ga, [55, 60, 65, 70, 75].map(function (v) { return { v: v, label: v + '%' }; }), [80, 85, 90], 'pass@1', 'pass@128');
+    pts.forEach(function (p) {
+      if (p === lead1 || p === lead128 || p.selected) return;
+      svgEl('circle', { cx: ga.x(p.p1), cy: ga.y(p.p128), r: 4, fill: CAND_COLORS.other }, sa);
+    });
+    var b1 = base[0], b128 = base[base.length - 1], r1 = ref[0], r128 = ref[ref.length - 1];
+    svgEl('rect', { x: ga.x(b1) - 5, y: ga.y(b128) - 5, width: 10, height: 10, fill: CAND_COLORS.base }, sa);
+    // Leader labels sit in empty space: above-left of the pass@128 leader, and in the lower-right
+    // corner for the pass@1 leader, joined to its point by a short line.
+    svgEl('circle', { cx: ga.x(lead128.p1), cy: ga.y(lead128.p128), r: 6.5, fill: CAND_COLORS.p128, stroke: '#FFFFFF', 'stroke-width': 1.5 }, sa);
+    svgEl('text', { class: 'cand-note', x: ga.x(lead128.p1) - 12, y: ga.y(lead128.p128) - 12, fill: CAND_COLORS.p128, 'text-anchor': 'end', text: 'highest pass@128' }, sa);
+    var sel = pts.filter(function (p) { return p.selected; })[0];
+    svgEl('circle', { cx: ga.x(sel.p1), cy: ga.y(sel.p128), r: 6.5, fill: '#000000', stroke: '#FFFFFF', 'stroke-width': 1.5 }, sa);
+    svgEl('text', { class: 'cand-note', x: ga.x(sel.p1) - 12, y: ga.y(sel.p128) + 4, fill: '#000000', 'text-anchor': 'end', text: 'selected' }, sa);
+    var lx = ga.R - 4, ly = ga.y(82.6);
+    svgEl('line', { x1: ga.x(lead1.p1), y1: ga.y(lead1.p128) + 7, x2: lx - 22, y2: ly - 14, stroke: CAND_COLORS.p1, 'stroke-width': 1 }, sa);
+    svgEl('circle', { cx: ga.x(lead1.p1), cy: ga.y(lead1.p128), r: 6.5, fill: CAND_COLORS.p1, stroke: '#FFFFFF', 'stroke-width': 1.5 }, sa);
+    svgEl('text', { class: 'cand-note', x: lx, y: ly, fill: CAND_COLORS.p1, 'text-anchor': 'end', text: 'highest pass@1' }, sa);
+
+    // (b) Crossing pair.
+    var pb = el('div', { class: 'cand-panel' }, grid);
+    el('p', { class: 'panel-title', text: '(b) Two candidates trade places as k grows' }, pb);
+    var curves = C.cross.curves;
+    var a = curves.filter(function (c) { return c.role === 'a'; })[0].passk;
+    var bb = curves.filter(function (c) { return c.role === 'b'; })[0].passk;
+    var sb = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img',
+      'aria-label': 'pass@k for the 40 candidates of one optimization run. One candidate leads Qwen3-32B at pass@1 (' + pct(a[0]) + ' vs. ' + pct(r1) + ') but trails it at pass@128 (' + pct(a[a.length - 1]) + ' vs. ' + pct(r128) + '); another trails at pass@1 (' + pct(bb[0]) + ') but leads at pass@128 (' + pct(bb[bb.length - 1]) + ').' }, pb);
+    var K = a.length;
+    var gb = geom(1, K, 40, 90, true);
+    axes(sb, gb, [1, 4, 16, 128].map(function (v) { return { v: v, label: String(v) }; }), [40, 50, 60, 70, 80, 90], 'attempts per task (k), log scale', 'pass@k');
+    var line = function (c, attrs) {
+      var d = c.map(function (v, i) { return (i ? 'L' : 'M') + gb.x(i + 1).toFixed(1) + ',' + gb.y(v).toFixed(1); }).join(' ');
+      attrs.d = d; attrs.fill = 'none'; attrs['stroke-linejoin'] = 'round'; attrs['stroke-linecap'] = 'round';
+      svgEl('path', attrs, sb);
+    };
+    curves.forEach(function (c) { if (c.role === 'other') line(c.passk, { stroke: CAND_COLORS.other, 'stroke-width': 1.2, opacity: 0.8 }); });
+    line(base, { stroke: CAND_COLORS.base, 'stroke-width': 2.5 });
+    line(ref, { stroke: CAND_COLORS.ref, 'stroke-width': 2, 'stroke-dasharray': '6 5' });
+    line(a, { stroke: CAND_COLORS.p1, 'stroke-width': 3 });
+    line(bb, { stroke: CAND_COLORS.p128, 'stroke-width': 3 });
+
+    root.insertBefore(widget, root.querySelector('figcaption'));
+    root.classList.add('has-widget');
+  }
+
   document.querySelectorAll('[data-explorer]').forEach(function (root) { new Explorer(root); });
+  document.querySelectorAll('[data-candidates]').forEach(function (root) { new Candidates(root); });
   document.querySelectorAll('[data-outcomes]').forEach(function (root) { new Outcomes(root); });
 })();
