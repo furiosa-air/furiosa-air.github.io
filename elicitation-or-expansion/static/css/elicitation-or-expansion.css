@@ -23,7 +23,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
 /* As on the MetaCurate page, headings stay centered while body paragraphs sit in an
    800px column, justified with automatic hyphenation. */
-.hero__lead { text-wrap: balance; }
 .fig figcaption, .card p, .callout p { text-wrap: pretty; }
 .section__head .section__lede,
 .section__lede--center,
@@ -64,7 +63,20 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 @media (max-width: 479px) {
   .hero__notes { font-size: 13px; }
 }
-.hero__lead { margin: 24px 0 0; max-width: 100%; font-size: clamp(22px, 2.8vw, 30px); font-weight: 700; line-height: 1.25; letter-spacing: -0.015em; color: var(--hp-ink); }
+/* "What we did / What we found" summary under the hero buttons: a label column and
+   text separated by hairlines, left-aligned. */
+.hero__summary { width: 100%; max-width: 920px; margin: 32px 0 0; text-align: left; border-top: 1px solid var(--hp-ink); }
+.hero__row { display: grid; gap: 6px 32px; padding: 20px 0; border-bottom: 1px solid var(--hp-rule); }
+.hero__row:last-child { border-bottom-color: var(--hp-ink); }
+@media (min-width: 640px) {
+  .hero__row { grid-template-columns: 11rem minmax(0, 1fr); gap: 6px 32px; }
+}
+.hero__summary dt { margin: 0; padding-top: 8px; white-space: nowrap; font-size: 15px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hp-opt); }
+.hero__summary dd { margin: 0; font-size: 24px; line-height: 1.5; color: var(--hp-text); text-wrap: balance; }
+.hero__summary dd strong { font-weight: 700; color: var(--hp-ink); }
+@media (max-width: 639px) {
+  .hero__summary dd { font-size: 19px; }
+}
 
 /* ---------- Sections ---------- */
 .section h2 .muted { color: var(--hp-soft); }
