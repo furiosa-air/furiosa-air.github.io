@@ -290,7 +290,7 @@
               Qwen3-8B vs. Qwen3-32B on HotpotQA; GPT-OSS-120B at medium vs. high reasoning effort on AppWorld.</figcaption>
           </figure>
     <div class="grid grid--cards grid--three">
-      <div class="card"><h3>Scaling gains more on hard tasks</h3><p>On hard tasks, scaling yields larger mean pass@1 gains than harness optimization on all three benchmarks (dataset-level difficulty for text).</p></div>
+      <div class="card"><h3>Harness gains trail scaling on hard tasks</h3><p>On hard tasks, harness optimization yields smaller mean pass@1 gains than scaling on all three benchmarks (dataset-level difficulty for text).</p></div>
       <div class="card"><h3>Every candidate falls short</h3><p>All 40 candidates from one HotpotQA optimization run stay below the 32B model on hard questions.</p></div>
       <div class="card"><h3>Hard-focused re-optimization did not close the gap</h3><p>Re-optimizing the HotpotQA harness on a hard-focused task mixture raises hard-task pass@1 (56.88% &rarr; 59.28%; 32B: 59.51%) but leaves pass@128 unchanged at 73.17% (32B: 78.05%).</p></div>
     </div>
