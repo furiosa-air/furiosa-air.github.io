@@ -217,7 +217,7 @@
       <h2>A first-try lead<br><span class="muted">need not be a coverage lead.</span></h2>
       <p class="section__lede">On LawBench, the optimized 20B harness leads the 120B model by 16.05 pp at pass@1, but falls behind from \(k = 11\). On all three text benchmarks, it ends below the 120B model at pass@64.</p>
     </div>
-    <figure class="fig" id="fig-comparison" data-explorer data-views="Symptom2Disease,LawBench,USPTO,hotpotqa,appworld" data-default-view="LawBench">
+    <figure class="fig" id="fig-comparison" data-explorer data-average-runs data-views="Symptom2Disease,LawBench,USPTO,hotpotqa,appworld" data-default-view="LawBench">
             <div class="static-fallback">
             <img src="static/figures/task_comparison/legend.png" alt="Legend: base solver with H0 (solid black), base solver with H* (red), reference with H0 (dashed)." class="mx-auto w-full max-w-md" width="2041" height="114" />
             <p class="panel-group mt-5">Static · text classification <span>GPT-OSS-20B vs 120B · k ≤ 64</span></p>
@@ -235,7 +235,7 @@
             <figcaption>
               <span class="tag">Measured · 64 attempts per task (text), 128 (HotpotQA, AppWorld)</span>
               <span class="js-only">Pick a benchmark and drag the budget.</span>
-              Each red curve is a harness selected by one optimization run; the dashed curve keeps the baseline harness with a larger model (text, HotpotQA) or higher reasoning effort (AppWorld).</figcaption>
+              The red curve is the optimized harness: the harness selected by one optimization run for text classification, and the mean of the harnesses selected by two optimization runs for HotpotQA and AppWorld. The dashed curve keeps the baseline harness with a larger model (text, HotpotQA) or higher reasoning effort (AppWorld).</figcaption>
           </figure>
     <div class="section__head section__head--sub">
       <h3>Text classification: mostly elicitation.</h3>

@@ -19,6 +19,8 @@
     'hotpotqa/hard': 'Neither optimized harness exceeds the 32B reference at any evaluated budget; at pass@128 they reach 71–73%, versus 71% for the 8B baseline and 78% for 32B.',
     'appworld/all': 'Both optimized medium-effort harnesses fall below high effort at pass@1 and pass@128; one briefly exceeds it at k = 2.',
     'appworld/easy': 'All systems eventually reach complete observed coverage.',
+    'hotpotqa/all/mean': 'Averaged over two optimization runs, the optimized Qwen3-8B harness stays close to the 32B reference across budgets: 71.8% versus 69.1% at pass@1 and 88.0% versus 87.7% at pass@128.',
+    'appworld/all/mean': 'Averaged over two optimization runs, the optimized medium-effort harness stays below high effort at every budget: 62.2% versus 63.5% at pass@1 and 95.5% versus 97.0% at pass@128.',
     'appworld/hard': 'Unlike on HotpotQA, the optimized harnesses gain coverage over the medium-effort baseline (89–92% versus 83% at pass@128), but at best match high effort (92%).',
   };
 
@@ -59,13 +61,28 @@
   }
 
   // Arms for a view: [{role, label, curve}], with run numbers for multiple optimized arms.
-  function armsFor(viewKey, stratum) {
+  function armsFor(viewKey, stratum, averageRuns) {
     var view = VIEWS[viewKey];
     var bench = B[view.bench];
-    var arms = view.dataset ? bench.datasets[view.dataset].arms : bench.arms;
-    return arms.map(function (a) {
+    var arms = (view.dataset ? bench.datasets[view.dataset].arms : bench.arms).map(function (a) {
       return { role: a.role, label: a.label, curve: view.dataset ? a.passk : a.passk[stratum] };
     });
+    var runs = arms.filter(function (a) { return a.role === 'optimized'; });
+    if (!averageRuns || runs.length < 2) return arms;
+    // One optimized curve: the mean of the selected harnesses' pass@k across optimization runs.
+    var mean = {
+      role: 'optimized',
+      label: runs[0].label.replace(/ \(run \d+\)$/, '') + ' (mean of ' + runs.length + ' runs)',
+      curve: runs[0].curve.map(function (_, i) {
+        return runs.reduce(function (sum, r) { return sum + r.curve[i]; }, 0) / runs.length;
+      }),
+    };
+    var out = [];
+    arms.forEach(function (a) {
+      if (a.role !== 'optimized') out.push(a);
+      else if (a === runs[0]) out.push(mean);
+    });
+    return out;
   }
 
   function niceRange(lo, hi) {
@@ -83,6 +100,7 @@
     this.root = root;
     this.views = root.getAttribute('data-views').split(',');
     this.showStrata = root.hasAttribute('data-strata');
+    this.averageRuns = root.hasAttribute('data-average-runs');
     this.view = root.getAttribute('data-default-view') || this.views[0];
     this.stratum = root.getAttribute('data-default-stratum') || 'all';
     this.k = 1;
@@ -179,7 +197,7 @@
     var self = this;
     this.tabButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.key === self.view)); });
     this.strataButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.key === self.stratum)); });
-    this.arms = armsFor(this.view, this.stratum);
+    this.arms = armsFor(this.view, this.stratum, this.averageRuns);
     this.K = this.arms[0].curve.length;
     this.k = Math.min(this.k, this.K);
     var optimized = this.arms.filter(function (a) { return a.role === 'optimized'; });
@@ -189,7 +207,8 @@
     var all = [];
     this.arms.forEach(function (a) { all = all.concat(a.curve); });
     this.range = niceRange(Math.min.apply(null, all), Math.max.apply(null, all));
-    var note = NOTES[view.bench + '/' + (view.dataset || this.stratum)];
+    var noteKey = view.bench + '/' + (view.dataset || this.stratum);
+    var note = (this.averageRuns && NOTES[noteKey + '/mean']) || NOTES[noteKey];
     this.note.textContent = note || '';
     this.note.hidden = !note;
     this.svg.setAttribute('aria-label', view.title + (view.dataset ? '' : ', ' + STRATUM_LABEL[this.stratum].toLowerCase()) +
