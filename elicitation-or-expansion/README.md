@@ -27,10 +27,7 @@ the manuscript of 2026-10-16. Treat them as final and do not edit them by hand. 
 regenerated with scripts kept alongside the paper's sources only if the paper's figures or
 numbers change; after the arXiv release they stay fixed.
 
-## Before going public
+## Notes
 
-- Publish together with the arXiv release; nothing in this folder should be pushed before then.
-- Replace the arXiv button's `href="#"` with the arXiv link (Code and Dataset are linked).
-- Fill in the arXiv ID in the BibTeX: `grep -n 'arXiv:TODO\|href="#"' index.html`.
 - After deploying, check that the `og:image` URL opens (the social preview is `static/images/social_preview.png`).
 - `static/fonts/` holds ABC Favorit (commercial, Dinamo), as on the other project pages.
