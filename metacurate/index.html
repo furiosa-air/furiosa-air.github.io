@@ -7,11 +7,16 @@
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta name="description" content="MetaCurate is a training-free framework that evolves executable trajectory curation filters for agentic coding SFT data using pairwise LLM judgments.">
+<link rel="canonical" href="https://furiosa-air.github.io/metacurate/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="MetaCurate: Evolving Curation Filters for High-Quality Agentic Coding Data">
 <meta property="og:description" content="Training-free curation of coding-agent trajectories with pairwise LLM judgments. 64.0% SWE-bench Verified with Qwen 3.5 9B.">
 <meta property="og:url" content="https://furiosa-air.github.io/metacurate/">
-<!-- <meta property="og:image" content="https://furiosa-air.github.io/metacurate/static/images/social_preview.png"> 1200x630 -->
+<meta property="og:image" content="https://furiosa-air.github.io/metacurate/static/images/social_preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MetaCurate trajectory curation strategies: outcome filtering, a one-shot filter, training-loop search, and training-free LLM-judge search.">
+<meta name="twitter:image" content="https://furiosa-air.github.io/metacurate/static/images/social_preview.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="static/css/colors_and_type.css">
 <link rel="stylesheet" href="static/css/site.css">
@@ -32,6 +37,43 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 .result-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width: 639px){.result-cards{grid-template-columns:minmax(0,1fr)}}
 </style>
+<meta name="citation_title" content="MetaCurate: Evolving Curation Filters for High-Quality Agentic Coding Data">
+<meta name="citation_author" content="Kim, Donghoon">
+<meta name="citation_author" content="Oh, Seunghyuk">
+<meta name="citation_author" content="Galim, Kevin">
+<meta name="citation_author" content="Kim, Minseo">
+<meta name="citation_author" content="Lee, Minjae">
+<meta name="citation_author" content="Kim, Younghyun">
+<meta name="citation_author" content="Seo, Wooseok">
+<meta name="citation_author" content="Koo, Hyung Il">
+<meta name="citation_author" content="Kang, Wonjun">
+<meta name="citation_publication_date" content="2026/10/16">
+<meta name="citation_pdf_url" content="https://arxiv.org/pdf/2610.23134">
+<meta name="citation_arxiv_id" content="2610.23134">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "name": "MetaCurate: Evolving Curation Filters for High-Quality Agentic Coding Data",
+  "url": "https://furiosa-air.github.io/metacurate/",
+  "datePublished": "2026-10-16",
+  "description": "MetaCurate is a training-free framework that evolves executable trajectory curation filters for agentic coding SFT data using pairwise LLM judgments.",
+  "image": "https://furiosa-air.github.io/metacurate/static/images/social_preview.png",
+  "author": [
+    {"@type": "Person", "name": "Donghoon Kim", "url": "https://scholar.google.co.kr/citations?user=FKPOG1EAAAAJ"},
+    {"@type": "Person", "name": "Seunghyuk Oh", "url": "https://seunghyukoh.com/"},
+    {"@type": "Person", "name": "Kevin Galim", "url": "https://kevingalim.com/"},
+    {"@type": "Person", "name": "Minseo Kim", "url": "https://minseokim.org/"},
+    {"@type": "Person", "name": "Minjae Lee", "url": "https://mjbooo.github.io/"},
+    {"@type": "Person", "name": "Younghyun Kim", "url": "https://scholar.google.com/citations?user=Bk6pxR0AAAAJ&hl=en"},
+    {"@type": "Person", "name": "Wooseok Seo", "url": "https://just1nseo.github.io/"},
+    {"@type": "Person", "name": "Hyung Il Koo", "url": "https://scholar.google.com/citations?user=Oyy8aDMAAAAJ&hl=en"},
+    {"@type": "Person", "name": "Wonjun Kang", "url": "https://wonjunn.github.io/"}
+  ],
+  "sameAs": "https://arxiv.org/abs/2610.23134",
+  "encoding": {"@type": "MediaObject", "contentUrl": "https://arxiv.org/pdf/2610.23134", "encodingFormat": "application/pdf"}
+}
+</script>
 </head>
 <body>
 <div style="width: 100%; font-family: var(--font-sans); color: #444444; background: #FFFFFF;">
@@ -40,7 +82,7 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 <header style="background: #FFFFFF; border-bottom: 1px solid #D4D4D4;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px;">
 <a href="https://furiosa.ai/research" aria-label="FuriosaAI AI Research (AIR)" style="display: flex; align-items: center; gap: 14px; text-decoration: none;">
-<img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI" style="height: 18px; width: auto;">
+<img height="216" width="1247" src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI" style="height: 18px; width: auto;">
 <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #444444; border-left: 1px solid #D4D4D4; padding-left: 14px;">AI Research</span>
 </a>
 <nav aria-label="Sections" style="display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 14px; font-weight: 500;">
@@ -60,7 +102,7 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 <p style="margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #444444;">Preprint · 2026</p>
 <h1 style="margin: 0; max-width: 24ch; font-size: clamp(36px, 5vw, 60px); font-weight: 700; line-height: 1.05; letter-spacing: -0.025em; color: #151515;">MetaCurate:<br> Evolving Curation Filters for <span style="white-space: nowrap;">High-Quality</span> Agentic Coding&nbsp;Data</h1>
 <div style="display: flex; flex-direction: column; gap: 8px; max-width: 920px;">
-<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #151515;">Donghoon&nbsp;Kim<sup>1*</sup>, Seunghyuk&nbsp;Oh<sup>1*</sup>, Kevin&nbsp;Galim<sup>1</sup>, Minseo&nbsp;Kim<sup>2</sup>, Minjae&nbsp;Lee<sup>1</sup>, Younghyun&nbsp;Kim<sup>1</sup>, Wooseok&nbsp;Seo<sup>1</sup>,<br class="author-break"> Hyung&nbsp;Il&nbsp;Koo<sup>1</sup>, Wonjun&nbsp;Kang<sup>1</sup></p>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #151515;"><a href="https://scholar.google.co.kr/citations?user=FKPOG1EAAAAJ" target="_blank" rel="noopener noreferrer">Donghoon&nbsp;Kim</a><sup>1*</sup>, <a href="https://seunghyukoh.com/" target="_blank" rel="noopener noreferrer">Seunghyuk&nbsp;Oh</a><sup>1*</sup>, <a href="https://kevingalim.com/" target="_blank" rel="noopener noreferrer">Kevin&nbsp;Galim</a><sup>1</sup>, <a href="https://minseokim.org/" target="_blank" rel="noopener noreferrer">Minseo&nbsp;Kim</a><sup>2</sup>, <a href="https://mjbooo.github.io/" target="_blank" rel="noopener noreferrer">Minjae&nbsp;Lee</a><sup>1</sup>, <a href="https://scholar.google.com/citations?user=Bk6pxR0AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Younghyun&nbsp;Kim</a><sup>1</sup>, <a href="https://just1nseo.github.io/" target="_blank" rel="noopener noreferrer">Wooseok&nbsp;Seo</a><sup>1</sup>,<br class="author-break"> <a href="https://scholar.google.com/citations?user=Oyy8aDMAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Hyung&nbsp;Il&nbsp;Koo</a><sup>1</sup>, <a href="https://wonjunn.github.io/" target="_blank" rel="noopener noreferrer">Wonjun&nbsp;Kang</a><sup>1</sup></p>
 <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #444444;"><sup>1</sup>FuriosaAI   <sup>2</sup>University of California, Berkeley   <sup>*</sup>Equal contribution</p>
 </div>
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px;">
@@ -74,7 +116,7 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 <!-- Teaser figure -->
 <section style="background: #FFFFFF;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 0 24px 64px; display: flex; flex-direction: column; gap: 16px;">
-<img src="static/images/figure_teaser.png" alt="Comparison of trajectory curation strategies: outcome-only filtering, a one-shot filter with no loop, train-and-validate search, and MetaCurate, which validates each filter revision with an LLM judge instead of training." style="display: block; width: 100%; height: auto;">
+<img height="1039" width="2427" src="static/images/figure_teaser.png" alt="Comparison of trajectory curation strategies: outcome-only filtering, a one-shot filter with no loop, train-and-validate search, and MetaCurate, which validates each filter revision with an LLM judge instead of training." style="display: block; width: 100%; height: auto;">
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #444444; text-align: center; text-wrap: balance;"><strong style="color: #151515;">Four ways to select agent trajectories for SFT:</strong> (a)&nbsp;outcome-only filtering, (b)&nbsp;a filter designed once with no loop, (c)&nbsp;a loop that validates each filter by training, and (d)&nbsp;MetaCurate, a loop that validates each filter with an LLM judge, without training a model.</p>
 </div>
 </section>
@@ -123,7 +165,7 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #444444; text-wrap: balance;">MetaCurate uses pairwise judge preferences as supervision, transferring comparison feedback into a reusable pointwise filter. Once fixed, the filter scores the full pool without further pairwise judgments.</p>
 </div>
 
-<img src="static/images/figure_method.png" alt="The MetaCurate loop: propose filters, score data, pairwise evaluation, and rank, persist and repeat." style="display: block; width: 100%; height: auto; box-sizing: border-box; padding: clamp(12px, 3vw, 32px); background: #FFFFFF; border: 1px solid #D4D4D4;">
+<img loading="lazy" height="605" width="2427" src="static/images/figure_method.png" alt="The MetaCurate loop: propose filters, score data, pairwise evaluation, and rank, persist and repeat." style="display: block; width: 100%; height: auto; box-sizing: border-box; padding: clamp(12px, 3vw, 32px); background: #FFFFFF; border: 1px solid #D4D4D4;">
 
 <div class="method-steps" style="display: grid; gap: 12px;">
 <div style="background: #FFFFFF; border: 1px solid #D4D4D4; padding: 24px 22px; display: flex; flex-direction: column; gap: 10px;">
@@ -272,7 +314,7 @@ h2:hover .section-heading-link__icon,.section-heading-link:focus-visible .sectio
 <!-- Footer -->
 <footer style="background: #FFFFFF; border-top: 1px solid #D4D4D4;">
 <div style="max-width: 1040px; margin: 0 auto; padding: 32px 24px 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; font-size: 14px; color: #444444;">
-<span style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px;"><img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI" style="height: 16px; width: auto;"><span>in collaboration with University of California, Berkeley</span></span>
+<span style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px;"><img height="216" width="1247" src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI" style="height: 16px; width: auto;"><span>in collaboration with University of California, Berkeley</span></span>
 <span>Contact: <a href="mailto:dhkim@furiosa.ai">dhkim@furiosa.ai</a>, <a href="mailto:seunghyukoh@furiosa.ai">seunghyukoh@furiosa.ai</a></span>
 </div>
 </footer>

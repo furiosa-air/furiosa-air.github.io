@@ -10,7 +10,11 @@
 <meta property="og:title" content="ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs">
 <meta property="og:description" content="ParallelBench analyzes diffusion LLMs under parallel decoding, revealing the speed-quality trade-offs and benchmark tasks that surface token dependency failures.">
 <meta property="og:url" content="https://furiosa-air.github.io/parallelbench/">
-<meta property="og:image" content="https://furiosa-air.github.io/parallelbench/assets/images/logo_with_background.png">
+<meta property="og:image" content="https://furiosa-air.github.io/parallelbench/static/images/social_preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs.">
+<meta name="twitter:image" content="https://furiosa-air.github.io/parallelbench/static/images/social_preview.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://furiosa-air.github.io/parallelbench/">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
@@ -18,6 +22,47 @@
 <link rel="stylesheet" href="static/css/colors_and_type.css">
 <link rel="stylesheet" href="static/css/project.css">
 <link rel="stylesheet" href="static/css/parallelbench.css">
+<meta name="citation_title" content="ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs">
+<meta name="citation_author" content="Kang, Wonjun">
+<meta name="citation_author" content="Galim, Kevin">
+<meta name="citation_author" content="Oh, Seunghyuk">
+<meta name="citation_author" content="Lee, Minjae">
+<meta name="citation_author" content="Zeng, Yuchen">
+<meta name="citation_author" content="Zhang, Shuibai">
+<meta name="citation_author" content="Hooper, Coleman">
+<meta name="citation_author" content="Hu, Yuezhou">
+<meta name="citation_author" content="Koo, Hyung Il">
+<meta name="citation_author" content="Cho, Nam Ik">
+<meta name="citation_author" content="Lee, Kangwook">
+<meta name="citation_publication_date" content="2025/10/06">
+<meta name="citation_pdf_url" content="https://arxiv.org/pdf/2510.04767">
+<meta name="citation_arxiv_id" content="2510.04767">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "name": "ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs",
+  "url": "https://furiosa-air.github.io/parallelbench/",
+  "datePublished": "2025-10-06",
+  "description": "ParallelBench analyzes diffusion LLMs under parallel decoding, revealing the speed-quality trade-offs and benchmark tasks that surface token dependency failures.",
+  "image": "https://furiosa-air.github.io/parallelbench/static/images/social_preview.png",
+  "author": [
+    {"@type": "Person", "name": "Wonjun Kang", "url": "https://wonjunn.github.io/"},
+    {"@type": "Person", "name": "Kevin Galim", "url": "https://kevingalim.com/"},
+    {"@type": "Person", "name": "Seunghyuk Oh", "url": "https://seunghyukoh.com/"},
+    {"@type": "Person", "name": "Minjae Lee", "url": "https://mjbooo.github.io/"},
+    {"@type": "Person", "name": "Yuchen Zeng", "url": "https://yzeng58.github.io/"},
+    {"@type": "Person", "name": "Shuibai Zhang", "url": "https://zhangshuibai.github.io/"},
+    {"@type": "Person", "name": "Coleman Hooper", "url": "https://colemanhooper.org/"},
+    {"@type": "Person", "name": "Yuezhou Hu", "url": "https://scholar.google.com/citations?user=7JwZCwEAAAAJ&hl=zh-CN"},
+    {"@type": "Person", "name": "Hyung Il Koo", "url": "https://scholar.google.com/citations?user=Oyy8aDMAAAAJ&hl=en"},
+    {"@type": "Person", "name": "Nam Ik Cho", "url": "https://scholar.google.com/citations?user=Ntx5VRIAAAAJ&hl=ko"},
+    {"@type": "Person", "name": "Kangwook Lee", "url": "https://kangwooklee.com/"}
+  ],
+  "sameAs": "https://arxiv.org/abs/2510.04767",
+  "encoding": {"@type": "MediaObject", "contentUrl": "https://arxiv.org/pdf/2510.04767", "encodingFormat": "application/pdf"}
+}
+</script>
 </head>
 <body>
 
@@ -25,7 +70,7 @@
 <header class="topbar">
   <div class="container topbar__inner">
     <a class="brand" href="https://furiosa.ai/research" aria-label="FuriosaAI AI Research (AIR)">
-      <img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI">
+      <img height="216" width="1247" src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI">
       <span>AI Research</span>
     </a>
     <nav class="topnav" aria-label="Sections">
@@ -50,8 +95,8 @@
     <p class="hero__authors">
       <a href="https://wonjunn.github.io/" target="_blank" rel="noopener noreferrer">Wonjun Kang</a><sup>1,5*</sup>,
       <a href="https://kevingalim.com/" target="_blank" rel="noopener noreferrer">Kevin Galim</a><sup>1*</sup>,
-      <a href="https://seunghyukoh.com" target="_blank" rel="noopener noreferrer">Seunghyuk Oh</a><sup>1*</sup>,
-      <a href="https://scholar.google.com/citations?user=XJXKp60AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Minjae Lee</a><sup>1</sup>,
+      <a href="https://seunghyukoh.com/" target="_blank" rel="noopener noreferrer">Seunghyuk Oh</a><sup>1*</sup>,
+      <a href="https://mjbooo.github.io/" target="_blank" rel="noopener noreferrer">Minjae Lee</a><sup>1</sup>,
       <a href="https://yzeng58.github.io/" target="_blank" rel="noopener noreferrer">Yuchen Zeng</a><sup>2,3</sup>,
       <a href="https://zhangshuibai.github.io/" target="_blank" rel="noopener noreferrer">Shuibai Zhang</a><sup>2</sup>,
       <a href="https://colemanhooper.org/" target="_blank" rel="noopener noreferrer">Coleman Hooper</a><sup>4</sup>,
@@ -80,7 +125,7 @@
 
 <!-- ============ Teaser figure ============ -->
 <section class="container teaser">
-  <img src="assets/images/teaser_figure.png" alt="ParallelBench Teaser: Issue, Analysis, and Benchmark Overview">
+  <img height="1358" width="3779" src="assets/images/teaser_figure.png" alt="ParallelBench Teaser: Issue, Analysis, and Benchmark Overview">
   <p class="teaser__caption"><strong>Left:</strong> Parallel decoding fails to capture token dependencies, risking incorrect combinations of individually likely tokens (e.g., "New" and "City"). <strong>Middle:</strong> Quantitative analysis of parallel decoding performance on list operations. <strong>Right:</strong> Based on our findings, we develop a realistic benchmark to evaluate the speed-quality trade-off of parallel decoding methods.</p>
 </section>
 
@@ -120,7 +165,7 @@
     </div>
 
     <figure class="figure figure--narrow">
-      <img src="assets/figures/task_clustering.png" alt="Task Clustering: 17 tasks positioned by Parallelizability vs Order Preference" loading="lazy">
+      <img height="1923" width="2000" src="assets/figures/task_clustering.png" alt="Task Clustering: 17 tasks positioned by Parallelizability vs Order Preference" loading="lazy">
       <figcaption>ParallelBench covers a range of tasks positioned by <strong>parallelizability</strong> and <strong>order preference</strong>.</figcaption>
     </figure>
 
@@ -216,12 +261,12 @@ Output:</pre></div>
       <div class="subsection">
         <h3 class="subsection__title">Waiting Line</h3>
         <div class="figure-grid">
-          <figure class="figure"><img src="assets/figures/results/copy.png" alt="Copy task results" loading="lazy"><figcaption>Copy</figcaption></figure>
-          <figure class="figure"><img src="assets/figures/results/reverse.png" alt="Reverse task results" loading="lazy"><figcaption>Reverse</figcaption></figure>
-          <figure class="figure"><img src="assets/figures/results/replace_index.png" alt="Replace Index task results" loading="lazy"><figcaption>Replace Index</figcaption></figure>
-          <figure class="figure"><img src="assets/figures/results/replace_random.png" alt="Replace Random task results" loading="lazy"><figcaption>Replace Random</figcaption></figure>
-          <figure class="figure"><img src="assets/figures/results/shuffle.png" alt="Shuffle task results" loading="lazy"><figcaption>Shuffle</figcaption></figure>
-          <figure class="figure"><img src="assets/figures/results/sort.png" alt="Sort task results" loading="lazy"><figcaption>Sort</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/copy.png" alt="Copy task results" loading="lazy"><figcaption>Copy</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/reverse.png" alt="Reverse task results" loading="lazy"><figcaption>Reverse</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/replace_index.png" alt="Replace Index task results" loading="lazy"><figcaption>Replace Index</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/replace_random.png" alt="Replace Random task results" loading="lazy"><figcaption>Replace Random</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/shuffle.png" alt="Shuffle task results" loading="lazy"><figcaption>Shuffle</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/sort.png" alt="Sort task results" loading="lazy"><figcaption>Sort</figcaption></figure>
         </div>
         <div class="card card--insight"><span class="card__step">Key Insight</span><p>Replace Index and Replace Random exhibit contrasting trends. Despite Replace Random achieving near-perfect one-by-one decoding accuracy compared to Replace Index's below 50% accuracy, this advantage reverses under parallelization. This aligns with our theory: C(Y|X)=0 for Replace Index but C(Y|X)&gt;0 for Replace Random.</p></div>
       </div>
@@ -229,17 +274,17 @@ Output:</pre></div>
       <div class="subsection">
         <h3 class="subsection__title">Text Writing</h3>
         <div class="figure-grid">
-          <figure class="figure"><img src="assets/figures/results/paraphrasing.png" alt="Paraphrasing task results" loading="lazy"><figcaption>Paraphrasing</figcaption></figure>
-          <figure class="figure"><img src="assets/figures/results/w2s_easy.png" alt="Words-to-Sentence Easy results" loading="lazy"><figcaption>W2S (Easy)</figcaption></figure>
-          <figure class="figure"><img src="assets/figures/results/w2s_hard.png" alt="Words-to-Sentence Hard results" loading="lazy"><figcaption>W2S (Hard)</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/paraphrasing.png" alt="Paraphrasing task results" loading="lazy"><figcaption>Paraphrasing</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/w2s_easy.png" alt="Words-to-Sentence Easy results" loading="lazy"><figcaption>W2S (Easy)</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/w2s_hard.png" alt="Words-to-Sentence Hard results" loading="lazy"><figcaption>W2S (Hard)</figcaption></figure>
         </div>
       </div>
 
       <div class="subsection">
         <h3 class="subsection__title">Puzzles</h3>
         <div class="figure-grid figure-grid--pair">
-          <figure class="figure"><img src="assets/figures/results/sudoku.png" alt="Sudoku results" loading="lazy"><figcaption>Sudoku</figcaption></figure>
-          <figure class="figure"><img src="assets/figures/results/latin_square.png" alt="Latin Square results" loading="lazy"><figcaption>Latin Square</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/sudoku.png" alt="Sudoku results" loading="lazy"><figcaption>Sudoku</figcaption></figure>
+          <figure class="figure"><img height="900" width="1200" src="assets/figures/results/latin_square.png" alt="Latin Square results" loading="lazy"><figcaption>Latin Square</figcaption></figure>
         </div>
         <div class="card card--insight"><span class="card__step">Key Insight</span><p>Latin Square outperforms the harder Sudoku under one-by-one decoding, but this advantage disappears with increased parallelism. This reflects the difference in conditional total correlation: C(Y|X)&gt;0 for Latin Square, while C(Y|X)=0 for Sudoku.</p></div>
       </div>
@@ -255,9 +300,9 @@ Output:</pre></div>
       <p class="section__lede">The speed-quality trade-off is not unique to LLaDA.<br>Closed-source dLLM <strong>Mercury</strong> and autoregressive LLMs show contrasting behaviors.</p>
     </div>
     <div class="figure-grid">
-      <figure class="figure"><img src="assets/figures/comparison/mercury.png" alt="Mercury (dLLM) results" loading="lazy"><figcaption>Mercury (dLLM)</figcaption></figure>
-      <figure class="figure"><img src="assets/figures/comparison/claude_haiku.png" alt="Claude 3.5 Haiku results" loading="lazy"><figcaption>Claude 3.5 Haiku (AR)</figcaption></figure>
-      <figure class="figure"><img src="assets/figures/comparison/qwen_3.png" alt="Qwen2.5 3B results" loading="lazy"><figcaption>Qwen2.5 3B (AR)</figcaption></figure>
+      <figure class="figure"><img height="900" width="1200" src="assets/figures/comparison/mercury.png" alt="Mercury (dLLM) results" loading="lazy"><figcaption>Mercury (dLLM)</figcaption></figure>
+      <figure class="figure"><img height="900" width="1200" src="assets/figures/comparison/claude_haiku.png" alt="Claude 3.5 Haiku results" loading="lazy"><figcaption>Claude 3.5 Haiku (AR)</figcaption></figure>
+      <figure class="figure"><img height="900" width="1200" src="assets/figures/comparison/qwen_3.png" alt="Qwen2.5 3B results" loading="lazy"><figcaption>Qwen2.5 3B (AR)</figcaption></figure>
     </div>
     <div class="card card--insight"><span class="card__step">Key Insight</span><p>Mercury and autoregressive LLMs show opposite accuracy trends on Reverse and Shuffle. Mercury maintains near-perfect accuracy on Reverse but fails with Shuffle, with accuracy dropping sharply as n increases. This indicates that the closed-source Mercury struggles to adaptively adjust its parallelism to maintain quality on tasks with high token dependencies.</p></div>
   </div>
@@ -271,7 +316,7 @@ Output:</pre></div>
       <p class="section__lede">Current parallel decoding strategies are far from optimal. Oracle performance shows where they fall short.</p>
     </div>
     <figure class="figure figure--narrow">
-      <img src="assets/figures/tradeoff.png" alt="Speed-Quality Trade-off with Oracle Performance" loading="lazy">
+      <img height="1500" width="1560" src="assets/figures/tradeoff.png" alt="Speed-Quality Trade-off with Oracle Performance" loading="lazy">
       <figcaption><strong>Accuracy vs. Tokens-per-Step</strong> for different unmasking strategies. Static methods (Top-K) degrade rapidly, while adaptive methods (Threshold) achieve better trade-offs. The <strong>Oracle</strong> (star) shows the gap between current approaches and optimal performance.</figcaption>
     </figure>
     <div class="card card--insight"><span class="card__step">Key Insight</span><p>The oracle achieves both the best accuracy and a significant speedup over threshold methods with comparable accuracy, demonstrating that per-sample threshold adaptation alone yields significant improvements and suggests a substantial room for future research.</p></div>
@@ -328,7 +373,7 @@ Output:</pre></div>
 <!-- ============ Footer ============ -->
 <footer class="footer">
   <div class="container footer__inner">
-    <span class="footer__brand"><img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI"><span>in collaboration with UW-Madison, Microsoft Research, UC Berkeley, Seoul National University, KRAFTON, and Ludo Robotics</span></span>
+    <span class="footer__brand"><img height="216" width="1247" src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI"><span>in collaboration with UW-Madison, Microsoft Research, UC Berkeley, Seoul National University, KRAFTON, and Ludo Robotics</span></span>
     <span class="footer__meta"><a href="https://github.com/furiosa-ai/ParallelBench/issues">Questions: GitHub Issues</a><span>&copy; 2025 ParallelBench Contributors &middot; Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></span></span>
   </div>
 </footer>

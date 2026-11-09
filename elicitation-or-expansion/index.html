@@ -27,6 +27,43 @@
 <link rel="stylesheet" href="static/css/elicitation-or-expansion.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<meta name="citation_title" content="Elicitation or Expansion? Demystifying Gains from Agent Harness Optimization">
+<meta name="citation_author" content="Kim, Younghyun">
+<meta name="citation_author" content="Seo, Wooseok">
+<meta name="citation_author" content="Kim, Minseo">
+<meta name="citation_author" content="Oh, Seunghyuk">
+<meta name="citation_author" content="Lee, Minjae">
+<meta name="citation_author" content="Kim, Donghoon">
+<meta name="citation_author" content="Koo, Hyung Il">
+<meta name="citation_author" content="Kim, Jaehyung">
+<meta name="citation_author" content="Kang, Wonjun">
+<meta name="citation_publication_date" content="2026/10/20">
+<meta name="citation_pdf_url" content="https://arxiv.org/pdf/2610.27889">
+<meta name="citation_arxiv_id" content="2610.27889">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "name": "Elicitation or Expansion? Demystifying Gains from Agent Harness Optimization",
+  "url": "https://furiosa-air.github.io/elicitation-or-expansion/",
+  "datePublished": "2026-10-20",
+  "description": "A pass@k analysis of agent harness optimization: on HotpotQA and AppWorld, selected optimized harnesses approach larger models or higher reasoning effort in aggregate, but never surpass them on hard tasks at any evaluated attempt budget.",
+  "image": "https://furiosa-air.github.io/elicitation-or-expansion/static/images/social_preview.png",
+  "author": [
+    {"@type": "Person", "name": "Younghyun Kim", "url": "https://scholar.google.com/citations?user=Bk6pxR0AAAAJ&hl=en"},
+    {"@type": "Person", "name": "Wooseok Seo", "url": "https://just1nseo.github.io/"},
+    {"@type": "Person", "name": "Minseo Kim", "url": "https://minseokim.org/"},
+    {"@type": "Person", "name": "Seunghyuk Oh", "url": "https://seunghyukoh.com/"},
+    {"@type": "Person", "name": "Minjae Lee", "url": "https://mjbooo.github.io/"},
+    {"@type": "Person", "name": "Donghoon Kim", "url": "https://scholar.google.co.kr/citations?user=FKPOG1EAAAAJ"},
+    {"@type": "Person", "name": "Hyung Il Koo", "url": "https://scholar.google.com/citations?user=Oyy8aDMAAAAJ&hl=en"},
+    {"@type": "Person", "name": "Jaehyung Kim", "url": "https://sites.google.com/view/jaehyungkim"},
+    {"@type": "Person", "name": "Wonjun Kang", "url": "https://wonjunn.github.io/"}
+  ],
+  "sameAs": "https://arxiv.org/abs/2610.27889",
+  "encoding": {"@type": "MediaObject", "contentUrl": "https://arxiv.org/pdf/2610.27889", "encodingFormat": "application/pdf"}
+}
+</script>
 </head>
 <body>
 
@@ -34,7 +71,7 @@
 <header class="topbar">
   <div class="container topbar__inner">
     <a class="brand" href="https://furiosa.ai/research" aria-label="FuriosaAI AI Research (AIR)">
-      <img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI">
+      <img height="216" width="1247" src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI">
       <span>AI Research</span>
     </a>
     <nav class="topnav" aria-label="Sections">
@@ -56,15 +93,15 @@
   <p class="hero__subtitle">Demystifying Gains from Agent Harness Optimization</p>
   <div class="hero__people">
     <p class="hero__authors">
-      Younghyun&nbsp;Kim<sup>1*</sup>,
-      Wooseok&nbsp;Seo<sup>2*</sup>,
-      Minseo&nbsp;Kim<sup>3</sup>,
-      Seunghyuk&nbsp;Oh<sup>1</sup>,
-      Minjae&nbsp;Lee<sup>1</sup>,
-      Donghoon&nbsp;Kim<sup>1</sup>,
-      Hyung&nbsp;Il&nbsp;Koo<sup>1</sup>,
-      Jaehyung&nbsp;Kim<sup>2&dagger;</sup>,
-      Wonjun&nbsp;Kang<sup>1&dagger;</sup>
+      <a href="https://scholar.google.com/citations?user=Bk6pxR0AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Younghyun&nbsp;Kim</a><sup>1*</sup>,
+      <a href="https://just1nseo.github.io/" target="_blank" rel="noopener noreferrer">Wooseok&nbsp;Seo</a><sup>2*</sup>,
+      <a href="https://minseokim.org/" target="_blank" rel="noopener noreferrer">Minseo&nbsp;Kim</a><sup>3</sup>,
+      <a href="https://seunghyukoh.com/" target="_blank" rel="noopener noreferrer">Seunghyuk&nbsp;Oh</a><sup>1</sup>,
+      <a href="https://mjbooo.github.io/" target="_blank" rel="noopener noreferrer">Minjae&nbsp;Lee</a><sup>1</sup>,
+      <a href="https://scholar.google.co.kr/citations?user=FKPOG1EAAAAJ" target="_blank" rel="noopener noreferrer">Donghoon&nbsp;Kim</a><sup>1</sup>,
+      <a href="https://scholar.google.com/citations?user=Oyy8aDMAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Hyung&nbsp;Il&nbsp;Koo</a><sup>1</sup>,
+      <a href="https://sites.google.com/view/jaehyungkim" target="_blank" rel="noopener noreferrer">Jaehyung&nbsp;Kim</a><sup>2&dagger;</sup>,
+      <a href="https://wonjunn.github.io/" target="_blank" rel="noopener noreferrer">Wonjun&nbsp;Kang</a><sup>1&dagger;</sup>
     </p>
     <p class="hero__affiliations">
       <span><sup>1</sup>FuriosaAI</span>
@@ -219,12 +256,12 @@
     </div>
     <figure class="fig" id="fig-comparison" data-explorer data-views="Symptom2Disease,LawBench,USPTO" data-default-view="LawBench">
             <div class="static-fallback">
-            <img src="static/figures/task_comparison/legend.png" alt="Legend: base solver with H0 (solid black), base solver with H* (red), reference with H0 (dashed)." class="mx-auto w-full max-w-md" width="2041" height="114" />
+            <img loading="lazy" src="static/figures/task_comparison/legend.png" alt="Legend: base solver with H0 (solid black), base solver with H* (red), reference with H0 (dashed)." class="mx-auto w-full max-w-md" width="3000" height="101" />
             <p class="panel-group mt-5">Text classification <span>GPT-OSS-20B vs 120B · k ≤ 64</span></p>
             <div class="panels panels-3 mt-2">
-              <div class="panel"><p class="panel-title">Symptom2Disease</p><img src="static/figures/text_classification/symptom2disease.png" alt="pass@k curves on Symptom2Disease." width="1200" height="1005" /></div>
-              <div class="panel"><p class="panel-title">LawBench</p><img src="static/figures/text_classification/lawbench.png" alt="pass@k curves on LawBench; the optimized 20B harness leads the 120B reference at small k and falls below it at large k." width="1200" height="1005" /></div>
-              <div class="panel"><p class="panel-title">USPTO</p><img src="static/figures/text_classification/uspto.png" alt="pass@k curves on USPTO." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">Symptom2Disease</p><img loading="lazy" src="static/figures/text_classification/symptom2disease.png" alt="pass@k curves on Symptom2Disease." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">LawBench</p><img loading="lazy" src="static/figures/text_classification/lawbench.png" alt="pass@k curves on LawBench; the optimized 20B harness leads the 120B reference at small k and falls below it at large k." width="1200" height="1005" /></div>
+              <div class="panel"><p class="panel-title">USPTO</p><img loading="lazy" src="static/figures/text_classification/uspto.png" alt="pass@k curves on USPTO." width="1200" height="1005" /></div>
             </div>
             </div>
             <figcaption>
@@ -238,11 +275,11 @@
     </div>
     <figure class="fig" id="fig-outcomes" data-outcomes data-default-dataset="LawBench">
             <div class="static-fallback">
-            <img src="static/figures/text_classification_difficulty/legend.png" alt="Legend: GPT-OSS-20B with H0 (hatched gray) and with H* (red)." class="mx-auto w-full max-w-xl" width="2700" height="126" />
+            <img loading="lazy" src="static/figures/text_classification_difficulty/legend.png" alt="Legend: GPT-OSS-20B with H0 (hatched gray) and with H* (red)." class="mx-auto w-full max-w-xl" width="3000" height="112" />
             <div class="panels panels-3 mt-3">
-              <div class="panel"><p class="panel-title">Symptom2Disease</p><img src="static/figures/text_classification_difficulty/symptom2disease.png" alt="Distribution of per-task success fractions on Symptom2Disease." width="1200" height="840" /></div>
-              <div class="panel"><p class="panel-title">LawBench</p><img src="static/figures/text_classification_difficulty/lawbench.png" alt="Distribution of per-task success fractions on LawBench." width="1200" height="840" /></div>
-              <div class="panel"><p class="panel-title">USPTO</p><img src="static/figures/text_classification_difficulty/uspto.png" alt="Distribution of per-task success fractions on USPTO." width="1200" height="840" /></div>
+              <div class="panel"><p class="panel-title">Symptom2Disease</p><img loading="lazy" src="static/figures/text_classification_difficulty/symptom2disease.png" alt="Distribution of per-task success fractions on Symptom2Disease." width="1200" height="840" /></div>
+              <div class="panel"><p class="panel-title">LawBench</p><img loading="lazy" src="static/figures/text_classification_difficulty/lawbench.png" alt="Distribution of per-task success fractions on LawBench." width="1200" height="840" /></div>
+              <div class="panel"><p class="panel-title">USPTO</p><img loading="lazy" src="static/figures/text_classification_difficulty/uspto.png" alt="Distribution of per-task success fractions on USPTO." width="1200" height="840" /></div>
             </div>
             </div>
             <figcaption>
@@ -258,7 +295,7 @@
       <div class="cand-grid">
         <div class="cand-panel">
           <p class="panel-title">(a) pass@1 vs. pass@128 for each candidate</p>
-          <img src="static/figures/motivation/panel.png" alt="Scatter of pass@1 against pass@128 for the Qwen3-8B harness candidates of one optimization run; the pass@1 leader and the pass@128 leader are different candidates." width="1080" height="1080">
+          <img loading="lazy" src="static/figures/motivation/panel.png" alt="Scatter of pass@1 against pass@128 for the Qwen3-8B harness candidates of one optimization run; the pass@1 leader and the pass@128 leader are different candidates." width="1080" height="1080">
         </div>
         <div class="cand-panel">
           <p class="panel-title">(b) Two candidates trade places</p>
@@ -269,7 +306,7 @@
             <li><span class="lg-line" style="border-color: #5A5A5A"></span>Qwen3-8B baseline</li>
             <li><span class="lg-line" style="border-color: #D4D4D4"></span>Other candidates</li>
           </ul>
-          <img src="static/figures/hotpotqa_evolution/cross.png" alt="pass@k curves for the candidates of one optimization run: candidate A leads Qwen3-32B at pass@1 but falls below it as k grows, while candidate B starts below and ends above it." width="1084" height="1005">
+          <img loading="lazy" src="static/figures/hotpotqa_evolution/cross.png" alt="pass@k curves for the candidates of one optimization run: candidate A leads Qwen3-32B at pass@1 but falls below it as k grows, while candidate B starts below and ends above it." width="1084" height="1005">
         </div>
       </div>
       </div>
@@ -291,20 +328,20 @@
     <figure class="fig" id="fig-difficulty" data-explorer data-strata data-runs3 data-views="hotpotqa,appworld" data-default-view="hotpotqa" data-default-stratum="hard">
             <div class="static-fallback">
             <p class="panel-group">HotpotQA</p>
-            <img src="static/figures/uncertainty/hotpotqa-legend.png" alt="Legend: Qwen3-8B and Qwen3-32B baselines, and the optimized Qwen3-8B harnesses of three runs with their mean and SD." class="mx-auto w-full" width="3120" height="121">
+            <img loading="lazy" src="static/figures/uncertainty/hotpotqa-legend.png" alt="Legend: Qwen3-8B and Qwen3-32B baselines, and the optimized Qwen3-8B harnesses of three runs with their mean and SD." class="mx-auto w-full" width="3120" height="121">
             <div class="panels panels-4 mt-3">
-              <div class="panel"><p class="panel-title">All tasks</p><img src="static/figures/uncertainty/hotpotqa-all.png" alt="HotpotQA pass@k across three runs, all questions." width="1200" height="1005"></div>
-              <div class="panel"><p class="panel-title">Easy</p><img src="static/figures/uncertainty/hotpotqa-easy.png" alt="HotpotQA pass@k across three runs, easy questions." width="1200" height="1005"></div>
-              <div class="panel"><p class="panel-title">Medium</p><img src="static/figures/uncertainty/hotpotqa-medium.png" alt="HotpotQA pass@k across three runs, medium questions." width="1200" height="1005"></div>
-              <div class="panel"><p class="panel-title">Hard</p><img src="static/figures/uncertainty/hotpotqa-hard.png" alt="HotpotQA pass@k across three runs, hard questions; no run exceeds the 32B reference." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">All tasks</p><img loading="lazy" src="static/figures/uncertainty/hotpotqa-all.png" alt="HotpotQA pass@k across three runs, all questions." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Easy</p><img loading="lazy" src="static/figures/uncertainty/hotpotqa-easy.png" alt="HotpotQA pass@k across three runs, easy questions." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Medium</p><img loading="lazy" src="static/figures/uncertainty/hotpotqa-medium.png" alt="HotpotQA pass@k across three runs, medium questions." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Hard</p><img loading="lazy" src="static/figures/uncertainty/hotpotqa-hard.png" alt="HotpotQA pass@k across three runs, hard questions; no run exceeds the 32B reference." width="1200" height="1005"></div>
             </div>
             <p class="panel-group mt-8">AppWorld</p>
-            <img src="static/figures/uncertainty/appworld-legend.png" alt="Legend: medium- and high-effort baselines, and the optimized medium-effort harnesses of three runs with their mean and SD." class="mx-auto w-full" width="3120" height="121">
+            <img loading="lazy" src="static/figures/uncertainty/appworld-legend.png" alt="Legend: medium- and high-effort baselines, and the optimized medium-effort harnesses of three runs with their mean and SD." class="mx-auto w-full" width="3120" height="121">
             <div class="panels panels-4 mt-3">
-              <div class="panel"><p class="panel-title">All tasks</p><img src="static/figures/uncertainty/appworld-all.png" alt="AppWorld pass@k across three runs, all tasks." width="1200" height="1005"></div>
-              <div class="panel"><p class="panel-title">Easy</p><img src="static/figures/uncertainty/appworld-difficulty-1.png" alt="AppWorld pass@k across three runs, easy tasks." width="1200" height="1005"></div>
-              <div class="panel"><p class="panel-title">Medium</p><img src="static/figures/uncertainty/appworld-difficulty-2.png" alt="AppWorld pass@k across three runs, medium tasks." width="1200" height="1005"></div>
-              <div class="panel"><p class="panel-title">Hard</p><img src="static/figures/uncertainty/appworld-difficulty-3.png" alt="AppWorld pass@k across three runs, hard tasks; no run exceeds high effort." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">All tasks</p><img loading="lazy" src="static/figures/uncertainty/appworld-all.png" alt="AppWorld pass@k across three runs, all tasks." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Easy</p><img loading="lazy" src="static/figures/uncertainty/appworld-difficulty-1.png" alt="AppWorld pass@k across three runs, easy tasks." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Medium</p><img loading="lazy" src="static/figures/uncertainty/appworld-difficulty-2.png" alt="AppWorld pass@k across three runs, medium tasks." width="1200" height="1005"></div>
+              <div class="panel"><p class="panel-title">Hard</p><img loading="lazy" src="static/figures/uncertainty/appworld-difficulty-3.png" alt="AppWorld pass@k across three runs, hard tasks; no run exceeds high effort." width="1200" height="1005"></div>
             </div>
             </div>
             <figcaption>
@@ -353,7 +390,7 @@
 <!-- ============ Footer ============ -->
 <footer class="footer">
   <div class="container footer__inner">
-    <span class="footer__brand"><img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI"><span>in collaboration with Yonsei University and University of California, Berkeley</span></span>
+    <span class="footer__brand"><img height="216" width="1247" src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI"><span>in collaboration with Yonsei University and University of California, Berkeley</span></span>
     <span>Contact: <a href="mailto:yhyun.kim@furiosa.ai">yhyun.kim@furiosa.ai</a>, <a href="mailto:wooseok.seo@furiosa.ai">wooseok.seo@furiosa.ai</a></span>
   </div>
 </footer>

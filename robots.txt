@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://furiosa-air.github.io/sitemap.xml

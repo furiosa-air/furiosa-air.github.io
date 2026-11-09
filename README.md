@@ -35,3 +35,15 @@ There is deliberately no `.nojekyll`: Jekyll skips `_`-prefixed folders such as 
 and `_config.yml` excludes the README files.
 Pages are plain HTML without front matter, so Jekyll copies them unchanged; do not add
 front matter (`---`) to them.
+
+## SEO maintenance
+
+When adding a project, add its canonical URL to `sitemap.xml`. The root redirect is
+intentionally excluded. Run `python3 -m unittest discover -s tests` after changing
+ParallelBench results to check the HTML summaries against the leaderboard data.
+
+The official research listing is managed separately at https://furiosa.ai/research.
+Add entries linking to these project pages there:
+
+- MetaCurate: https://furiosa-air.github.io/metacurate/
+- Elicitation or Expansion: https://furiosa-air.github.io/elicitation-or-expansion/

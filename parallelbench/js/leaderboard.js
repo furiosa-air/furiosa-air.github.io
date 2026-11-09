@@ -353,6 +353,7 @@ function updateLeaderboardURL() {
 
 async function initializeLeaderboard() {
   try {
+    document.getElementById('interactive-results').hidden = false;
     await initializeCommon();
 
     const urlParams = getLeaderboardURLParams();
@@ -405,6 +406,7 @@ async function initializeLeaderboard() {
     // Hide loading, show table
     document.getElementById('leaderboard-loading').hidden = true;
     document.getElementById('leaderboard-table-wrapper').hidden = false;
+    document.getElementById('results-summary').hidden = true;
   } catch (error) {
     console.error('Failed to initialize leaderboard:', error);
   }

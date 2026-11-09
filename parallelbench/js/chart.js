@@ -567,6 +567,7 @@ async function handleModelSelection(modelId) {
 
 async function initializeChart() {
   try {
+    document.getElementById('interactive-results').hidden = false;
     await initializeCommon();
 
     const urlParams = getChartURLParams();
@@ -611,6 +612,7 @@ async function initializeChart() {
     if (initialModel) {
       generateModelTabs(modelsConfig.models, initialModel.id);
       await handleModelSelection(initialModel.id);
+      document.getElementById('results-summary').hidden = true;
 
       // Apply strategy filter from URL after model is loaded
       if (urlParams.strategies) {

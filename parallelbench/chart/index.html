@@ -5,15 +5,26 @@
 <base href="/parallelbench/">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Chart - ParallelBench</title>
-<meta name="description" content="See how accuracy scales with TPS (Tokens Per Step) for each unmasking method on ParallelBench.">
+<title>ParallelBench Accuracy and Tokens Per Step Charts</title>
+<meta name="description" content="Explore accuracy versus Tokens Per Step across diffusion LLMs and parallel decoding methods, with average and per-task results on ParallelBench.">
+<link rel="canonical" href="https://furiosa-air.github.io/parallelbench/chart/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ParallelBench Accuracy and Tokens Per Step Charts">
+<meta property="og:description" content="Explore accuracy versus Tokens Per Step across diffusion LLMs and parallel decoding methods, with average and per-task results on ParallelBench.">
+<meta property="og:url" content="https://furiosa-air.github.io/parallelbench/chart/">
+<meta property="og:image" content="https://furiosa-air.github.io/parallelbench/static/images/social_preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ParallelBench: Understanding the Trade-offs of Parallel Decoding in Diffusion LLMs.">
+<meta name="twitter:image" content="https://furiosa-air.github.io/parallelbench/static/images/social_preview.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="static/css/colors_and_type.css">
 <link rel="stylesheet" href="static/css/project.css">
 <link rel="stylesheet" href="static/css/parallelbench.css">
 <link rel="stylesheet" href="static/css/explorer.css">
-<script src="https://cdn.plot.ly/plotly-basic-2.35.2.min.js" integrity="sha384-wQ3lfCxuvLfhHGiSdHF5+e3NZ1zNwEMd8/nII+K7VKChF9llO/OwOcn/aVRkB7az" crossorigin="anonymous" charset="utf-8"></script>
+<script defer src="https://cdn.plot.ly/plotly-basic-2.35.2.min.js" integrity="sha384-wQ3lfCxuvLfhHGiSdHF5+e3NZ1zNwEMd8/nII+K7VKChF9llO/OwOcn/aVRkB7az" crossorigin="anonymous" charset="utf-8"></script>
 </head>
 <body>
 
@@ -21,7 +32,7 @@
 <header class="topbar">
   <div class="container topbar__inner">
     <a class="brand" href="https://furiosa.ai/research" aria-label="FuriosaAI AI Research (AIR)">
-      <img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI">
+      <img height="216" width="1247" src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI">
       <span>AI Research</span>
     </a>
     <nav class="topnav" aria-label="Sections">
@@ -49,8 +60,29 @@
   </nav>
 </section>
 
+<!-- ============ Default results ============ -->
+<section id="results-summary" class="section" data-accuracy-threshold="75">
+  <div class="container section__inner">
+    <div class="section__head">
+      <h2>Results at 75% Accuracy</h2>
+      <p class="section__lede">The highest Tokens Per Step (TPS) achieved by each model while maintaining at least 75% average accuracy on ParallelBench.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th scope="col">Model</th><th scope="col">Unmasking Method</th><th scope="col" class="num">Max TPS</th></tr></thead>
+        <tbody>
+          <tr data-model-id="dream"><td>Dream 7B</td><td>Confidence Factor</td><td class="num">6.48</td></tr>
+          <tr data-model-id="llada15"><td>LLaDA 1.5</td><td>WINO-DLLM</td><td class="num">6.40</td></tr>
+          <tr data-model-id="llada10"><td>LLaDA 8B Instruct</td><td>Confidence Factor</td><td class="num">4.82</td></tr>
+          <tr data-model-id="diffucoder"><td>DiffuCoder</td><td>No method meets 75% accuracy</td><td class="num">N/A</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
 <!-- ============ Charts ============ -->
-<section class="section">
+<section id="interactive-results" class="section" hidden>
   <div class="container section__inner">
     <div class="controls">
       <div class="control">
@@ -99,12 +131,12 @@
 <!-- ============ Footer ============ -->
 <footer class="footer">
   <div class="container footer__inner">
-    <span class="footer__brand"><img src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI"><span>in collaboration with UW-Madison, Microsoft Research, UC Berkeley, Seoul National University, KRAFTON, and Ludo Robotics</span></span>
+    <span class="footer__brand"><img height="216" width="1247" src="static/images/furiosa-wordmark-red.svg" alt="FuriosaAI"><span>in collaboration with UW-Madison, Microsoft Research, UC Berkeley, Seoul National University, KRAFTON, and Ludo Robotics</span></span>
     <span class="footer__meta"><a href="https://github.com/furiosa-ai/ParallelBench/issues">Questions: GitHub Issues</a><span>&copy; 2025 ParallelBench Contributors &middot; Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></span></span>
   </div>
 </footer>
 
-<script src="js/common.js"></script>
-<script src="js/chart.js"></script>
+<script defer src="js/common.js"></script>
+<script defer src="js/chart.js"></script>
 </body>
 </html>
